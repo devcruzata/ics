@@ -1,0 +1,78 @@
+﻿@model Project.Web.Models.UserModel
+@{
+    Layout = "~/Views/Shared/_LayoutPageLogin.cshtml";
+}
+<div class="container page-container">
+    <div class="page-content">
+        <div class="v2">
+            <div class="logo"><img class="m-10" src="~/Content/build/images/logo/logo-iconic-dark.png" alt="" width="100"></div>
+            <form method="post" action="/Authentication/ActivateAccount" class="form-horizontal" onsubmit="return validateForm();">
+                <div class="form-group form-group-login">
+                    <div class="col-xs-12">
+                        <input type="text" placeholder="Name" class="form-control" id="Name" name="Name" value="@ViewBag.FName @ViewBag.LName" disabled>                       
+                    </div>
+                </div>
+                <div class="form-group form-group-login">
+                    <div class="col-xs-12">
+                        <input type="text" placeholder="UserName" class="form-control" id="Username" name="Username"/>   
+                        <div id="error_div_Username" style="display:none;">
+                            <p style="color:red;">Please Enter Username</p>
+                        </div>                     
+                    </div>
+                </div>
+                <div class="form-group form-group-login">
+                    <div class="col-xs-12">
+                        <input type="password" placeholder="Password" class="form-control" id="Password" name="Password">
+                        <div id="error_div_Password1" style="display:none;">
+                            <p style="color:red;">Please Enter Password</p>
+                        </div>
+                        <div id="error_div_Password2" style="display:none;">
+                            <p style="color:red;">Password Should be minimum of 6 Character</p>
+                        </div>
+                    </div>
+                </div>                
+                <button type="submit" class="btn-lg btn btn-primary btn-rounded btn-block">Sign in</button>
+                <input type="hidden" id="Activation_ID" name="Activation_ID" value="@ViewBag.ActivationId" />
+                @if (ViewBag.Error_Msg != "")
+                {
+                    <div>
+                        <p style="color:red;">@ViewBag.Error_Msg</p>
+                    </div>
+                }
+                @if (TempData["Error_Msg"] != "")
+                {
+                    <div>
+                        <p style="color:red;">@TempData["Error_Msg"]</p>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function validateForm() {
+        if ($("#Username").val().trim() == "") {
+            $("#error_div_Username").show();
+            return false;
+        }
+        else if ($("#Password").val().trim() == "") {
+            $("#error_div_Password1").show();
+            $("#error_div_Username").hide();
+            return false;
+        }
+        else if ($("#Password").val().trim().length < 6) {
+            $("#error_div_Password2").show();
+            $("#error_div_Password1").hide();
+            $("#error_div_Username").hide();
+            return false;
+        }
+        else {
+            $("#error_div_Password2").hide();
+            $("#error_div_Password1").hide();
+            $("#error_div_Username").hide();
+            return true;
+        }
+    }
+
+</script>

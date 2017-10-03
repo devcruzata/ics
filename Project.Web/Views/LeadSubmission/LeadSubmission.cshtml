@@ -1,0 +1,246 @@
+﻿@{
+    ViewBag.Title = "LeadSubmission";
+}
+
+
+
+@{
+    Layout = "~/Views/Shared/_LayoutPageLogin.cshtml";
+}
+
+<script src="~/Content/ics.js"></script>
+
+<script type="text/javascript">
+        $('document').ready(function() {
+            ICS.form.init();
+        });
+    </script>
+<div class="container page-container">
+    <div class="page-content">
+        <div class="v2">
+            <div class="logo"><img class="m-10" src="~/Content/build/images/logo/ics_logo.jpg" alt="" width="100"></div>
+            <form method="post" action="#" class="form-horizontal">
+                <div class="form-group form-group-login">
+                    <div class="col-xs-12">
+                        <input type="text" placeholder="Business Name" class="form-control" id="BusinessName" name="BusinessName">
+                        <div id="error_div_BusinessName" style="display:none;">
+                            <p style="color:red;">Please Enter Business Name</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-login">
+                    <div class="col-xs-12">
+                        <input type="text" placeholder="Contact Name" class="form-control" id="ContactName" name="ContactName">
+                        <div id="error_div_ContactName" style="display:none;">
+                            <p style="color:red;">Please Enter Contact Name</p>
+                        </div>
+                        @*<div id="error_div_Password2" style="display:none;">
+                                <p style="color:red;">Contact Should be minimum of 6 Character</p>
+                            </div>*@
+                    </div>
+                </div>
+
+                <div class="form-group form-group-login">
+                    <div class="col-xs-12">
+                        <input type="text" placeholder="Phone" class="form-control" id="Phone" name="Phone">
+                        <div id="error_div_Phone" style="display:none;">
+                            <p style="color:red;">Please Enter Phone No.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group form-group-login">
+                    <div class="col-xs-12">
+                        <input type="text" placeholder="Secondary Phone" class="form-control" id="SecondaryPhone" name="SecondaryPhone">
+                        <div id="error_div_SecondaryPhone" style="display:none;">
+                            <p style="color:red;">Please Enter Secondary Phone</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group form-group-login">
+                    <div class="col-xs-12">
+                        <input type="text" placeholder="Email Address" class="form-control" id="EmailAddress" name="EmailAddress">
+                        <div id="error_div_EmailAddress" style="display:none;">
+                            <p style="color:red;">Please Enter Email Address</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group form-group-login">
+                    <div class="col-xs-12">
+                        @*<label for="selectBasic">Comment</label>*@
+                        <textarea class="form-control" placeholder="Comment.." id="Notes"></textarea>
+                        <div id="error_div_Notes" style="display:none;">
+                            <p style="color:red;">Please add Comments</p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-raised btn-default" onclick="submitLead();">Submit</button>
+                <button type="button" class="btn btn-raised btn-default" id="cancel" onclick="resetPage();">Cancel</button>
+                @*@if (ViewBag.Error_Msg != "")
+                    {
+                        <div>
+                            <p style="color:red;">@ViewBag.Error_Msg</p>
+                        </div>
+                    }
+                    @if (TempData["Error_Msg"] != "")
+                    {
+                        <div>
+                            <p style="color:red;">@TempData["Error_Msg"]</p>
+                        </div>
+                    }*@
+            </form>
+        </div>
+    </div>
+</div>
+
+    <input id="source" type="hidden" value="TEST" />
+    <input id="originator" type="hidden" value="1029" />
+    <input id="returnType" type="hidden" value="jsonp" />
+
+<script>
+
+    function validatePage() {
+        var emailRegex = /^[A-Za-z0-9._]*\@@[A-Za-z]*\.[A-Za-z]{2,5}$/;
+
+        if ($("#BusinessName").val().trim() == "") {
+            $('#error_div_BusinessName').show();
+            return false;
+        }
+        else if ($("#ContactName").val().trim() == "") {
+            $('#error_div_ContactName').show();
+            $('#error_div_BusinessName').hide();
+            return false;
+        }
+        else if ($("#EmailAddress").val().trim() == "") {
+            $('#error_div_EmailAddress').show();
+            $('#error_div_ContactName').hide();
+            $('#error_div_BusinessName').hide();
+            return false;
+        }
+        else if ($("#EmailAddress").val().trim() != "" && !(emailRegex.test($("#EmailAddress").val().trim()))) {
+            alert('E');
+            $('#error_div_EmailAddress').show();
+            $('#error_div_ContactName').hide();
+            $('#error_div_BusinessName').hide();
+            return false;
+        }
+        else if ($("#Phone").val().trim() == "") {
+            alert('P');
+            $('#error_div_Phone').show();
+            $('#error_div_EmailAddress').hide();
+            $('#error_div_ContactName').hide();
+            $('#error_div_BusinessName').hide();
+            return false;
+        }
+        else if ($("#Phone").val() != "" && $("#Phone").val().length < 10) {
+            alert('P');
+            $('#error_div_Phone').show();
+            $('#error_div_EmailAddress').hide();
+            $('#error_div_ContactName').hide();
+            $('#error_div_BusinessName').hide();
+            return false;
+        }
+        else {
+            $('#error_div_Phone').hide();
+            $('#error_div_EmailAddress').hide();
+            $('#error_div_ContactName').hide();
+            $('#error_div_BusinessName').hide();
+            return true;
+        }
+    }
+
+
+
+    function submitLead() {
+
+        if (validatePage()) {           
+            $(".se-pre-con").show();
+            $.ajax({
+                url: '/LeadSubmission/LeadSubmission',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ businessName: $("#BusinessName").val(), contactName: $("#ContactName").val(), contactPhone: $("#Phone").val(), secondaryPhone: $("#SecondaryPhone").val(), email: $("#EmailAddress").val(), cooments: $("#Notes").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        resetPage();
+                        $(".se-pre-con").hide();
+                        showSuccessMsg();
+                    }
+                    else {
+                        $(".se-pre-con").hide();
+                        showErrorMsg();
+                    }
+                },
+                error: function (xhr) {
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }        
+    }
+
+    function resetPage() {
+        $("#BusinessName").val('');
+        $("#ContactName").val('');
+        $("#Phone").val('');
+        $("#SecondaryPhone").val('');
+        $("#EmailAddress").val(''); 
+        $("#Notes").val('');
+
+    }
+    
+</script>
+<script>
+    function showSuccessMsg() {
+        swal({
+            title: "Send!",
+            text: "Lead submitted Successfully!",
+            type: "success",
+            confirmButtonClass: "btn-raised btn-success",
+            confirmButtonText: "OK"
+        })
+    }
+
+    function showErrorMsg() {
+        swal({
+            title: "Fail!",
+            text: "Error Occured in Submiting Lead, Please Try again!",
+            type: "error",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "OK"
+        })
+    }
+</script>
+
+<script>
+    
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function zipCheck(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+</script>

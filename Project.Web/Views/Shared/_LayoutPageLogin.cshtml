@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ICS CRM Login</title>
+    <!-- PACE-->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/plugins/PACE/themes/blue/pace-theme-flash.css")">
+    <script type="text/javascript" src="@Url.Content("~/Content/plugins/PACE/pace.min.js")"></script>
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/plugins/bootstrap/dist/css/bootstrap.min.css")">
+    <!-- Fonts-->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/plugins/themify-icons/themify-icons.css")">
+    <!-- Primary Style-->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/build/css/first-layout.css")">
+  
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries-->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file://-->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script type="text/javascript" src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body style="background-image: url(../Content/build/images/backgrounds/32.jpg)" class="body-bg-full v2">
+
+    @RenderBody()
+
+
+    <!-- Demo Settings start-->
+    <div class="setting closed">
+        <a href="javascript:;" class="setting-toggle fs-16"><i class="ti-palette text-base"></i></a>
+        <h5 class="fs-16 mt-0 mb-20 text-white">Background Images</h5>
+        <ul class="list-inline">
+            <li><a href="javascript:;" data-bg="31.jpg" class="inline-block body-bg"><img src="@Url.Content("~/Content/build/images/thumbnails/31.jpg")" width="60" alt="" class="img-rounded"></a></li>
+            <li><a href="javascript:;" data-bg="32.jpg" class="inline-block body-bg"><img src="@Url.Content("~/Content/build/images/thumbnails/32.jpg")" width="60" alt="" class="img-rounded"></a></li>
+            <li><a href="javascript:;" data-bg="33.jpg" class="inline-block body-bg"><img src="@Url.Content("~/Content/build/images/thumbnails/33.jpg")" width="60" alt="" class="img-rounded"></a></li>
+        </ul>
+        <ul class="list-inline mb-0">
+            <li><a href="javascript:;" data-bg="34.jpg" class="inline-block body-bg"><img src="@Url.Content("~/Content/build/images/thumbnails/34.jpg")" width="60" alt="" class="img-rounded"></a></li>
+            <li><a href="javascript:;" data-bg="35.jpg" class="inline-block body-bg"><img src="@Url.Content("~/Content/build/images/thumbnails/35.jpg")" width="60" alt="" class="img-rounded"></a></li>
+            <li><a href="javascript:;" data-bg="36.jpg" class="inline-block body-bg"><img src="@Url.Content("~/Content/build/images/thumbnails/36.jpg")" width="60" alt="" class="img-rounded"></a></li>
+        </ul>
+    </div>
+    <!-- Demo Settings end-->
+    <!-- jQuery-->
+    <script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>
+    <!-- Bootstrap JavaScript-->
+    <script type="text/javascript" src="@Url.Content("~/Content/plugins/bootstrap/dist/js/bootstrap.min.js")"></script>
+
+    <!-- jQuery Easy Pie Chart-->
+    <script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js")"></script>
+    @*Custom JS
+        <script type="text/javascript" src="Content/build/js/first-layout/extra-demo.js"></script>*@
+
+    <script>
+        "use strict";
+        $(document).ready(function () {
+            $(".setting-toggle").on("click", function () {
+                $(".setting").toggleClass("closed")
+            }),
+            $(".body-bg").on("click", function () {
+                var t = "../Content/build/images/backgrounds/" + $(this).attr("data-bg");
+                $("body").css("background-image", "url(" + t + ")")
+            })
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#esp-profile").easyPieChart({
+                barColor: "#0667D6",
+                trackColor: "rgba(0,0,0,0)",
+                scaleColor: !1,
+                scaleLength: 0,
+                lineCap: "round",
+                lineWidth: 3,
+                size: 130,
+                animate: {
+                    duration: 2e3,
+                    enabled: !0
+                }
+            })
+        });
+    </script>
+</body>
+
+</html>

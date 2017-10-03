@@ -1,0 +1,151 @@
+﻿@{
+    Layout = null;
+}
+
+@using Project.Web.Common;
+@{
+    SessionHelper session = new SessionHelper();
+}
+
+<table id="lead-list-1" style="width: 100%" class="table table-hover dt-responsive ">
+    <thead>
+        <tr>
+            <th class="text-center">DBA</th>
+            <th class="text-center">Contact Name</th>
+            @*<th class="text-center">Email</th>*@
+            <th class="text-center">Business Phone</th>
+            <th class="text-center">Created On</th>
+            <th class="text-center">Created By</th>
+            <th class="text-center">Assign To</th>
+            <th class="text-center">Disposition</th>
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody id="uTableBody">
+        @foreach (var lead in Model.leads)
+        {
+            if (session.UserPermissionsSession.AssociatedLeads == "on" && !(session.UserPermissionsSession.SystemwideLeads == "on"))
+            {
+                if (lead.CreatedBy == session.UserSession.UserId || lead.AssignToID == session.UserSession.UserId)
+                {
+                    <tr>
+
+                        <td class="text-center">@lead.DBA</td>
+                        <td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.ContName</td>
+                        @*<td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.Email</td>*@
+                        <td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.bPhone</td>
+                        <td class="text-center">@lead.CreatedDate</td>
+                        <td class="text-center">@lead.CreatedByName</td>
+                        <td class="text-center">@lead.AssignToName</td>
+                        <td class="text-center"><span class="label label-success" style="background-color:@lead.LeadColour; color:#fff;">@lead.LeadStatus</span></td>
+                        <td class="text-center">
+                            @if (session.UserPermissionsSession.LeadNotes == "on")
+                            {
+                                <button type="button" class="btn btn-sm btn-outline btn-primary" data-toggle="modal" data-target="#disposition_Modal" title="Change Disposition" onclick="setLeadID('@lead.Lead_ID')"><i class="ti-pencil"></i></button>
+                            }
+                            <button type="button" class="btn btn-sm btn-outline btn-warning" data-toggle="modal" data-target="#Mail_Modal" onclick="setMailData('@lead.Lead_ID','@lead.ContName','@lead.Email');" title="Send Mail"><i class="ti-email"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline btn-success" data-toggle="modal" data-target="#assignTo_Modal" title="Assign Lead" onclick="setData('@lead.Lead_ID','@lead.AssignToID')"><i class="ti-link"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline btn-danger" title="Refresh"><i class="ti-reload"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline btn-info" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@lead.Lead_ID','@lead.ContName')"><i class="ti-timer"></i></button>
+                        </td>
+                    </tr>
+                }
+
+            }
+            else if (session.UserPermissionsSession.AssociatedLeads == "on" && session.UserPermissionsSession.AssociatedLeads == "on")
+            {
+                <tr>
+
+                    <td class="text-center">@lead.DBA</td>
+                    <td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.ContName</td>
+                    @*<td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.Email</td>*@
+                    <td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.bPhone</td>
+                    <td class="text-center">@lead.CreatedDate</td>
+                    <td class="text-center">@lead.CreatedByName</td>
+                    <td class="text-center">@lead.AssignToName</td>
+                    <td class="text-center"><span class="label label-success" style="background-color:@lead.LeadColour; color:#fff;">@lead.LeadStatus</span></td>
+                    <td class="text-center">
+                        @if (session.UserPermissionsSession.LeadNotes == "on")
+                        {
+                            <button type="button" class="btn btn-sm btn-outline btn-primary" data-toggle="modal" data-target="#disposition_Modal" title="Change Disposition" onclick="setLeadID('@lead.Lead_ID')"><i class="ti-pencil"></i></button>
+                        }
+                        <button type="button" class="btn btn-sm btn-outline btn-warning" data-toggle="modal" data-target="#Mail_Modal" onclick="setMailData('@lead.Lead_ID','@lead.ContName','@lead.Email');" title="Send Mail"><i class="ti-email"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline btn-success" data-toggle="modal" data-target="#assignTo_Modal" title="Assign Lead" onclick="setData('@lead.Lead_ID','@lead.AssignToID')"><i class="ti-link"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline btn-danger" title="Refresh"><i class="ti-reload"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline btn-info" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@lead.Lead_ID','@lead.ContName')"><i class="ti-timer"></i></button>
+                    </td>
+                </tr>
+            }
+            else if (session.UserPermissionsSession.SystemwideLeads == "on")
+            {
+                <tr>
+
+                    <td class="text-center">@lead.DBA</td>
+                    <td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.ContName</td>
+                    @*<td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.Email</td>*@
+                    <td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.bPhone</td>
+                    <td class="text-center">@lead.CreatedDate</td>
+                    <td class="text-center">@lead.CreatedByName</td>
+                    <td class="text-center">@lead.AssignToName</td>
+                    <td class="text-center"><span class="label label-success" style="background-color:@lead.LeadColour; color:#fff;">@lead.LeadStatus</span></td>
+                    <td class="text-center">
+                        @if (session.UserPermissionsSession.LeadNotes == "on")
+                        {
+                            <button type="button" class="btn btn-sm btn-outline btn-primary" data-toggle="modal" data-target="#disposition_Modal" title="Change Disposition" onclick="setLeadID('@lead.Lead_ID')"><i class="ti-pencil"></i></button>
+                        }
+                        <button type="button" class="btn btn-sm btn-outline btn-warning" data-toggle="modal" data-target="#Mail_Modal" onclick="setMailData('@lead.Lead_ID','@lead.ContName','@lead.Email');" title="Send Mail"><i class="ti-email"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline btn-success" data-toggle="modal" data-target="#assignTo_Modal" title="Assign Lead" onclick="setData('@lead.Lead_ID','@lead.AssignToID')"><i class="ti-link"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline btn-danger" title="Refresh"><i class="ti-reload"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline btn-info" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@lead.Lead_ID','@lead.ContName')"><i class="ti-timer"></i></button>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

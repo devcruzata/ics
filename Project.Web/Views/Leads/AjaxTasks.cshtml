@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+}
+
+@foreach (var task in Model.Task)
+{
+    <div class="form-group meeting-box">
+        <div class="media1">
+            <div class="media-left avatar meeting-icon-avtar"><span class="meeting-icon"><i class="ti-list"></i></span></div>
+            <div class="media-body">
+                <h5 class="media-heading meeting-user">@task.StartDate</h5>
+                <div class="mb-0">
+                    <a href="#" id="meeting-link" class="meetingade-user">
+                        @task.Description
+                    </a><br />
+                    Set For <span class="text-muted">@task.AssignToName</span>
+                </div>
+            </div>
+        </div>
+    </div>
+}

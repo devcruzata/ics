@@ -1,0 +1,28 @@
+﻿@model Project.Web.Models.LeadSourceModel
+
+@{
+    Layout = null;
+
+}
+@*<script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>*@
+
+
+
+                                        @foreach (var src in Model.source)
+                                        {
+
+                                            <tr>
+                                                <td class="text-center">@src.SourceName</td>
+                                                <td class="text-center">@src.CreatedByName</td>
+                                                <td class="text-center">@src.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                                <td class="text-center">@src.UpdatedByName</td>
+                                                <td class="text-center">@src.UpdatedDate.ToString("MM/dd/yyyy")</td>
+                                                <td class="text-center"><span class="label label-success">@src.Status</span></td>
+                                                <td class="text-center">
+                                                    @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                                    <button type="button" class="btn btn-outline btn-primary" onclick="SetModalData('@src.SourceName','@src.LeadSourceID');" title="Edit Lead Source"><i class="ti-pencil"></i></button>
+                                                    @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                                    <button type="button" class="btn btn-outline btn-danger" onclick="DeleteSource('@src.LeadSourceID');" title="Delete Lead Source"><i class="ti-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        }

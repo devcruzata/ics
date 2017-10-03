@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+}
+    
+   
+        @foreach (var user in Model.users)
+        {
+            <tr>
+                <td>@user.Username</td>
+                <td>@user.FName @user.LName</td>
+                @*<td>@user.Group</td>*@
+                <td>@user.Email</td>
+                <td>@user.Status</td>
+                <td>@user.LastLogin</td>
+                <td>@user.URoleName</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline btn-success" onclick="UpdateUser('@user.User_ID');" title="Edit User"><i class="ti-pencil"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline btn-primary" onclick="resetPassword('@user.User_ID','@user.Email','@user.FName','@user.LName ');" title="Reset Password"><i class="ti-reload"></i></button>
+                </td>
+            </tr>
+        }
+
+    

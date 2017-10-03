@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B5238638-8D67-44E2-A481-C18671BD79F2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BAL</RootNamespace>
+    <AssemblyName>BAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>bfe114d0</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Calender\CalenderManager.cs" />
+    <Compile Include="Calender\CalenderUtility.cs" />
+    <Compile Include="Campaigns\CampaignsManager.cs" />
+    <Compile Include="Common\LogManager.cs" />
+    <Compile Include="Common\UtilityManager.cs" />
+    <Compile Include="Document\DocumentManager.cs" />
+    <Compile Include="GenralSeting\GenralSetingManager.cs" />
+    <Compile Include="Group\GroupManager.cs" />
+    <Compile Include="Helper\AppConfigValue.cs" />
+    <Compile Include="Helper\Helper.cs" />
+    <Compile Include="LeadStatuses\LeadStatusmanager.cs" />
+    <Compile Include="Leads\LeadsManager.cs" />
+    <Compile Include="Mail\MailManager.cs" />
+    <Compile Include="MerchantApplication\AplicationManager.cs" />
+    <Compile Include="Note\NoteManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\ReportsManager.cs" />
+    <Compile Include="Roles\RolesManager.cs" />
+    <Compile Include="Sms\SmsManager.cs" />
+    <Compile Include="Sms\SmsResponse.cs" />
+    <Compile Include="Source\SourceManager.cs" />
+    <Compile Include="Task\TaskManager.cs" />
+    <Compile Include="User\UserManager.cs" />
+    <Compile Include="Utility\UtilityManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{3d81c32d-d88b-43d2-95eb-bdace407d49d}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Project.Entity\Project.Entity.csproj">
+      <Project>{432fca86-56c6-4516-9582-51f94af01a99}</Project>
+      <Name>Project.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Project.ViewModel\Project.ViewModel.csproj">
+      <Project>{eba5b3dd-cec5-4c1c-a813-28360c37128f}</Project>
+      <Name>Project.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

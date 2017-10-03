@@ -1,0 +1,28 @@
+﻿@model Project.Web.Models.LeadStatusModel
+
+@{
+    Layout = null;
+
+}
+@*<script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>*@
+
+
+
+                                        @foreach (var sta in Model.status)
+                                        {
+
+                                            <tr>
+                                                <td class="text-center" >@sta.StatusName</td>
+                                                <td class="text-center"><span class="label" style="background-color:@sta.StatusColor; color:#fff;">@sta.StatusName</span></td>
+                                                <td class="text-center">@sta.CreatedByName</td>
+                                                <td class="text-center">@sta.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                                <td class="text-center">@sta.UpdatedByName</td>
+                                                <td class="text-center">@sta.UpdatedDate.ToString("MM/dd/yyyy")</td>                                                
+                                                <td class="text-center">
+                                                    @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                                    <button type="button" class="btn btn-outline btn-primary" onclick="SetStatusModalData('@sta.StatusName','@sta.LeadStatusID','@sta.StatusColor','@sta.smsTemplate');" title="Edit Lead Status"><i class="ti-pencil"></i></button>
+                                                    @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                                    <button type="button" class="btn btn-outline btn-danger" onclick="DeleteStatus('@sta.LeadStatusID');" title="Delete Lead Status"><i class="ti-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        }

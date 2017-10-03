@@ -1,0 +1,184 @@
+﻿@model Project.Web.Models.RoundRobinModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Email Template</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("AdminDashboard")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("RoundRobin")">Round Robin </a></li>
+                    <li class="active">Setings</li>
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                    <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                    <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                        <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                        <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                        <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                        <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                        <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                    </ul>
+                </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">Manage Round-Robin Setings</h3>
+                <div class="pull-right">
+                    @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Template_Modal"><i class="ti-plus"></i></button> *@                       @*<button type="button" class="btn btn-default"><i class="ti-share-alt"></i></button>*@
+                </div>
+            </div>
+            <div class="widget-body">               
+                <table id="group-list-1" style="width: 100%" class="table table-hover dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Sales Rep.</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rrTable">
+                        @foreach (var set in Model.source)
+                        {
+                            <tr>
+                                <td>@set.SourceName</td>
+                                <td>@set.LinkedSalesRep</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline btn-warning"  onclick="setModalData(@set.LeadSourceID ,'@set.LinkedSalesRep');" title="Edit"><i class="ti-pencil"></i></button>
+                                </td>
+                               @* <td>
+                                    @Html.DropDownListFor(m => m.salesRepId, (List<SelectListItem>)ViewBag.Group_List, new { @class = "form-control form-cutom" })
+                                </td>*@
+                            </tr>
+                        }
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="SL_Modal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Template</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/Mails/SendMail" method="post" enctype="multipart/form-data" id="EmailForm">
+                    
+                    <div class="row">
+                        <div class="col-sm-6" id="cc_div">
+                            <div class="form-group col-sm-12">
+                                <label for="salesrep">Sales Rep.</label>
+                               <select class="form-control form-cutom" id="salesrep">
+                                        <option value="0">Please choose a sales rep</option>
+                                        @foreach (var srep in Model.salesRep)
+                                        {
+                                            <option value="@srep.User_ID">@srep.FName @srep.LName</option>
+                                        }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" id="cc_div">
+                            <div class="form-group col-sm-12">
+                                <label for="src">Source</label>
+                               <select class="form-control form-cutom" id="src">
+                                        <option value="0">Please choose a Source</option>
+                                        @foreach (var src in Model.source)
+                                        {
+                                            <option value="@src.LeadSourceID">@src.SourceName</option>
+                                        }
+                                </select>
+                            </div>
+                        </div>
+                    </div>           
+                    
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="cancel" onclick="cancel();">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save" onclick="saveSalesRep();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function saveSalesRep() {
+        $(".se-pre-con").show();
+        $.ajax({
+            url: '/RoundRobin/SaveSalesRep',
+            dataType: "html",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ srcId: $('#src').val(), srpId: $('#salesrep').val() }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    $("#rrTable").html('');
+                    $("#rrTable").html(data);
+                    $('#SL_Modal').modal('hide');
+                    cancel();
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $('#SL_Modal').modal('hide');
+                    cancel();
+                    $(".se-pre-con").hide();
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+                $('#SL_Modal').modal('hide');
+                cancel();
+                $(".se-pre-con").hide();
+            }
+        });
+    }
+
+</script>
+
+<script>
+    function setModalData(srcId, srpId) {
+   
+        if (srcId == '') {
+            
+            $('#src').val(0);
+        }
+        else {
+            $('#src').val(srcId);
+        }
+        
+        if (srpId == '') {
+           
+            $('#salesrep').val('0')
+        }
+        else {
+           // $('#salesrep').val(srpId)
+           // $("#salesrep:contains(srpId)").attr('selected', true);
+            $("#salesrep option:contains(" + srpId + ")").attr('selected', 'selected');
+        
+        }
+
+        $('#SL_Modal').modal('show');
+    }
+
+    function cancel() {
+        $('#src').val(0);
+        $('#salesrep').val(0)
+    }
+</script>

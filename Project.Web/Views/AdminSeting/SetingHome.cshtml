@@ -1,0 +1,1884 @@
+﻿
+
+@model Project.Web.Models.AdminSetingModel
+
+
+<!-- jQuery-->
+<script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/BootstrapCountryPicker/bootstrap-formhelpers-countries.en_US.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/BootstrapCountryPicker/bootstrap-formhelpers-countries.js")"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#SColour").minicolors({ theme: "bootstrap" })
+        $("#SEColour").minicolors({ theme: "bootstrap" })
+    });
+</script>
+
+<!-- Page Content -->
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Admin Setting</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("AdminDashboard")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("AdminSeting")">Admin Settings</a></li>
+                    @*<li class="active">Genral Setings</li>*@
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                        <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                            <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                        </ul>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">Settings</h3>
+                @if (ViewBag.Error_Msg != "")
+                {
+                    <div style="margin-left:200px;">
+                        <p style="color:red;">@ViewBag.Error_Msg</p>
+                    </div>
+                }
+
+            </div>
+            <div class="widget-body">
+
+                <ul role="tablist" class="nav nav-tabs mb-15 viewlead-tabs">
+                    <li role="presentation" class="active"><a href="#GenralSeting" aria-controls="GenralSeting" role="tab" data-toggle="tab">General Settings</a></li>
+                    <li role="presentation"><a href="#Departments" aria-controls="Departments" role="tab" data-toggle="tab">Departments</a></li>
+                    <li role="presentation"><a href="#UserRoles" aria-controls="UserRoles" role="tab" data-toggle="tab">User Roles</a></li>
+                    <li role="presentation"><a href="#LSource" aria-controls="LSource" role="tab" data-toggle="tab">Lead Source</a></li>
+                    <li role="presentation"><a href="#LStatus" aria-controls="LStatus" role="tab" data-toggle="tab">Dispositions</a></li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <div id="GenralSeting" role="tabpanel" class="tab-pane active">
+                        <div class="pull-right" style="margin-bottom:10px;">
+                            <button type="button" class="btn btn-primary" title="Edit" id="edit_btn"><i class="ti-pencil"></i></button>
+                            <button type="button" class="btn btn-primary" title="Add Leads" onclick="SubmitForm()" id="save_btn" style="display:none;"><i class="ti-save"></i></button>
+                            <button type="button" class="btn btn-default" title="Cancel" onclick="Cancel();" id="cancel_btn" style="display:none;"><i class="ti-share-alt"></i></button>
+                        </div>
+                        <div class="widget no-border" style="margin-left:20px;">
+                            <form class="form-horizontal" id="viewForm">
+                                <div class="tab-content">
+                                    <div id="general" role="tabpanel" class="tab-pane active">
+                                        <table class="table no-border" style="border:none;">
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Company Name</label></td>
+                                                <td>@Model.Company</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Address</label></td>
+                                                <td>@Model.Address</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>City</label></td>
+                                                <td>@Model.City</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>State</label></td>
+                                                <td>@Model.Stete</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Country</label></td>
+                                                <td>@Model.Country</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Zipcode</label></td>
+                                                <td>@Model.Zipcode</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Phone</label></td>
+                                                <td>@Model.Phone</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Website</label></td>
+                                                <td>@Model.Website</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Currency</label></td>
+                                                <td>@Model.Currency</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <form class="form-horizontal" action="/AdminSeting/AjaxGenralSetings" method="post" enctype="multipart/form-data" id="mainForm" style="display:none;">
+                                <div class="tab-content">
+                                    <div id="general" role="tabpanel" class="tab-pane active">
+                                        <table class="table no-border" style="border:none;">
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                    <label>Company Name</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-cutom" id="Comapny" name="Company" value="@Model.Company" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                    <label>Address</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-cutom" id="Address" name="Address" value="@Model.Address" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                    <label>City</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-cutom" id="City" name="City" value="@Model.City" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                    <label>State</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-cutom" id="State" name="Stete" value="@Model.Stete" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                    <label>Country</label>
+                                                </td>
+                                                <td>
+                                                    <select class="input-medium bfh-countries form-control form-cutom" data-country="US" id="Country" name="Country"></select>
+                                                    <input type="hidden" id="cnt" value="@Model.Country" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                    <label>Zipcode</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-cutom" id="Zipcode" name="Zipcode" max="6" onkeypress="return isNumberKey(event)" value="@Model.Zipcode" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                    <label>Phone</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-cutom" id="Phone" name="Phone" maxlength="14" onkeypress="return isNumberKey(event)" value="@Model.Zipcode" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                    <label>Website</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control form-cutom" id="Website" name="Website" value="@Model.Website" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                    <label>Currency</label>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control form-cutom" id="Currency" name="Currency">
+                                                        <option value="0">Choose A Currency</option>
+                                                        <option value="USD">USD</option>
+                                                        <option value="EURO">Euro</option>
+                                                        <option value="INR">INR</option>
+                                                    </select>
+                                                    <input type="hidden" id="cur" value="@Model.Currency" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="Departments" role="tabpanel" class="tab-pane">
+                        <div class="pull-right" style="margin-bottom:10px;">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GroupModal"><i class="ti-plus" title="Add New"></i></button>
+                        </div>
+
+                        <div class="widget no-border" style="margin-left:20px;">
+                            <table id="group-list-1" style="width: 100%" class="table table-hover dt-responsive nowrap">
+                                <thead>
+                                    <tr>
+                                        <th width="10%" class="text-center">Name</th>
+                                        <th width="15%" class="text-center">Created By</th>
+                                        <th width="12%" class="text-center">Created Date</th>
+                                        <th width="12%" class="text-center">Updated By</th>
+                                        <th width="10%" class="text-center">Last Update</th>
+                                        <th width="10%" class="text-center">Status</th>
+                                        <th width="25%" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="GroupTable_Widget">
+                                    @{
+                                        foreach (var grp in Model.groups)
+                                        {
+
+                                            <tr>
+                                                <td class="text-center">@grp.Group_Name</td>
+                                                <td class="text-center">@grp.CreatedByName</td>
+                                                <td class="text-center">@grp.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                                <td class="text-center">@grp.UpdatedByName</td>
+                                                <td class="text-center">@grp.UpdatedDate.ToString("MM/dd/yyyy")</td>
+                                                <td class="text-center"><span class="label label-success">@grp.Status</span></td>
+                                                <td class="text-center">
+                                                    @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                                    <button type="button" class="btn btn-outline btn-primary" onclick="SetGroupModalData('@grp.Group_Name','@grp.Group_ID');" title="Edit Department"><i class="ti-pencil"></i></button>
+                                                    @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                                    <button type="button" class="btn btn-outline btn-danger" onclick="DeleteGroup('@grp.Group_ID');" title="Delete Department"><i class="ti-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div id="UserRoles" role="tabpanel" class="tab-pane">
+                        <div class="pull-right" style="margin-bottom:10px;">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#RolesModal"><i class="ti-plus" title="Add New"></i></button>
+                        </div>
+                        <div class="widget no-border" style="margin-left:20px;" id="rTable">
+                            <table class="table table-hover dt-responsive nowrap">
+                                <tr>
+                                    <th>Roles</th>
+                                    <th>Action</th>
+                                </tr>
+                                @foreach (var role in Model.roles)
+                                {
+                                    <tr>
+                                       <td>@role.RoleName</td>
+                                       <td>
+                                           <button type="button" class="btn btn-outline btn-primary" onclick="GetUserRoleForUpdate(@role.Role_ID);" title="Edit User Role"><i class="ti-pencil"></i></button>
+                                       </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="LSource" role="tabpanel" class="tab-pane">
+                        <div class="pull-right" style="margin-bottom:10px;">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SourceModal"><i class="ti-plus" title="Add New"></i></button>
+                        </div>
+                        <div class="widget no-border" style="margin-left:20px;">
+                            <table id="group-list-1" style="width: 100%" class="table table-hover dt-responsive nowrap">
+                                <thead>
+                                    <tr>
+                                        <th width="10%" class="text-center">Name</th>
+                                        <th width="15%" class="text-center">Created By</th>
+                                        <th width="12%" class="text-center">Created Date</th>
+                                        <th width="12%" class="text-center">Updated By</th>
+                                        <th width="10%" class="text-center">Last Update</th>
+                                        <th width="10%" class="text-center">Status</th>
+                                        <th width="25%" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="SourceTable_Widget">
+                                    @{
+                                        foreach (var src in Model.source)
+                                        {
+
+                                            <tr>
+                                                <td class="text-center">@src.SourceName</td>
+                                                <td class="text-center">@src.CreatedByName</td>
+                                                <td class="text-center">@src.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                                <td class="text-center">@src.UpdatedByName</td>
+                                                <td class="text-center">@src.UpdatedDate.ToString("MM/dd/yyyy")</td>
+                                                <td class="text-center"><span class="label label-success">@src.Status</span></td>
+                                                <td class="text-center">
+                                                    @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                                    <button type="button" class="btn btn-outline btn-primary" onclick="SetSourceModalData('@src.SourceName','@src.LeadSourceID');" title="Edit Lead Source"><i class="ti-pencil"></i></button>
+                                                    @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                                    <button type="button" class="btn btn-outline btn-danger" onclick="DeleteSource('@src.LeadSourceID');" title="Delete Lead Source"><i class="ti-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="LStatus" role="tabpanel" class="tab-pane">
+                        <div class="pull-right" style="margin-bottom:10px;">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#StatusModal"><i class="ti-plus" title="Add New"></i></button>
+                        </div>
+                        <div class="widget no-border" style="margin-left:20px;">
+                            <table id="group-list-1" style="width: 100%" class="table table-hover dt-responsive nowrap">
+                                <thead>
+                                    <tr>
+                                        <th width="10%" class="text-center">Name</th>
+                                        <th width="10%" class="text-center">Color</th>
+                                        <th width="15%" class="text-center">Created By</th>
+                                        <th width="12%" class="text-center">Created Date</th>
+                                        <th width="12%" class="text-center">Updated By</th>
+                                        <th width="10%" class="text-center">Last Update</th>
+                                        @*<th width="10%" class="text-center">Status</th>*@
+                                        <th width="25%" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="StatusTable_Widget">
+                                    @{
+                                        foreach (var sta in Model.status)
+                                        {
+
+                                            <tr>
+                                                <td class="text-center" >@sta.StatusName</td>
+                                                <td class="text-center"><span class="label" style="background-color:@sta.StatusColor; color:#fff;">@sta.StatusName</span></td>
+                                                <td class="text-center">@sta.CreatedByName</td>
+                                                <td class="text-center">@sta.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                                <td class="text-center">@sta.UpdatedByName</td>
+                                                <td class="text-center">@sta.UpdatedDate.ToString("MM/dd/yyyy")</td>                                                
+                                                <td class="text-center">
+                                                    @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                                    <button type="button" class="btn btn-outline btn-primary" onclick="SetStatusModalData('@sta.StatusName','@sta.LeadStatusID','@sta.StatusColor','@sta.smsTemplate');" title="Edit Lead Status"><i class="ti-pencil"></i></button>
+                                                    @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                                    <button type="button" class="btn btn-outline btn-danger" onclick="DeleteStatus('@sta.LeadStatusID');" title="Delete Lead Status"><i class="ti-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="GroupModal123">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Group</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-12">
+                            <label for="GName">Group Name</label>
+                            <input type="text" class="form-control" id="GName" placeholder="Group Name..">
+                            <div id="error_div_GName" style="display:none;">
+                                <p style=" color:red;">Please Enter Group Name.</p>
+                            </div>
+                            <input type="hidden" id="G_ID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save_group_btn" onclick="AddGroup();">Save</button>
+                <button type="button" class="btn btn-raised btn-danger" style="display:none;" id="edit_group_btn" onclick="EditGroup();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="EditGroupModal123">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Edit Group</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-12">
+                            <label for="GName">Group Name</label>
+                            <input type="text" class="form-control" id="GEName" placeholder="Group Name..">
+                            <div id="error_div_GEName" style="display:none;">
+                                <p style=" color:red;">Please Enter Group Name.</p>
+                            </div>
+                            <input type="hidden" id="GE_ID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>              
+                <button type="button" class="btn btn-raised btn-danger"  id="edit_group_btn" onclick="EditGroup();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="SourceModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Source</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-12">
+                            <label for="GName">Source Name</label>
+                            <input type="text" class="form-control" id="SrName" placeholder="Source Name..">
+                            <div id="error_div_SrName" style="display:none;">
+                                <p style=" color:red;">Please Enter Source Name.</p>
+                            </div>
+                            <input type="hidden" id="S_ID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save_btn" onclick="AddSource();">Save</button>
+                <button type="button" class="btn btn-raised btn-danger" style="display:none;" id="edit_btn" onclick="EditSource();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="EditSourceModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Edit Source</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-12">
+                            <label for="GName">Source Name</label>
+                            <input type="text" class="form-control" id="SrEName" placeholder="Source Name..">
+                            <div id="error_div_SrEName" style="display:none;">
+                                <p style=" color:red;">Please Enter Source Name.</p>
+                            </div>
+                            <input type="hidden" id="SrE_ID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>                
+                <button type="button" class="btn btn-raised btn-danger"  id="edit_btn" onclick="EditSource();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="StatusModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Status</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-6">
+                            <label for="GName">Status Name</label>
+                            <input type="text" class="form-control" id="SName" placeholder="Status Name..">
+                            <div id="error_div_SName" style="display:none;">
+                                <p style=" color:red;">Please Enter Status Name.</p>
+                            </div>
+                            <input type="hidden" id="S_ID" />
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="GName">Color</label>                            
+                            <input id="SColour" type="text" value="#9b59b6" class="form-control">                           
+                            <input type="hidden" id="S_ID" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <label for="ckeditor-full">Email Template <span style="color:blue;"><b><i class="ti-info-alt" title="Please use {name} as Leadname in the template"></i></b></span></label>
+                            <textarea id="emailTemplate"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <label for="smsTemplate">Text Message Template <span style="color:blue;"><b><i class="ti-info-alt" title="Please use {name} as Leadname in the template"></i></b></span></label>
+                            <textarea id="smsTemplate" style="width: 531px; height: 46px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save_btn" onclick="AddStatus(); gethtnl();">Save</button>
+                <button type="button" class="btn btn-raised btn-danger" style="display:none;" id="edit_btn" onclick="EditStatus(); "> Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="EditStatusModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Edit Status</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-6">
+                            <label for="GName">Status Name</label>
+                            <input type="text" class="form-control" id="SEName" placeholder="Status Name..">
+                            <div id="error_div_SEName" style="display:none;">
+                                <p style=" color:red;">Please Enter Status Name.</p>
+                            </div>
+                            <input type="hidden" id="SE_ID" />
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="GName">Color</label>                            
+                            <input id="SEColour" type="text" value="" class="form-control">                           
+                            <input type="hidden" id="S_ID" />
+                        </div>                        
+                    </div>                   
+              </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <label for="emailTemplateEdit">Email Template  <span style="color:blue;"><b><i class="ti-info-alt" title="Please use {name} as Leadname in the template"></i></b></span></label>
+                            <textarea id="emailTemplateEdit"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <label for="smsTemplateEdit">Text Message Template <span style="color:blue;"><b><i class="ti-info-alt" title="Please use {name} as Leadname in the template"></i></b></span></label>
+                            <textarea id="smsTemplateEdit" style="width: 531px; height: 46px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+              
+                <button type="button" class="btn btn-raised btn-danger"  id="edit_btn" onclick="EditStatus();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="RolesModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Roles</h4>
+            </div>
+            <div class="modal-body">
+                <form id="pForm" action="/AdminSeting/ManageRoles" method="post">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-12">
+                                <label for="GName">Role Name</label>
+                                <input type="text" class="form-control" id="RoleName" name="RoleName" placeholder="Role Name..">
+                                <div id="error_div_RName" style="display:none;">
+                                    <p style=" color:red;">Please Enter Role Name.</p>
+                                </div>
+                                <input type="hidden" id="S_ID" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-12">
+                                <h4>Permissions</h4>
+                                <hr />
+                                <table class="table table-hover dt-responsive nowrap">
+                                    <tr>
+                                        <th>Permission Name</th>
+                                        <th>Action</th>
+                                    </tr>                                    
+                                    <tr>
+                                        <td>Associated Leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="AssociatedLeads" name="AssociatedLeads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Systemwide Leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="SystemwideLeads" name="SystemwideLeads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Calendar</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="Calendar" name="Calendar" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Edit Task/appointments</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="EditTask" name="EditTask" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lead Notes</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="LeadNotes" name="LeadNotes" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Documents</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="Documents" name="Documents" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Manage documents</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="ManageDocuments" name="ManageDocuments" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>User Management</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UserManagement" name="UserManagement" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Site Management</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="SiteManagement" name="SiteManagement" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Help Desk Tickets</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="HelpDeskTickets" name="HelpDeskTickets" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lead distribution</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="LeadDistribution" name="LeadDistribution" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Residuals access</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="ResidualsAccess" name="ResidualsAccess" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Residual Manager View</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="ResidualManagerView" name="ResidualManagerView" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Merchant info - Associated lead</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="MerchantinfoAssociatedLead" name="MerchantinfoAssociatedLead" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Merchant info - Systemwide leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="MerchantinfoSystemwideLeads" name="MerchantinfoSystemwideLeads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Manage Merchant</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="ManageMerchant" name="ManageMerchant" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Statements</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="Statements" name="Statements" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Trigger Statement Download</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="TriggerStatementDownload" name="TriggerStatementDownload" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Portfolio activity - Associated leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="PortfolioActivityAssociatedleads" name="PortfolioActivityAssociatedleads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Portfolio activity - Systemwide leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="PortfolioActivitySystemwideleads" name="PortfolioActivitySystemwideleads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Proposal Generator</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="ProposalGenerator" name="ProposalGenerator" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Merchant Application</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="MerchantApplication" name="MerchantApplication" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Underwritng Application Submissions</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UnderwritngApplicationSubmissions" name="UnderwritngApplicationSubmissions" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Agent tracker</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="Agenttracker" name="Agenttracker" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Messaging System</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="MessagingSystem" name="MessagingSystem" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save_btn" onclick="submitPForm();">Save</button>
+                <button type="button" class="btn btn-raised btn-danger" style="display:none;" id="edit_btn" onclick="EditStatus();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="UpdateRolesModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Update Roles</h4>
+            </div>
+            <div class="modal-body">
+                <form id="UpForm" action="/AdminSeting/AjaxUpdateRoles" method="post">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-12">
+                                <label for="GName">Role Name</label>
+                                <input type="text" class="form-control" id="URoleName" name="RoleName" placeholder="Role Name..">
+                                <div id="Uerror_div_RName" style="display:none;">
+                                    <p style=" color:red;">Please Enter Role Name.</p>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-12">
+                                <h4>Permissions</h4>
+                                <hr />
+                                <table class="table table-hover dt-responsive nowrap">
+                                    <tr>
+                                        <th>Permission Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Associated Leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UAssociatedLeads" name="AssociatedLeads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Systemwide Leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="USystemwideLeads" name="SystemwideLeads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Calendar</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UCalendar" name="Calendar" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Edit Task/appointments</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UEditTask" name="EditTask" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lead Notes</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="ULeadNotes" name="LeadNotes" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Documents</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UDocuments" name="Documents" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Manage documents</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UManageDocuments" name="ManageDocuments" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>User Management</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UUserManagement" name="UserManagement" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Site Management</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="USiteManagement" name="SiteManagement" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Help Desk Tickets</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UHelpDeskTickets" name="HelpDeskTickets" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lead distribution</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="ULeadDistribution" name="LeadDistribution" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Residuals access</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UResidualsAccess" name="ResidualsAccess" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Residual Manager View</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UResidualManagerView" name="ResidualManagerView" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Merchant info - Associated lead</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UMerchantinfoAssociatedLead" name="MerchantinfoAssociatedLead" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Merchant info - Systemwide leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UMerchantinfoSystemwideLeads" name="MerchantinfoSystemwideLeads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Manage Merchant</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UManageMerchant" name="ManageMerchant" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Statements</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UStatements" name="Statements" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Trigger Statement Download</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UTriggerStatementDownload" name="TriggerStatementDownload" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Portfolio activity - Associated leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UPortfolioActivityAssociatedleads" name="PortfolioActivityAssociatedleads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Portfolio activity - Systemwide leads</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UPortfolioActivitySystemwideleads" name="PortfolioActivitySystemwideleads" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Proposal Generator</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UProposalGenerator" name="ProposalGenerator" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Merchant Application</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UMerchantApplication" name="MerchantApplication" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Underwritng Application Submissions</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UUnderwritngApplicationSubmissions" name="UnderwritngApplicationSubmissions" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Agent tracker</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UAgenttracker" name="Agenttracker" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Messaging System</td>
+                                        <td>
+                                            <label></label>
+                                            <input type="checkbox" id="UMessagingSystem" name="MessagingSystem" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="R_ID" name="Role_ID" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save_btn" onclick="submitUPForm();">Save</button>                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+
+<script>
+   
+
+    $(document).ready(function () {
+        $("#Country").val($("#cnt").val());
+        $("#Currency").val($("#cur").val());
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#edit_btn").click(function () {
+            $("#viewForm").hide();
+            $("#edit_btn").hide();
+            $("#save_btn").show();
+            $("#cancel_btn").show();
+            $("#mainForm").show();
+        });
+
+        $("#cancel_btn").click(function () {
+            $("#mainForm").hide();
+            $("#save_btn").hide();
+            $("#cancel_btn").hide();
+            $("#edit_btn").show();
+            $("#viewForm").show();
+
+        });
+    });
+
+    function SubmitForm() {
+        $(".se-pre-con").show();
+        var formPayment = $('#mainForm');
+        $.ajax({
+            url: formPayment.attr('action'),
+            type: "POST",
+            data: formPayment.serialize(),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    $("#mainForm").hide();
+                    $("#save_btn").hide();
+                    $("#cancel_btn").hide();
+                    $("#edit_btn").show();
+                    $("#viewForm").show();
+                    $("#viewForm").html('');
+                    $("#viewForm").html(data);
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $(".se-pre-con").hide();
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+
+    }
+</script>
+
+
+<script>
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function zipCheck(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+</script>
+
+<script>
+
+    function DeleteGroup(Group_ID) {
+
+        var result = confirm("Are you sure to delete this Group ?");
+        if (result == true) {
+            // var divId = "div-" + Service_ID_Auto_PK;
+            $(".se-pre-con").show();
+            var Gdata = Group_ID;
+
+            var url = "/AdminSeting/DeleteGroup";
+            $.post(url, { GroupID: Gdata }, function (data) {
+                if (data != "") {
+                    $("#GroupTable_Widget").html('');
+                    $("#GroupTable_Widget").html(data);
+                    $(".se-pre-con").hide();
+                }
+                else{
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                    $(".se-pre-con").hide();
+                }
+            });
+        }
+    }
+
+    function AddGroup() {
+
+        if ($("#GName").val().trim() == '') {
+            $("#error_div_GName").show();
+        }
+        else {
+            $("#error_div_GName").hide();
+            $(".se-pre-con").show();
+            $.ajax({
+                url: '/AdminSeting/AddGroup',
+                dataType: "html",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ GroupName: $("#GName").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        alert(data);
+                        $("#GroupModal123").modal('hide');
+                        $("#GName").val('');
+                         $("#GroupTable_Widget").html('');
+                         $("#GroupTable_Widget").html(data);
+                        $(".se-pre-con").hide();
+                    }
+                    else {
+                        // alert('f');
+                        $("#GroupModal123").modal('hide');
+                        $("#GName").val('');
+                        $(".se-pre-con").hide();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                    $(".se-pre-con").hide();
+                }
+            });
+        }
+    }
+
+    function SetGroupModalData(GroupName, Group_ID) {
+      
+        $("#GEName").val(GroupName);
+        $("#GE_ID").val(Group_ID);
+      
+        $("#EditGroupModal123").modal('show');
+      //  $("#save_group_btn").hide();
+     //   $("#edit_group_btn").show();
+    }
+
+    function EditGroup() {
+       
+        if ($("#GEName").val().trim() == '') {
+            $("#error_div_GEName").show();
+        }
+        else {
+            
+            $("#error_div_GEName").hide();
+            $(".se-pre-con").show();
+          
+            $.ajax({
+                url: '/AdminSeting/EditGroup',
+                dataType: "html",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ GroupName: $("#GEName").val(), GroupID: $("#GE_ID").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#EditGroupModal123").modal('hide');
+                        $("#GEName").val('');
+                        $("#GroupTable_Widget").html('');
+                        $("#GroupTable_Widget").html(data);
+                        $(".se-pre-con").hide();
+                    }
+                    else {
+                        // alert('f');
+                        $("#EditGroupModal123").modal('hide');
+                        $("#GEName").val('');
+                        $(".se-pre-con").hide();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                    $(".se-pre-con").hide();
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+
+
+    function DeleteSource(Source_ID) {
+
+        var result = confirm("Are you sure to delete this Source ?");
+        if (result == true) {
+            // var divId = "div-" + Service_ID_Auto_PK;
+            $(".se-pre-con").show();
+            var Sdata = Source_ID;
+
+            var url = "/AdminSeting/DeleteLeadSource";
+            $.post(url, { SourceID: Sdata }, function (data) {
+                if (data != "") {
+                    $("#SourceTable_Widget").html('');
+                    $("#SourceTable_Widget").html(data);
+                    $(".se-pre-con").hide();
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                    $(".se-pre-con").hide();
+                }
+            });
+        }
+    }
+
+    function AddSource() {
+
+        if ($("#SrName").val().trim() == '') {
+            $("#error_div_SrName").show();
+        }
+        else {
+            $(".se-pre-con").show();
+            $("#error_div_SrName").hide();
+            $.ajax({
+                url: '/AdminSeting/AddLeadSource',
+                dataType: "html",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ SourceName: $("#SrName").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#SourceModal").modal('hide');
+                        $("#SrName").val('');
+                        $("#SourceTable_Widget").html('');
+                        $("#SourceTable_Widget").html(data);
+                        $(".se-pre-con").hide();
+                    }
+                    else {
+                        // alert('f');
+                        $("#SourceModal").modal('hide');
+                        $("#SrName").val('');
+                        $(".se-pre-con").hide();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                    $(".se-pre-con").hide();
+                }
+            });
+        }
+    }
+
+    function SetSourceModalData(SourceName, Source_ID) {
+        alert();
+        $("#SrEName").val(SourceName);
+        $("#SrE_ID").val(Source_ID);
+        $("#EditSourceModal").modal('show');
+        //$("#save_btn").hide();
+        //$("#edit_btn").show();
+    }
+    function EditSource() {
+        $(".se-pre-con").show();
+        if ($("#SrEName").val().trim() == '') {
+            $("#error_div_SrEName").show();
+        }
+        else {
+            $("#error_div_SrEName").hide();
+            $.ajax({
+                url: '/AdminSeting/EditSource',
+                dataType: "html",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ SourceName: $("#SrEName").val(), SourceID: $("#SrE_ID").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#EditSourceModal").modal('hide');
+                        $("#SrEName").val('');
+                        $("#SourceTable_Widget").html('');
+                        $("#SourceTable_Widget").html(data);
+                        $(".se-pre-con").hide();
+                    }
+                    else {
+                        // alert('f');
+                        $("#EditSourceModal").modal('hide');
+                        $("#SName").val('');
+                        $(".se-pre-con").hide();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                    $(".se-pre-con").hide();
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+
+
+    function DeleteStatus(Status_ID) {
+
+        var result = confirm("Are you sure to delete this Status ?");
+        if (result == true) {
+            // var divId = "div-" + Service_ID_Auto_PK;
+            $(".se-pre-con").show();
+            var Sdata = Status_ID;
+
+            var url = "/AdminSeting/DeleteLeadStatus";
+            $.post(url, { StatusID: Sdata }, function (data) {
+                if (data != "") {
+                    $("#StatusTable_Widget").html('');
+                    $("#StatusTable_Widget").html(data);
+                    $(".se-pre-con").hide();
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                    $(".se-pre-con").hide();
+                }
+            });
+        }
+    }
+
+    function AddStatus() {
+        var dt = CKEDITOR.instances["emailTemplate"].getData();
+        if ($("#SName").val().trim() == '') {
+            $("#error_div_SName").show();
+        }
+        else {
+            $(".se-pre-con").show();
+            $("#error_div_SName").hide();
+            $.ajax({
+                url: '/AdminSeting/AddLeadStatus',
+                dataType: "html",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ StatusName: $("#SName").val(), StatusColour: $("#SColour").val(), template: dt, TextTemplate: $('#smsTemplate').val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                       // alert('s');
+                        $("#StatusModal").modal('hide');
+                        $("#SName").val('');
+                        $("#StatusTable_Widget").html('');
+                        $("#StatusTable_Widget").html(data);
+                        $(".se-pre-con").hide();
+                    }
+                    else {
+                        // alert('f');
+                        $("#StatusModal").modal('hide');
+                        $("#SName").val('');
+                        $(".se-pre-con").hide();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+
+    //function SetStatusModalData(StatusName, Status_ID, Sclr) {
+    //   // alert(tmp);
+    //    $("#SEName").val(StatusName);
+    //    $("#SEColour").val(Sclr);
+    //    $("#SE_ID").val(Status_ID);
+    //  //  
+    //    //  alert();
+    //       CKEDITOR.replace("emailTemplateEdit"),
+    //       CKEDITOR.config.height = 400
+    //    $("#EditStatusModal").modal('show');
+    //    //$("#save_btn").hide();
+    //   // $("#edit_btn").show();
+    //}
+
+    //function CKupdate() {
+    //    for (instance in CKEDITOR.instances) {
+    //        CKEDITOR.instances[emailTemplateEdit].updateElement();
+    //    }
+    //    CKEDITOR.instances[emailTemplateEdit].setData('');
+    //}
+
+    function SetStatusModalData(StatusName, Status_ID, Sclr,texxtTemplate) {
+        $(".se-pre-con").show();
+        $("#error_div_SEName").hide();
+        $.ajax({
+            url: '/AdminSeting/GetTemplate',
+            dataType: "json",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ StatusId: Status_ID }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != "") {
+                   // alert('s');                   
+                    $("#SEName").val(StatusName);
+                    $("#SEColour").val(Sclr);
+                    $("#SE_ID").val(Status_ID);
+                   // CKEDITOR.replace("emailTemplateEdit"),
+                  //  CKEDITOR.config.height = 400
+                    //  CKupdate();
+                    //CKEDITOR.instances["emailTemplateEdit"].setData('');
+                   
+                    CKEDITOR.instances["emailTemplateEdit"].setData(data);
+                    $('#smsTemplateEdit').val(texxtTemplate);
+                    $("#EditStatusModal").modal('show');
+                    $(".se-pre-con").hide();
+                }
+                else {
+                 //   alert('f');
+                    $("#SEName").val(StatusName);
+                    $("#SEColour").val(Sclr);
+                    $("#SE_ID").val(Status_ID);
+                    // CKEDITOR.replace("emailTemplateEdit"),
+                    //  CKEDITOR.config.height = 400
+                    //  CKupdate();
+                      CKEDITOR.instances["emailTemplateEdit"].setData('');
+                  //  CKEDITOR.instances["emailTemplateEdit"].setData(data);
+                    $("#EditStatusModal").modal('show');
+                    $(".se-pre-con").hide();
+                }
+            },
+            error: function (xhr) {
+                $(".se-pre-con").hide();
+               //  alert('e');
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+    function EditStatus() {
+        var dt = CKEDITOR.instances["emailTemplateEdit"].getData();
+        if ($("#SEName").val().trim() == '') {
+            $("#error_div_SEName").show();
+        }
+        else {
+
+            $(".se-pre-con").show();
+            $("#error_div_SEName").hide();
+            $.ajax({
+                url: '/AdminSeting/EditStatus',
+                dataType: "html",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ StatusName: $("#SEName").val(), StatusColour: $("#SEColour").val(), StatusID: $("#SE_ID").val(), template: dt, TextTemplate: $('#smsTemplateEdit').val ()}),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#EditStatusModal").modal('hide');
+                        $("#SEName").val('');
+                        $("#StatusTable_Widget").html('');
+                        $("#StatusTable_Widget").html(data);
+                     //   location.reload();
+                        $(".se-pre-con").hide();
+                    }
+                    else {
+                        // alert('f');
+                        $("#EditStatusModal").modal('hide');
+                        $("#SEName").val('');
+                        $(".se-pre-con").hide();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+    function ValidatepForm() {       
+        if ($("#RoleName").val().trim() == '') {            
+            $("#error_div_RName").show();
+            return false;
+        }
+        else {
+            $("#error_div_RName").hide();
+            return true;
+        }
+    }
+
+    function submitPForm() {
+        if (ValidatepForm()) {
+            AddRole();
+        }
+    }
+
+    function AddRole() {
+        $(".se-pre-con").show();
+        $.ajax({
+            type: "POST",
+            url: "/AdminSeting/AjaxManageRoles",
+            data: $("#pForm").serialize(),
+            datatype: "html",
+            success: function (data) {
+                if (data != "" && data != "Role Already Exists") {
+                    $("#RolesModal").modal('hide');
+                    $('#rTable').html('');
+                    $('#rTable').html(data);
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $(".se-pre-con").hide();
+                }
+                
+            }
+        });
+    }
+
+    function GetUserRoleForUpdate(Role_ID) {
+        $(".se-pre-con").show();
+        $("#R_ID").val(Role_ID);
+        $.ajax({
+            type: "POST",
+            url: "/AdminSeting/GetRolesForEdit",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ RoleID: Role_ID }),
+            datatype: "json",
+            success: function (data) {
+                if (data != "") {
+                    // cleanForm();
+                    $("#UpForm")[0].reset();
+                    $("#URoleName").val(data.RoleName);
+
+                    if (data.AssociatedLeads == "on") {                        
+                        $('#UAssociatedLeads').attr('checked', true);
+                    }
+                    else {
+                        $('#UAssociatedLeads').attr('checked', false);
+                    }
+                    if (data.SystemwideLeads == "on") {
+                        $('#USystemwideLeads').attr('checked', true);
+                    }
+                    else {
+                        $('#USystemwideLeads').attr('checked', false);
+                    }
+                    if (data.Calendar == "on") {
+                        $('#UCalendar').attr('checked', true);
+                    }
+                    else {
+                        $('#UCalendar').attr('checked', false);
+                    }
+                    if (data.EditTask == "on") {
+                        $('#UEditTask').attr('checked', true);
+                    }
+                    else {
+                        $('#UEditTask').attr('checked', false);
+                    }
+                    if (data.LeadNotes == "on") {
+                        $('#ULeadNotes').attr('checked', true);
+                    }
+                    else {
+                        $('#ULeadNotes').attr('checked', false);
+                    }
+                    if (data.Documents == "on") {                      
+                        $('#UDocuments').attr('checked', true);
+                    }
+                    else {                        
+                        $('#UDocuments').attr('checked', false);
+                    }
+                    if (data.ManageDocuments == "on") {
+                        $('#UManageDocuments').attr('checked', true);
+                    }
+                    else {
+                        $('#UManageDocuments').attr('checked', false);
+                    }
+                    if (data.HelpDeskTickets == "on") {
+                        $('#UHelpDeskTickets').attr('checked', true);
+                    }
+                    else {
+                        $('#UHelpDeskTickets').attr('checked', false);
+                    }
+                    if (data.LeadDistribution == "on") {
+                        $('#ULeadDistribution').attr('checked', true);
+                    }
+                    else {
+                        $('#ULeadDistribution').attr('checked',false);
+                    }
+                    if (data.ResidualsAccess == "on") {
+                        $('#UResidualsAccess').attr('checked', true);
+                    }
+                    else {
+                        $('#UResidualsAccess').attr('checked', false);
+                    }
+                    if (data.ResidualManagerView == "on") {
+                        $('#UResidualManagerView').attr('checked', true);
+                    }
+                    else {
+                        $('#UResidualManagerView').attr('checked', false);
+                    }
+                    if (data.MerchantinfoAssociatedLead == "on") {
+                        $('#UMerchantinfoAssociatedLead').attr('checked', true);
+                    }
+                    else {
+                        $('#UMerchantinfoAssociatedLead').attr('checked', false);
+                    }
+                    if (data.MerchantinfoSystemwideLeads == "on") {
+                        $('#UMerchantinfoSystemwideLeads').attr('checked', true);
+                    }
+                    else {
+                        $('#UMerchantinfoSystemwideLeads').attr('checked', false);
+                    }
+                    if (data.ManageMerchant == "on") {
+                        $('#UManageMerchant').attr('checked', true);
+                    }
+                    else {
+                        $('#UManageMerchant').attr('checked', false);
+                    }
+                    if (data.Statements == "on") {
+                        $('#UStatements').attr('checked', true);
+                    }
+                    else {
+                        $('#UStatements').attr('checked', false);
+                    }
+
+                    if (data.TriggerStatementDownload == "on") {
+                        $('#UTriggerStatementDownload').attr('checked', true);
+                    }
+                    else {
+                        $('#UTriggerStatementDownload').attr('checked',false);
+                    }
+
+                    if (data.PortfolioActivityAssociatedleads == "on") {
+                        $('#UPortfolioActivityAssociatedleads').attr('checked', true);
+                    }
+                    else {
+                        $('#UPortfolioActivityAssociatedleads').attr('checked', false);
+                    }
+
+                    if (data.PortfolioActivitySystemwideleads == "on") {
+                        $('#UPortfolioActivitySystemwideleads').attr('checked', true);
+                    }
+                    else {
+                        $('#UPortfolioActivitySystemwideleads').attr('checked', false);
+                    }
+
+                    if (data.ProposalGenerator == "on") {
+                        $('#UProposalGenerator').attr('checked', true);
+                    }
+                    else {
+                        $('#UProposalGenerator').attr('checked', false);
+                    }
+
+                    if (data.UnderwritngApplicationSubmissions == "on") {
+                        $('#UUnderwritngApplicationSubmissions').attr('checked', true);
+                    }
+                    else {
+                        $('#UUnderwritngApplicationSubmissions').attr('checked', false);
+                    }
+
+                    if (data.Agenttracker == "on") {
+                        $('#UAgenttracker').attr('checked', true);
+                    }
+                    else {
+                        $('#UAgenttracker').attr('checked', false);
+                    }
+
+                    if (data.MessagingSystem == "on") {
+                        $('#UMessagingSystem').attr('checked', true);
+                    }
+                    else {
+                        $('#UMessagingSystem').attr('checked', false);
+                    }
+
+                    if (data.MerchantApplication == "on") {
+                        $('#UMerchantApplication').attr('checked', true);
+                    }
+                    else {
+                        $('#UMerchantApplication').attr('checked', false);
+                    }
+
+                    if (data.UserManagement == "on") {
+                        $('#UUserManagement').attr('checked', true);
+                    }
+                    else {
+                        $('#UUserManagement').attr('checked', false);
+                    }
+
+                    if (data.SiteManagement == "on") {
+                        $('#USiteManagement').attr('checked', true);
+                    }
+                    else {
+                        $('#USiteManagement').attr('checked', false);
+                    }
+
+                    $("#UpdateRolesModal").modal('show');
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $(".se-pre-con").hide();
+                }
+
+            }
+        });
+    }
+
+    function cleanForm() {
+        $("#URoleName").val('');
+       
+        $('#UAssociatedLeads').attr('checked', false);
+        $('#USystemwideLeads').attr('checked', false);
+        $('#UCalendar').attr('checked', false);
+        $('#UEditTask').attr('checked', false);
+        $('#ULeadNotes').attr('checked', false);
+        $('#UDocuments').attr('checked', false);
+        $('#UManageDocuments').attr('checked', false);
+        $('#UHelpDeskTickets').attr('checked', false);
+        $('#ULeadDistribution').attr('checked', false);
+        $('#UResidualsAccess').attr('checked', false);
+        $('#UResidualManagerView').attr('checked', false);
+        $('#UMerchantinfoAssociatedLead').attr('checked', false);
+        $('#UMerchantinfoSystemwideLeads').attr('checked', false);
+        $('#UManageMerchant').attr('checked', false);
+        $('#UStatements').attr('checked', false);
+        $('#UTriggerStatementDownload').attr('checked', false);
+        $('#UPortfolioActivityAssociatedleads').attr('checked', false);
+        $('#UPortfolioActivitySystemwideleads').attr('checked', false);
+        $('#UProposalGenerator').attr('checked', false);
+        $('#UUnderwritngApplicationSubmissions').attr('checked', false);
+        $('#UAgenttracker').attr('checked', false);
+        $('#UMessagingSystem').attr('checked', false);
+        $('#UMerchantApplication').attr('checked', false);
+        $('#UUserManagement').attr('checked', false);
+        $('#USiteManagement').attr('checked', false);        
+    }
+
+    function ValidateUpForm() {
+        if ($("#URoleName").val().trim() == '') {
+            $("#Uerror_div_RName").show();
+            return false;
+        }
+        else {
+            $("#Uerror_div_RName").hide();
+            return true;
+        }
+    }
+
+    function submitUPForm() {
+        if (ValidateUpForm()) {
+            UpdateRole();
+        }
+    }
+
+    function UpdateRole() {
+        $(".se-pre-con").show();
+        $.ajax({
+            type: "POST",
+            url: "/AdminSeting/AjaxUpdateRoles",
+            data: $("#UpForm").serialize(),
+            datatype: "html",
+            success: function (data) {
+                if (data != "" && data != "Role Already Exists") {
+                    $("#UpdateRolesModal").modal('hide');
+                    $('#rTable').html('');
+                    $('#rTable').html(data);
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $(".se-pre-con").hide();
+                }
+
+            }
+        });
+    }
+</script>
+
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace("emailTemplate"),
+            CKEDITOR.config.height = 400,
+        //    CKEDITOR.inline("ckeditor-inline")
+
+            CKEDITOR.replace("emailTemplateEdit"),
+            CKEDITOR.config.height = 400
+           
+        });
+        //$(document).ready(function () {
+            
+        //    CKEDITOR.replace("emailTemplateEdit"),
+        //    CKEDITOR.config.height = 400
+        //   // CKEDITOR.inline("ckeditor-inline")
+        //});
+        function gethtnl() {           
+            var dt = CKEDITOR.instances["emailTemplate"].getData();
+            //var htmldata = CKEDITOR.instances.Editor.document.getBody().getHtml();
+            
+           
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+

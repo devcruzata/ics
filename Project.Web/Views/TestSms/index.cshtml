@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "index";
+    Layout = null;
+}
+
+<input id="to" name="to" /><br />
+<input id="msg" name="msg" />
+<button id="send" onclick="send();">Send</button>
+
+<script>
+    function send() {
+        alert();
+        $.post('/TestSms/index', { ToNumber: $('#to').val(), Body: $('#msg').val() }, function (data) {
+            if (data != '') {
+
+            }
+        });
+    }
+</script>

@@ -1,0 +1,725 @@
+﻿
+@model Project.Web.Models.UserModel
+
+<style>
+    .addBorder {
+        border-color: red !important;
+    }
+</style>
+
+@*<script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>*@
+<script>
+    $(document).ready(function () {
+        $(".date-control").daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'MM/DD/YYYY'
+            },
+        });
+    });
+</script>
+
+
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">User Management</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("AdminDashboard")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("Manageuser")">Manage User</a></li>
+                    <li class="active">User Home</li>
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                        <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                            <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                        </ul>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">User Home</h3>
+                <div class="pull-right">
+                    <div class="btn-group mt-5">
+                        <button type="button" class="btn btn-default btn-outline"><i class="mr-5"></i>User</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                            <li><a href="#" data-toggle="modal" data-target="#AddUserModal"><i class="mr-5"></i>Add User Manually</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#InviteUserModal"><i class="mr-5"></i>Invite User</a></li>
+                            <li><a href="@Url.RouteUrl("ImportUser")" target="_blank"><i class="mr-5"></i>Upload Spreadsheet</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-body" id="userTable">
+                <table id="lead-list-1" style="width: 100%" class="table table-hover dt-responsive">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Username</th>
+                            <th class="text-center">Name</th>
+                            @*<th width="12%" class="text-center">Group</th>*@
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Last Login</th>
+                            <th class="text-center">User Role</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="uTableBody">
+                        @foreach (var user in Model.users)
+                        {
+                            <tr>
+                                <td class="text-center">@user.Username</td>
+                                <td class="text-center">@user.FName @user.LName</td>
+                                @*<td>@user.Group</td>*@
+                                <td class="text-center">@user.Email</td>
+                                <td class="text-center">@user.Status</td>
+                                <td class="text-center">@user.LastLogin.ToString("MM/dd/yyyy hh:MM")</td>
+                                <td class="text-center">@user.URoleName</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline btn-success" onclick="UpdateUser('@user.User_ID');" title="Edit User"><i class="ti-pencil"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline btn-primary" onclick="resetPassword('@user.User_ID','@user.Email','@user.FName','@user.LName ');" title="Reset Password"><i class="ti-reload"></i></button>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="AddUserModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post" enctype="multipart/form-data" id="UserForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="FName">First Name</label>
+                                <input type="text" id="FName" class="form-control" value="">
+                                <div id="error_div_FName" style="display:none;">
+                                    <p style="color:red;">Please Enter First Name</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="LName">Last Name</label>
+                                <input type="text" id="LName" class="form-control" value="">
+                                <div id="error_div_LName" style="display:none;">
+                                    <p style="color:red;">Please Enter Last Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="Email">Email</label>
+                                <input type="text" id="Email" class="form-control" value="">
+                                <div id="error_div_Email" style="display:none;">
+                                    <p style="color:red;">Please Enter Valid Email</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="UName">Username</label>
+                                <input type="text" id="UName" class="form-control" value="">
+                                <div id="error_div_UName" style="display:none;">
+                                    <p style="color:red;">Please Enter Username</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="Mobile">Mobile</label>
+                                <input type="text" id="Mobile" class="form-control" value="">
+                                <div id="error_div_Mobile" style="display:none;">
+                                    <p style="color:red;">Please Enter Valid Mobile Number</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="URole">User Role</label>
+                                <select class="form-control" id="URole">
+                                    <option value="">User Role</option>
+                                    <option value="Administrator">Administrator</option>
+                                    <option value="Owner">Owner</option>
+                                    <option>Sales Manager</option>
+                                    <option>Support</option>
+                                    <option>Sales Rep</option>
+                                    <option>Outside Sales Rep</option>
+                                    <option>TLM</option>
+                                    <option>Technical</option>
+                                </select>
+                                <div id="error_div_URole" style="display:none;">
+                                    <p style="color:red;">Please Choose A User Role</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="UGroup">Group</label>
+                                <select class="form-control" id="UGroup">
+                                    <option value="0">Group</option>
+                                    <option>MAS</option>
+                                    <option>MID</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="TZone">Time-Zone</label>
+                                <select class="form-control" id="TZone">
+                                    <option value="0">Time-Zone</option>
+                                    <option>Eastern</option>
+                                    <option>Central</option>
+                                    <option>Mountain</option>
+                                    <option>Pacific</option>
+                                    <option>Hawaii</option>
+                                    <option>Alaska</option>
+                                </select>
+                                <div id="error_div_TZone" style="display:none;">
+                                    <p style="color:red;">Please Choose A Time Zone</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="App_Link">Agent app Link</label>
+                                <input type="text" id="App_Link" class="form-control" value="">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="Processer">Processer</label>
+                                <input type="text" id="Processer" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="SNo">sales Number</label>
+                                <input type="text" id="SNo" class="form-control" value="">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="SId">Sales Id</label>
+                                <input type="text" id="SId" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="BDay">Birthday</label>
+                                <input type="text" id="BDay" class="form-control date-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="cancel">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save" onclick="AddUser();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="InviteUserModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Invite User</h4>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post" enctype="multipart/form-data" id="InviteForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="FirstName">First Name</label>
+                                <input type="text" id="FirstName" class="form-control" value="">
+                                <div id="error_div_FirstName" style="display:none;">
+                                    <p style="color:red;">Please Enter First Name</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="LastName">Last Name</label>
+                                <input type="text" id="LastName" class="form-control" value="">
+                                <div id="error_div_LastName" style="display:none;">
+                                    <p style="color:red;">Please Enter Last Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="UserRole">User Role</label>
+                                <select class="form-control" id="UserRole">                                    
+                                </select>
+                                <div id="error_div_URole" style="display:none;">
+                                    <p style="color:red;">Please Choose A User Role</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="Group">Time-Zone</label>
+                                <select class="form-control" id="Group">
+                                    <option value="0">Group</option>
+                                    <option>MAS</option>
+                                    <option>MID</option>
+                                </select>
+                                <div id="error_div_Group" style="display:none;">
+                                    <p style="color:red;">Please Choose A Group</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="IEmail">Email</label>
+                                <input type="text" id="IEmail" class="form-control" value="">
+                                <div id="error_div_LName" style="display:none;">
+                                    <p style="color:red;">Please Enter Valid Email</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="cancel">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save" onclick="InviteUser();">Invite</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="UpdateUserModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Update User</h4>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post" enctype="multipart/form-data" id="UserUpdateForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="FName">First Name</label>
+                                <input type="text" id="UFName" class="form-control" value="">
+                                <div id="error_div_UFName" style="display:none;">
+                                    <p style="color:red;">Please Enter First Name</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="LName">Last Name</label>
+                                <input type="text" id="ULName" class="form-control" value="">
+                                <div id="error_div_ULName" style="display:none;">
+                                    <p style="color:red;">Please Enter Last Name</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="Email">Email</label>
+                                <input type="text" id="UEmail" class="form-control" value="">
+                                <div id="error_div_UEmail" style="display:none;">
+                                    <p style="color:red;">Please Enter Valid Email</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="Mobile">Mobile</label>
+                                <input type="text" id="UMobile" class="form-control" value="">
+                                <div id="error_div_UMobile" style="display:none;">
+                                    <p style="color:red;">Please Enter Valid Mobile Number</p>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="UURole">User Role</label>
+                                <select class="form-control" id="UURole">
+                                    <option value="">User Role</option>
+                                    <option value="Administrator">Administrator</option>
+                                    <option value="Owner">Owner</option>
+                                    <option>Sales Manager</option>
+                                    <option>Support</option>
+                                    <option>Sales Rep</option>
+                                    <option>Outside Sales Rep</option>
+                                    <option>TLM</option>
+                                    <option>Technical</option>
+                                </select>
+                                <div id="error_div_UURole" style="display:none;">
+                                    <p style="color:red;">Please Choose A User Role</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">                            
+                            <div class="form-group col-sm-6">
+                                <label for="UTZone">Time-Zone</label>
+                                <select class="form-control" id="UTZone">
+                                    <option value="0">Time-Zone</option>
+                                    <option>Eastern</option>
+                                    <option>Central</option>
+                                    <option>Mountain</option>
+                                    <option>Pacific</option>
+                                    <option>Hawaii</option>
+                                    <option>Alaska</option>
+                                </select>
+                                <div id="error_div_UTZone" style="display:none;">
+                                    <p style="color:red;">Please Choose A Time Zone</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="UApp_Link">Agent app Link</label>
+                                <input type="text" id="UApp_Link" class="form-control" value="">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="UProcesser">Processer</label>
+                                <input type="text" id="UProcesser" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="USNo">sales Number</label>
+                                <input type="text" id="USNo" class="form-control" value="">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="USId">Sales Id</label>
+                                <input type="text" id="USId" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-6">
+                                <label for="UBDay">Birthday</label>
+                                <input type="text" id="UBDay" class="form-control date-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="UserID" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="cancel">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save" onclick="SaveUpdate();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Table Script*******
+
+    $(document).ready(function () {
+
+        var e1 = $("#lead-list-1").DataTable({ pageLength: 10, colReorder: !0, buttons: [], searching: !0, aLengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]], order: [[5, "desc"]], columnDefs: [{ orderable: !1, targets: [0, 5] }] });
+        $("#lead-list-1_wrapper .col-sm-6:eq(1)").addClass("text-right"), e1.buttons().container().appendTo("#lead-list-1_wrapper .col-sm-6:eq(1)")
+
+    });
+</script>
+<script>
+    function ViewClient(Client_ID_Auto_PK) {
+        window.location = '/Clients/ViewClient?ClientId=' + Client_ID_Auto_PK;
+    }
+
+    function DeleteClient(Client_ID_Auto_PK) {
+
+        var result = confirm("Are you sure to delete this Client ?");
+        if (result == true) {
+            // var divId = "div-" + Service_ID_Auto_PK;
+
+            var Ldata = Client_ID_Auto_PK;
+
+            var url = "/Clients/DeleteClient";
+            $.post(url, { Client_ID_PK: Ldata }, function (data) {
+                if (data == "1") {
+                    location.reload();
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+    function ValidateForm() {
+        if ($("#FName").val().trim() == "") {
+            $("#error_div_FName").show();
+            return false;
+        }
+        else if ($("#LName").val().trim() == "") {
+            $("#error_div_LName").show();
+            $("#error_div_FName").hide();
+            return false;
+        }
+        else if ($("#Email").val().trim() == "") {          
+            $("#error_div_Email").show();
+            $("#error_div_LName").hide();
+            $("#error_div_FName").hide();
+            return false;
+        }
+        else if ($("#UName").val().trim() == "") {
+            $("#error_div_UName").show();
+            $("#error_div_Email").hide();
+            $("#error_div_LName").hide();
+            $("#error_div_FName").hide();
+            return false;
+        }        
+        else if ($("#URole").val().trim() == "0") {
+            $("#error_div_URole").show();           
+            $("#error_div_UName").hide();
+            $("#error_div_Email").hide();
+            $("#error_div_LName").hide();
+            $("#error_div_FName").hide();
+            return false;
+        }       
+        else {           
+            $("#error_div_URole").hide();           
+            $("#error_div_UName").hide();
+            $("#error_div_Email").hide();
+            $("#error_div_LName").hide();
+            $("#error_div_FName").hide();
+            return true;
+        }
+    }
+
+    function AddUser() {
+       if (ValidateForm()) {
+        $.ajax({
+            type: "POST",
+            url: "/UserManagement/AjaxAddUser",
+            data: { FirstName: $("#FName").val(), LastName: $("#LName").val(), EmailAdd: $("#Email").val(), UserName: $("#UName").val(), Mobile: $("#Mobile").val(), UserRole: $("#URole").val(), TimeZone: $("#TZone").val(), UserGroup: $("#UGroup").val(), App_Link: $("#App_Link").val(), Processer: $("#Processer").val(), Sales_No: $("#SNo").val(), Sales_ID: $("#SId").val(), Birthday: $("#BDay").val() },
+            success: function (data) {
+                if (data != '') {
+                    $("#AddUserModal").modal('hide');
+                    $("#uTableBody").html('');
+                    $("#uTableBody").html(data); 
+                    $("#UserForm")[0].reset();
+                }
+                else {
+                    $("#AddUserModal").modal('hide');
+                    $("#UserForm")[0].reset();
+                }
+            },
+            error: function (xhr) {
+              
+                $('#errorMessage').html("No connection");
+            }
+        });
+        }
+        //  else {
+        //  }
+    }
+
+    function InviteUser() {
+        //if (ValidateForm()) {
+        $.ajax({
+            type: "POST",
+            url: "/UserManagement/InviteUser",
+            data: { FirstName: $("#FirstName").val(), LastName: $("#LastName").val(), Email: $("#IEmail").val(), Group: $("#Group").val(), UserRole: $("#UserRole").val() },
+            success: function (data) {
+                if (data == '') {
+                    $("#InviteUserModal").modal('hide');
+                    // $("#userTable").html('');
+                    // $("#userTable").html(data);
+                }
+                else {
+                    $("#InviteUserModal").modal('hide');
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+        //  }
+        //  else {
+        //  }
+    }
+
+    function resetPassword(User_ID, UserEmail, FName, LName) {
+        $.ajax({
+            type: "POST",
+            url: "/UserManagement/ResetPassword",
+            data: { FirstName: FName, LastName: LName, Email: UserEmail, User_ID_PK: User_ID },
+            success: function (data) {
+                if (data == '') {                   
+                    showSuccessMsg();
+                }
+                else {
+                    showErrorMsg();
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+
+    function showSuccessMsg() {
+        swal({
+            title: "Password Reset!",
+            text: "A New Password Sent to Your Registered Mail!",
+            type: "success",
+            confirmButtonClass: "btn-raised btn-success",
+            confirmButtonText: "OK"
+        })
+    }
+
+    function showErrorMsg() {
+        swal({
+            title: "Fail!",
+            text: "Error Occured in Reseting Password!",
+            type: "error",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "OK"
+        })
+    }
+</script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $.post('@Url.Action("GetUserRoles", "UserManagement")', {},
+                    function (fooList) {
+                        $('#URole').empty();
+                        $('#UURole').empty();
+                        $.each(fooList, function (i, foo) {
+                            //$('#MonthYear').append($("<option />").val(this.Value).text(this.Value));
+                            $('#URole').append('<option value="' + this.Value + '">' + this.Text + '</option');
+                            $('#UURole').append('<option value="' + this.Value + '">' + this.Text + '</option');
+                        });
+                    });
+        });
+</script>
+
+<script>
+    function UpdateUser(User_ID) {
+      
+        $.ajax({
+            type: "POST",
+            url: "/UserManagement/GetUserForEdit",
+            data: { UserID : User_ID },
+            success: function (data) {
+                if (data != '') {                  
+                    $("#UFName").val(data.FName);
+                    $("#ULName").val(data.LName);
+                    $("#UEmail").val(data.Email);
+                    $("#UMobile").val(data.Mobile);
+                    $("#UURole").val(data.URole);
+                    $("#UTZone").val(data.TimeZone);
+                    $("#UUGroup").val(data.UserGroup);
+                    $("#UApp_Link").val(data.Agent_App_Link);
+                    $("#UProcesser").val(data.Processer);
+                    $("#USNo").val(data.Sales_No);
+                    $("#USId").val(data.Sales_Id);
+                    $("#UBDay").val(data.BirthDay);
+                    $("#UserID").val(data.User_ID);
+                     $("#UpdateUserModal").modal('show');
+                }
+                else {                  
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+
+    function ValidateUForm() {
+        if ($("#UFName").val().trim() == "") {
+            $("#error_div_UFName").show();
+            return false;
+        }
+        else if ($("#ULName").val().trim() == "") {
+            $("#error_div_ULName").show();
+            $("#error_div_UFName").hide();
+            return false;
+        }
+        else if ($("#UEmail").val().trim() == "") {
+            $("#error_div_UEmail").show();
+            $("#error_div_ULName").hide();
+            $("#error_div_UFName").hide();
+            return false;
+        }      
+        else if ($("#UURole").val().trim() == "") {
+            $("#error_div_UURole").show();                     
+            $("#error_div_UEmail").hide();
+            $("#error_div_ULName").hide();
+            $("#error_div_UFName").hide();
+            return false;
+        }        
+        else {            
+            $("#error_div_UURole").hide();              
+            $("#error_div_UEmail").hide();
+            $("#error_div_ULName").hide();
+            $("#error_div_UFName").hide();
+            return true;
+        }
+    }
+
+    function SaveUpdate() {
+        if (ValidateUForm()) {
+            $.ajax({
+                type: "POST",
+                url: "/UserManagement/AjaxUpdateUser",
+                data: { FirstName: $("#UFName").val(), LastName: $("#ULName").val(), EmailAdd: $("#UEmail").val(), Mobile: $("#UMobile").val(), UserRole: $("#UURole").val(), TimeZone: $("#UTZone").val(), UserGroup: $("#UUGroup").val(), App_Link: $("#UApp_Link").val(), Processer: $("#UProcesser").val(), Sales_No: $("#USNo").val(), Sales_ID: $("#USId").val(), Birthday: $("#UBDay").val(), UserID: $("#UserID").val() },
+                success: function (data) {
+                    if (data != '') {
+                        $("#UpdateUserModal").modal('hide');
+                        $("#uTableBody").html('');
+                        $("#uTableBody").html(data);
+                        $("#UserUpdateForm")[0].reset();
+                    }
+                    else {
+                        $("#UpdateUserModal").modal('hide');
+                        $("#UserUpdateForm")[0].reset();
+                    }
+                },
+                error: function (xhr) {
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+</script>

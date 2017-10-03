@@ -1,0 +1,193 @@
+﻿@{
+    ViewBag.Title = "CampaignHome";
+}
+
+
+
+
+<script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>
+
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Email Template</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("AdminDashboard")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("Campaigns")">Mail Campaign</a></li>
+                    <li class="active">Template Home</li>
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                        <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                            <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                        </ul>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">Manage Campaigns</h3>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#campaign_Modal"><i class="ti-plus"></i></button>
+                    @*<a type="button" href="/MarketingCampaign/AddEmailCampaign" class="btn btn-primary" title="Create Campaign"><i class="ti-plus"></i></a>*@ 
+                    @*<button type="button" class="btn btn-default"><i class="ti-share-alt"></i></button>*@
+                </div>
+            </div>
+            <div class="widget-body">
+                <table id="lead-list-1" style="width: 100%" class="table table-hover dt-responsive ">
+                    <thead>
+                        <tr>                           
+                            <th class="text-center">Title</th>
+                            <th class="text-center">No of Recievers</th>                      
+                            <th class="text-center">Source</th>
+                            <th class="text-center">Disposition</th>
+                            <th class="text-center">Created On</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="uTableBody">
+
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" class="modal fade bs-example-modal-lg" id="campaign_Modal">
+    <div role="document" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myLargeModalLabel" class="modal-title">New Campaign</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-6">
+                            <label for="NTitle">Title</label>
+                            @*@Html.DropDownListFor(m => m.AssignToID, (List<SelectListItem>)ViewBag.UserList, new { @class = "form-control form-cutom" })*@
+                            <input type="text" id="title" class="form-control" />                           
+                        </div>
+
+                       
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-6">
+                            <label for="dipo_id">Dispotion</label>
+                             @*@Html.DropDownListFor(m => m.AssignToID, (List<SelectListItem>)ViewBag.UserList, new { @class = "form-control form-cutom" })*@
+                            <select id="dipo_id" class="form-control"></select>                          
+                        </div>     
+                        <div class="form-group col-sm-6">
+                            <label for="temp_id">Template</label>
+                            @*@Html.DropDownListFor(m => m.AssignToID, (List<SelectListItem>)ViewBag.UserList, new { @class = "form-control form-cutom" })*@
+                            <select id="temp_id" class="form-control"></select>
+                        </div>                   
+                    </div>
+                </div>               
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Close</button>
+                <button type="button" class="btn btn-raised btn-black">Save & Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Table Script*******
+
+    $(document).ready(function () {
+
+        var e1 = $("#lead-list-1").DataTable({ pageLength: 50, colReorder: !0, buttons: [], searching: !0, aLengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]], order: [[5, "desc"]], columnDefs: [{ orderable: !1, targets: [0, 6] }] });
+        $("#lead-list-1_wrapper .col-sm-6:eq(1)").addClass("text-right"), e1.buttons().container().appendTo("#lead-list-1_wrapper .col-sm-6:eq(1)")
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".se-pre-con").show();
+        getDisposition();
+
+        getTemplates();
+        $(".se-pre-con").hide();
+    });
+
+    function getDisposition() {
+        $.ajax({
+            url: '/MarketingCampaign/GetDisposition',
+            dataType: "json",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            // data: JSON.stringify({ StatusId: Status_ID }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != "") {
+                    $('#dipo_id').empty();
+                    $.each(data, function (i, foo) {
+                        $('#dipo_id').append('<option value="' + this.Value + '">' + this.Text + '</option');
+                    });
+                   // $(".se-pre-con").hide();
+                }
+                else {
+                   // $(".se-pre-con").hide();
+                }
+            },
+            error: function (xhr) {
+                $(".se-pre-con").hide();
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+
+    function getTemplates() {
+        $.ajax({
+            url: '/MarketingCampaign/GetTemplates',
+            dataType: "json",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            // data: JSON.stringify({ StatusId: Status_ID }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != "") {
+                    $('#temp_id').empty();
+                    $.each(data, function (i, foo) {
+                        $('#temp_id').append('<option value="' + this.Value + '">' + this.Text + '</option');
+                    });
+                    // $(".se-pre-con").hide();
+                }
+                else {
+                    // $(".se-pre-con").hide();
+                }
+            },
+            error: function (xhr) {
+               // $(".se-pre-con").hide();
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+</script>

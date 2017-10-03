@@ -1,0 +1,17 @@
+﻿@{
+    Layout = null;
+}
+
+                        @foreach (var set in Model.source)
+                        {
+                            <tr>
+                                <td>@set.SourceName</td>
+                                <td>@set.LinkedSalesRep</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline btn-warning"  onclick="setModalData(@set.LeadSourceID ,'@set.LinkedSalesRep');" title="Edit"><i class="ti-pencil"></i></button>
+                                </td>
+                               @* <td>
+                                    @Html.DropDownListFor(m => m.salesRepId, (List<SelectListItem>)ViewBag.Group_List, new { @class = "form-control form-cutom" })
+                                </td>*@
+                            </tr>
+                        }

@@ -1,0 +1,681 @@
+﻿@{
+    Layout = null;
+}
+
+<div id="bInfo" role="tabpanel" class="tab-pane active">
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            @Html.DropDownListFor(m => m.AssignToID, (List<SelectListItem>)ViewBag.UserList, new { @class = "form-control form-cutom" })
+        </div>
+        <div class="col-sm-6">
+            @Html.DropDownListFor(m => m.LeadGroup, (List<SelectListItem>)ViewBag.Group_List, new { @class = "form-control form-cutom" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            @Html.DropDownListFor(m => m.LeadSource, (List<SelectListItem>)ViewBag.Source_List, new { @class = "form-control form-cutom" })
+        </div>
+        <div class="col-sm-6">
+            @Html.DropDownListFor(m => m.LeadStatus, (List<SelectListItem>)ViewBag.Status_List, new { @class = "form-control form-cutom" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Business Name/DBA" class="form-control form-cutom" type="text" name="DBA" id="DBA" value="@Model.DBA">
+            <div id="error_Div_DBA" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Business Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Contact Name" class="form-control form-cutom" type="text" name="ContName" id="ContName" value="@Model.ContName">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Business Phone" class="form-control form-cutom" type="text" name="bPhone" id="bPhone" onkeypress="return isNumberKey(event)" maxlength="13" value="@Model.bPhone">
+            <div id="error_Div_bPhone" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Valid Phone Number</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Email" class="form-control form-cutom" type="text" name="Email" id="Email" value="@Model.Email">
+            <div id="error_Div_Email" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Valid Email</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Website" class="form-control form-cutom" type="text" name="website" id="website" value="@Model.website">
+            <div id="error_Div_website" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Website</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Alternative No" class="form-control form-cutom" type="text" name="AltNo" id="AltNo" onkeypress="return isNumberKey(event)" maxlength="13" value="@Model.AltNo">
+            <div id="error_Div_AltNo" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Valid No</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <div class="checkbox-inline checkbox-custom">
+                <input id="cPro" type="checkbox" value="" onclick="setCurrProcessing();">
+                <label for="cPro" class="checkbox-muted text-muted">Currently Processing</label>
+            </div>
+            <input type="hidden" name="currProcessing" id="currProcessing" />
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Estimated Monthly Volume in $" class="form-control form-cutom" type="text" name="EstMontVolume" id="EstMontVolume" onkeypress="return isNumberKey(event)" value="@Model.EstMontVolume">
+            <div id="error_Div_EstMontVolume" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Estimated Monthly Volume</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Merchant Application Username" class="form-control form-cutom" type="text" name="MerAppUsername" id="MerAppUsername" value="@Model.MerAppUsername">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Merchant Application Password" class="form-control form-cutom" type="password" name="MerAppPassword" id="MerAppPassword" value="@Model.MerAppPassword">
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Legal Business name" class="form-control form-cutom" type="text" name="LBusiName" id="LBusiName" value="@Model.LBusiName">
+            <div id="error_Div_LBusiName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <select class="form-control" name="OwnershipType" id="OwnershipType">
+                <option value="0">Select Ownership</option>
+                <option value="Sole Prop.">Sole Prop.</option>
+                <option value="Corporation">Corporation</option>
+                <option value="LLC">LLC</option>
+                <option value="Partnership">Partnership</option>
+                <option value="Non-Profit">Non-Profit</option>
+            </select>
+            <input type="hidden" id="OType" value="@Model.OwnershipType" />
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Years In Business" class="form-control form-cutom" type="text" name="YrInBusiness" id="YrInBusiness" onkeypress="return isNumberKey(event)" value="@Model.YrInBusiness">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Months In Business" class="form-control form-cutom" type="text" name="MtInBusiness" id="MtInBusiness" onkeypress="return isNumberKey(event)" value="@Model.MtInBusiness">
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input placeholder="Business Description" class="form-control form-cutom" type="text" name="BDescription" id="BDescription" value="@Model.BDescription">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Location Address 1" class="form-control form-cutom" type="text" name="LAddress1" id="LAddress1" value="@Model.LAddress1">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Location Address 2" class="form-control form-cutom" type="text" name="LAddress2" id="LAddress2" value="@Model.LAddress2">
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="City" class="form-control form-cutom" type="text" name="city" id="city" value="@Model.city">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="State" class="form-control form-cutom" type="text" name="state" id="state" value="@Model.state">
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Zip" class="form-control form-cutom" type="text" name="zip" id="zip" onkeypress="return isNumberKey(event)" maxlength="7" value="@Model.zip">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Location Phone Number" class="form-control form-cutom" type="text" name="LPhoneNo" id="LPhoneNo" onkeypress="return isNumberKey(event)" maxlength="13" value="@Model.LPhoneNo">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Location Fax Number" class="form-control form-cutom" type="text" name="LFaxNo" id="LFaxNo" onkeypress="return isNumberKey(event)" maxlength="13" value="@Model.LFaxNo">
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <div class="checkbox-inline checkbox-custom">
+                <input id="sameAsLoc" type="checkbox" value="" onclick="checkMailingAddress();">
+                <label for="sameAsLoc" class="checkbox-muted text-muted">Same As Location Address</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Mailing Address 1" class="form-control form-cutom" type="text" name="MAddress1" id="MAddress1" value="@Model.MAddress1">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Mailing Address 2" class="form-control form-cutom" type="text" name="MAddress2" id="MAddress2" value="@Model.MAddress2">
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="City" class="form-control form-cutom" type="text" name="mcity" id="mcity" value="@Model.mcity">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="State" class="form-control form-cutom" type="text" name="mstate" id="mstate" value="@Model.mstate">
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Zip" class="form-control form-cutom" type="text" name="mzip" id="mzip" onkeypress="return isNumberKey(event)" maxlength="7" value="@Model.mzip">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="owner" role="tabpanel" class="tab-pane">
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="First Name" class="form-control form-cutom" type="text" name="FName" id="FName" value="@Model.FName">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Last Name" class="form-control form-cutom" type="text" name="LName" id="LName" value="@Model.LName">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Date of Birth" class="form-control form-cutom date-added" type="text" name="DOB" id="DOB" value="@Model.DOB">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Social Security" class="form-control form-cutom" type="text" name="SocSecurity" id="SocSecurity" value="@Model.SocSecurity">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Driver License" class="form-control form-cutom" type="text" name="DLicense" id="DLicense" value="@Model.DLicense">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Driver License State" class="form-control form-cutom" type="text" name="DLicenseState" id="DLicenseState" value="@Model.DLicenseState">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <div class="checkbox-inline checkbox-custom">
+                <input id="OwnersameAsLoc" type="checkbox" value="" onclick="checkResidenceAddress();">
+                <label for="OwnersameAsLoc" class="checkbox-muted text-muted">Same As Location Address</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Residence Address 1" class="form-control form-cutom" type="text" name="RAddress1" id="RAddress1" value="@Model.RAddress1">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Residence Address 2" class="form-control form-cutom" type="text" name="RAddress2" id="RAddress2" value="@Model.RAddress2">
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="City" class="form-control form-cutom" type="text" name="rcity" id="rcity" value="@Model.rcity">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="State" class="form-control form-cutom" type="text" name="rstate" id="rstate" value="@Model.rstate">
+            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Password</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Zip" class="form-control form-cutom" type="text" name="rzip" id="rzip" onkeypress="return isNumberKey(event)" maxlength="7" value="@Model.rzip">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <input placeholder="Owner Phone" class="form-control form-cutom" type="text" name="OwnerPhone" id="OwnerPhone" onkeypress="return isNumberKey(event)" maxlength="13" value="@Model.OwnerPhone">
+            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Merchant Application Username</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="F_Pro" role="tabpanel" class="tab-pane">
+    <div class="form-group">
+        <div class="col-sm-6">
+            <select class="form-control" name="MerchantType" id="MerchantType">
+                <option value="0">Select Merchant Type</option>
+                <option value="Retail">Retail</option>
+                <option value="Retail w/tip">Retail w/tip</option>
+                <option value="Mail/Telephone">Mail/Telephone</option>
+                <option value="Internet">Internet</option>
+                <option value="Restaurant">Restaurant</option>
+                <option value="Lodging">Lodging</option>
+            </select>
+            <input type="hidden" id="MType" value="@Model.MerchantType" />
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Retail Swiped %" class="form-control form-cutom" type="text" name="RSwiped" id="RSwiped" value="@Model.RSwiped">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Retail Keyed %" class="form-control form-cutom" type="text" name="RKeyed" id="RKeyed" value="@Model.RKeyed">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Internet %" class="form-control form-cutom" type="text" name="internet" id="internet" value="@Model.internet">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Mail/Telephone Orders %" class="form-control form-cutom" type="text" name="MTOrders" id="MTOrders" value="@Model.MTOrders">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Average Ticket $" class="form-control form-cutom" type="text" name="avgTicket" id="avgTicket" value="@Model.avgTicket">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="High Ticket $" class="form-control form-cutom" type="text" name="highTicket" id="highTicket" value="@Model.highTicket">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Monthly Volume $" class="form-control form-cutom" type="text" name="MVolume" id="MVolume" onkeypress="return isNumberKey(event)" value="@Model.MVolume">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Bank Name" class="form-control form-cutom" type="text" name="BName" id="BName" value="@Model.BName">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Bank City" class="form-control form-cutom" type="text" name="BCity" id="BCity" value="@Model.BCity">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Bank State" class="form-control form-cutom" type="text" name="BState" id="BState" value="@Model.BState">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Bank Zip" class="form-control form-cutom" type="text" name="BZip" id="BZip" onkeypress="return isNumberKey(event)" maxlength="7" value="@Model.BZip">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Bank Routing Number" class="form-control form-cutom" type="text" name="BRoutNumber" id="BRoutNumber" onkeypress="return isNumberKey(event)" value="@Model.BRoutNumber">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Bank Account Number" class="form-control form-cutom" type="text" name="BacNumber" id="BacNumber" onkeypress="return isNumberKey(event)" value="@Model.BacNumber">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="pricing" role="tabpanel" class="tab-pane">
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <select class="form-control" name="Equipment" id="Equipment">
+                <option value="0">Select Equipment</option>
+                <option value="Free Terminal">Free Terminal</option>
+                <option value="Paid Terminal">Paid Terminal</option>
+                <option value="Wireless Terminal">Wireless Terminal</option>
+                <option value="EPN Mobile">EPN Mobile</option>
+                <option value="Smart Swipe">Smart Swipe</option>
+                <option value="Smart Swipe POS">Smart Swipe POS</option>
+                <option value="Virtual Terminal/Gateway">Virtual Terminal/Gateway</option>
+                <option value="Reprogram">Reprogram</option>
+                <option value="POS Reprogram">POS Reprogram</option>
+            </select>
+            <input type="hidden" id="Eqp" value="@Model.Equipment" />
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Debit Qual" class="form-control form-cutom" type="text" name="DebitQual" id="DebitQual" onkeypress="return isNumberKey(event)" value="@Model.DebitQual">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Debit MID Qual" class="form-control form-cutom" type="text" name="DebitMIDQual" id="DebitMIDQual" onkeypress="return isNumberKey(event)" value="@Model.DebitMIDQual">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Debit Non Qual" class="form-control form-cutom" type="text" name="DebitNonQual" id="DebitNonQual" onkeypress="return isNumberKey(event)" value="@Model.DebitNonQual">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Credit Qual" class="form-control form-cutom" type="text" name="CreditQual" id="CreditQual" onkeypress="return isNumberKey(event)" value="@Model.CreditQual">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Credit MID Qual" class="form-control form-cutom" type="text" name="CreditMIDQual" id="CreditMIDQual" onkeypress="return isNumberKey(event)" value="@Model.CreditMIDQual">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Credit Non Qual" class="form-control form-cutom" type="text" name="CreditNonQual" id="CreditNonQual" onkeypress="return isNumberKey(event)" value="@Model.CreditNonQual">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Debit Qual Per Item" class="form-control form-cutom" type="text" name="DebitQualPerItem" id="DebitQualPerItem" onkeypress="return isNumberKey(event)" value="@Model.DebitQualPerItem">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Debit MID Qual Per Item" class="form-control form-cutom" type="text" name="DebitMIDQualPerItem" id="DebitMIDQualPerItem" onkeypress="return isNumberKey(event)" value="@Model.DebitMIDQualPerItem">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Debit Non Qual Per Item" class="form-control form-cutom" type="text" name="DebitNonQualPerItem" id="DebitNonQualPerItem" onkeypress="return isNumberKey(event)" value="@Model.DebitNonQualPerItem">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Credit Qual Per Item" class="form-control form-cutom" type="text" name="CreditQualPerItem" id="CreditQualPerItem" onkeypress="return isNumberKey(event)" value="@Model.CreditQualPerItem">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Credit MID Qual Per Item" class="form-control form-cutom" type="text" name="CreditMIDQualPerItem" id="CreditMIDQualPerItem" onkeypress="return isNumberKey(event)" value="@Model.CreditMIDQualPerItem">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Credit Non Qual Per Item" class="form-control form-cutom" type="text" name="CreditNonQualPerItem" id="CreditNonQualPerItem" onkeypress="return isNumberKey(event)" value="@Model.CreditNonQualPerItem">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Debit Transaction Fee" class="form-control form-cutom" type="text" name="DebitTransFee" id="DebitTransFee" onkeypress="return isNumberKey(event)" value="@Model.DebitTransFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Return transaction Fee" class="form-control form-cutom" type="text" name="ReturnTransFee" id="ReturnTransFee" onkeypress="return isNumberKey(event)" value="@Model.ReturnTransFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="EBT Transaction Fee" class="form-control form-cutom" type="text" name="EBTTransFee" id="EBTTransFee" onkeypress="return isNumberKey(event)" value="@Model.EBTTransFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Electronic AVS Fee" class="form-control form-cutom" type="text" name="ElectroAVSFee" id="ElectroAVSFee" onkeypress="return isNumberKey(event)" value="@Model.ElectroAVSFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="AMEX Trans Fee" class="form-control form-cutom" type="text" name="AMEXTransFee" id="AMEXTransFee" onkeypress="return isNumberKey(event)" value="@Model.AMEXTransFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Statement" class="form-control form-cutom" type="text" name="StatementFee" id="StatementFee" onkeypress="return isNumberKey(event)" value="@Model.StatementFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Monthly Minimum" class="form-control form-cutom" type="text" name="MontMini" id="MontMini" onkeypress="return isNumberKey(event)" value="@Model.MontMini">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Chargeback Fee" class="form-control form-cutom" type="text" name="ChargeBackFee" id="ChargeBackFee" onkeypress="return isNumberKey(event)" value="@Model.ChargeBackFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Batch Fee" class="form-control form-cutom" type="text" name="BatchFee" id="BatchFee" onkeypress="return isNumberKey(event)" value="@Model.BatchFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Gateway Fee" class="form-control form-cutom" type="text" name="GatewayFee" id="GatewayFee" onkeypress="return isNumberKey(event)" value="@Model.GatewayFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <input placeholder="Wireless Fee" class="form-control form-cutom" type="text" name="WirelessFee" id="WirelessFee" onkeypress="return isNumberKey(event)" value="@Model.WirelessFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-6">
+            <input placeholder="Retrieval Fee" class="form-control form-cutom" type="text" name="RetrievalFee" id="RetrievalFee" onkeypress="return isNumberKey(event)" value="@Model.RetrievalFee">
+            <div id="error_Div_ContName" style="display:none;color:red;">
+                <p style="color:red;">Please Enter Contact Name</p>
+            </div>
+        </div>
+    </div>
+</div>

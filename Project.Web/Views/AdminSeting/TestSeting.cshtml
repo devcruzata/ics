@@ -1,0 +1,865 @@
+﻿@model Project.Web.Models.AdminSetingModel
+
+
+<!-- jQuery-->
+<script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/BootstrapCountryPicker/bootstrap-formhelpers-countries.en_US.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/BootstrapCountryPicker/bootstrap-formhelpers-countries.js")"></script>
+
+<!-- Page Content -->
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Admin Seting</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("MyAccount")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("AdminSeting")">Admin Setings</a></li>
+                    @*<li class="active">Genral Setings</li>*@
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                        <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                            <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                        </ul>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">Setings</h3>
+                @if (ViewBag.Error_Msg != "")
+                {
+                    <div style="margin-left:200px;">
+                        <p style="color:red;">@ViewBag.Error_Msg</p>
+                    </div>
+                }
+                
+            </div>
+            <div class="widget-body">
+
+                <ul role="tablist" class="nav nav-tabs mb-15 viewlead-tabs">
+                    <li role="presentation" class="active"><a href="#GenralSeting" aria-controls="GenralSeting" role="tab" data-toggle="tab">Genral Seting</a></li>
+                    <li role="presentation"><a href="#Departments" aria-controls="Departments" role="tab" data-toggle="tab">Departments</a></li>
+                    <li role="presentation"><a href="#UserRoles" aria-controls="UserRoles" role="tab" data-toggle="tab">User Roles</a></li>
+                    <li role="presentation"><a href="#LSource" aria-controls="LSource" role="tab" data-toggle="tab">Lead Source</a></li>
+                    <li role="presentation"><a href="#LStatus" aria-controls="LStatus" role="tab" data-toggle="tab">Lead Status</a></li>
+                </ul>
+
+                  <div class="tab-content">
+
+                      <div id="GenralSeting" role="tabpanel" class="tab-pane active">
+                          <div class="pull-right" style="margin-bottom:10px;">
+                              <button type="button" class="btn btn-primary" title="Edit" id="edit_btn"><i class="ti-pencil"></i></button>
+                              <button type="button" class="btn btn-primary" title="Add Leads" onclick="SubmitForm()" id="save_btn" style="display:none;"><i class="ti-save"></i></button>
+                              <button type="button" class="btn btn-default" title="Cancel" onclick="Cancel();" id="cancel_btn" style="display:none;"><i class="ti-share-alt"></i></button>
+                          </div>
+                          <div class="widget no-border" style="margin-left:20px;">
+                              <form class="form-horizontal" id="viewForm">
+                                  <div class="tab-content">
+                                      <div id="general" role="tabpanel" class="tab-pane active">
+                                          <table class="table no-border" style="border:none;">
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Company Name</label></td>
+                                                  <td>@Model.Company</td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Address</label></td>
+                                                  <td>@Model.Address</td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>City</label></td>
+                                                  <td>@Model.City</td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>State</label></td>
+                                                  <td>@Model.Stete</td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Country</label></td>
+                                                  <td>@Model.Country</td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Zipcode</label></td>
+                                                  <td>@Model.Zipcode</td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Phone</label></td>
+                                                  <td>@Model.Phone</td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Website</label></td>
+                                                  <td>@Model.Website</td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Currency</label></td>
+                                                  <td>@Model.Currency</td>
+                                              </tr>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </form>
+
+                              <form class="form-horizontal" action="/AdminSeting/AjaxGenralSetings" method="post" enctype="multipart/form-data" id="mainForm" style="display:none;">
+                                  <div class="tab-content">
+                                      <div id="general" role="tabpanel" class="tab-pane active">
+                                          <table class="table no-border" style="border:none;">
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                      <label>Company Name</label>
+                                                  </td>
+                                                  <td>
+                                                      <input type="text" class="form-control form-cutom" id="Comapny" name="Company" value="@Model.Company" />
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                      <label>Address</label>
+                                                  </td>
+                                                  <td>
+                                                      <input type="text" class="form-control form-cutom" id="Address" name="Address" value="@Model.Address" />
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                      <label>City</label>
+                                                  </td>
+                                                  <td>
+                                                      <input type="text" class="form-control form-cutom" id="City" name="City" value="@Model.City" />
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                      <label>State</label>
+                                                  </td>
+                                                  <td>
+                                                      <input type="text" class="form-control form-cutom" id="State" name="Stete" value="@Model.Stete" />
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                      <label>Country</label>
+                                                  </td>
+                                                  <td>
+                                                      <select class="input-medium bfh-countries form-control form-cutom" data-country="US" id="Country" name="Country"></select>
+                                                      <input type="hidden" id="cnt" value="@Model.Country" />
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                      <label>Zipcode</label>
+                                                  </td>
+                                                  <td>
+                                                      <input type="text" class="form-control form-cutom" id="Zipcode" name="Zipcode" max="6" onkeypress="return isNumberKey(event)" value="@Model.Zipcode" />
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                      <label>Phone</label>
+                                                  </td>
+                                                  <td>
+                                                      <input type="text" class="form-control form-cutom" id="Phone" name="Phone" maxlength="14" onkeypress="return isNumberKey(event)" value="@Model.Zipcode" />
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                      <label>Website</label>
+                                                  </td>
+                                                  <td>
+                                                      <input type="text" class="form-control form-cutom" id="Website" name="Website" value="@Model.Website" />
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="25%" style="text-align: left; background-color: #fbfbfb;">
+                                                      <label>Currency</label>
+                                                  </td>
+                                                  <td>
+                                                      <select class="form-control form-cutom" id="Currency" name="Currency">
+                                                          <option value="0">Choose A Currency</option>
+                                                          <option value="USD">USD</option>
+                                                          <option value="EURO">Euro</option>
+                                                          <option value="INR">INR</option>
+                                                      </select>
+                                                      <input type="hidden" id="cur" value="@Model.Currency" />
+                                                  </td>
+                                              </tr>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+
+                      <div id="Departments" role="tabpanel" class="tab-pane">
+                          <div class="pull-right" style="margin-bottom:10px;">
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GroupModal"><i class="ti-plus" title="Add New"></i></button>
+                          </div>                         
+                         
+                          <div class="widget no-border" style="margin-left:20px;">
+                              <table id="group-list-1" style="width: 100%" class="table table-hover dt-responsive nowrap">
+                                  <thead>
+                                      <tr>
+                                          <th width="10%" class="text-center">Name</th>
+                                          <th width="15%" class="text-center">Created By</th>
+                                          <th width="12%" class="text-center">Created Date</th>
+                                          <th width="12%" class="text-center">Updated By</th>
+                                          <th width="10%" class="text-center">Last Update</th>
+                                          <th width="10%" class="text-center">Status</th>
+                                          <th width="25%" class="text-center">Action</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      @{
+                                          foreach (var grp in Model.groups)
+                                          {
+
+                                              <tr>
+                                                  <td class="text-center">@grp.Group_Name</td>
+                                                  <td class="text-center">@grp.CreatedByName</td>
+                                                  <td class="text-center">@grp.CreatedDate.ToString("d MMM yyyy")</td>
+                                                  <td class="text-center">@grp.UpdatedByName</td>
+                                                  <td class="text-center">@grp.UpdatedDate.ToString("d MMM yyyy")</td>
+                                                  <td class="text-center"><span class="label label-success">@grp.Status</span></td>
+                                                  <td class="text-center">
+                                                      @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                                      <button type="button" class="btn btn-outline btn-primary" onclick="SetModalData('@grp.Group_Name','@grp.Group_ID');" title="Edit Department"><i class="ti-pencil"></i></button>
+                                                      @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                                      <button type="button" class="btn btn-outline btn-danger" onclick="DeleteGroup('@grp.Group_ID');" title="Delete Department"><i class="ti-trash"></i></button>
+                                                  </td>
+                                              </tr>
+                                          }
+                                      }
+
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+
+
+                      <div id="UserRoles" role="tabpanel" class="tab-pane">
+                          @*<div class="pull-right" style="margin-bottom:10px;">
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#"><i class="ti-plus" title="Add New"></i></button>
+                          </div>*@
+                          <div class="widget no-border" style="margin-left:20px;">
+                          </div>
+                      </div>
+
+                      <div id="LSource" role="tabpanel" class="tab-pane">
+                          <div class="pull-right" style="margin-bottom:10px;">
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SourceModal"><i class="ti-plus" title="Add New"></i></button>
+                          </div> 
+                          <div class="widget no-border" style="margin-left:20px;">
+                              <table id="group-list-1" style="width: 100%" class="table table-hover dt-responsive nowrap">
+                                  <thead>
+                                      <tr>
+                                          <th width="10%" class="text-center">Name</th>
+                                          <th width="15%" class="text-center">Created By</th>
+                                          <th width="12%" class="text-center">Created Date</th>
+                                          <th width="12%" class="text-center">Updated By</th>
+                                          <th width="10%" class="text-center">Last Update</th>
+                                          <th width="10%" class="text-center">Status</th>
+                                          <th width="25%" class="text-center">Action</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      @{
+                                          foreach (var src in Model.source)
+                                          {
+
+                                              <tr>
+                                                  <td class="text-center">@src.SourceName</td>
+                                                  <td class="text-center">@src.CreatedByName</td>
+                                                  <td class="text-center">@src.CreatedDate.ToString("d MMM yyyy")</td>
+                                                  <td class="text-center">@src.UpdatedByName</td>
+                                                  <td class="text-center">@src.UpdatedDate.ToString("d MMM yyyy")</td>
+                                                  <td class="text-center"><span class="label label-success">@src.Status</span></td>
+                                                  <td class="text-center">
+                                                      @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                                      <button type="button" class="btn btn-outline btn-primary" onclick="SetModalData('@src.SourceName','@src.LeadSourceID');" title="Edit Lead Source"><i class="ti-pencil"></i></button>
+                                                      @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                                      <button type="button" class="btn btn-outline btn-danger" onclick="DeleteSource('@src.LeadSourceID');" title="Delete Lead Source"><i class="ti-trash"></i></button>
+                                                  </td>
+                                              </tr>
+                                          }
+                                      }
+
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+
+                      <div id="LStatus" role="tabpanel" class="tab-pane">
+                          <div class="pull-right" style="margin-bottom:10px;">
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#StatusModal"><i class="ti-plus" title="Add New"></i></button>
+                          </div>
+                          <div class="widget no-border" style="margin-left:20px;">
+                              <table id="group-list-1" style="width: 100%" class="table table-hover dt-responsive nowrap">
+                                  <thead>
+                                      <tr>
+                                          <th width="10%" class="text-center">Name</th>
+                                          <th width="15%" class="text-center">Created By</th>
+                                          <th width="12%" class="text-center">Created Date</th>
+                                          <th width="12%" class="text-center">Updated By</th>
+                                          <th width="10%" class="text-center">Last Update</th>
+                                          @*<th width="10%" class="text-center">Status</th>*@
+                                          <th width="25%" class="text-center">Action</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      @{
+                                          foreach (var sta in Model.status)
+                                          {
+
+                                              <tr>
+                                                  <td class="text-center">@sta.StatusName</td>
+                                                  <td class="text-center">@sta.CreatedByName</td>
+                                                  <td class="text-center">@sta.CreatedDate.ToString("d MMM yyyy")</td>
+                                                  <td class="text-center">@sta.UpdatedByName</td>
+                                                  <td class="text-center">@sta.UpdatedDate.ToString("d MMM yyyy")</td>
+                                                  @*<td class="text-center"><span class="label label-success">@sta.Status</span></td>*@
+                                                  <td class="text-center">
+                                                      @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                                      <button type="button" class="btn btn-outline btn-primary" onclick="SetModalData('@sta.StatusName','@sta.LeadStatusID');" title="Edit Lead Status"><i class="ti-pencil"></i></button>
+                                                      @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                                      <button type="button" class="btn btn-outline btn-danger" onclick="DeleteStatus('@sta.LeadStatusID');" title="Delete Lead Status"><i class="ti-trash"></i></button>
+                                                  </td>
+                                              </tr>
+                                          }
+                                      }
+
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+                    
+                </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="GroupModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Group</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-12">
+                            <label for="GName">Group Name</label>
+                            <input type="text" class="form-control" id="GName" placeholder="Group Name..">
+                            <div id="error_div_GName" style="display:none;">
+                                <p style=" color:red;">Please Enter Group Name.</p>
+                            </div>
+                            <input type="hidden" id="G_ID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save_btn" onclick="AddGroup();">Save</button>
+                <button type="button" class="btn btn-raised btn-danger" style="display:none;" id="edit_btn" onclick="EditGroup();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="SourceModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Source</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-12">
+                            <label for="GName">Source Name</label>
+                            <input type="text" class="form-control" id="SrName" placeholder="Source Name..">
+                            <div id="error_div_SrName" style="display:none;">
+                                <p style=" color:red;">Please Enter Source Name.</p>
+                            </div>
+                            <input type="hidden" id="S_ID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save_btn" onclick="AddSource();">Save</button>
+                <button type="button" class="btn btn-raised btn-danger" style="display:none;" id="edit_btn" onclick="EditSource();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="StatusModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Status</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-12">
+                            <label for="GName">Status Name</label>
+                            <input type="text" class="form-control" id="SName" placeholder="Status Name..">
+                            <div id="error_div_SName" style="display:none;">
+                                <p style=" color:red;">Please Enter Status Name.</p>
+                            </div>
+                            <input type="hidden" id="S_ID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save_btn" onclick="AddStatus();">Save</button>
+                <button type="button" class="btn btn-raised btn-danger" style="display:none;" id="edit_btn" onclick="EditStatus();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+
+<script>
+    $(document).ready(function () {
+        $("#Country").val($("#cnt").val());
+        $("#Currency").val($("#cur").val());
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#edit_btn").click(function () {
+            $("#viewForm").hide();
+            $("#edit_btn").hide();
+            $("#save_btn").show();
+            $("#cancel_btn").show();
+            $("#mainForm").show();
+        });
+
+        $("#cancel_btn").click(function () {
+            $("#mainForm").hide();
+            $("#save_btn").hide();
+            $("#cancel_btn").hide();
+            $("#edit_btn").show();
+            $("#viewForm").show();
+
+        });
+    });
+
+    function SubmitForm() {
+        var formPayment = $('#mainForm');
+        $.ajax({
+            url: formPayment.attr('action'),
+            type: "POST",
+            data: formPayment.serialize(),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    $("#mainForm").hide();
+                    $("#save_btn").hide();
+                    $("#cancel_btn").hide();
+                    $("#edit_btn").show();
+                    $("#viewForm").show();
+                    $("#viewForm").html('');
+                    $("#viewForm").html(data);
+                }
+                else {
+                    location.reload();
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+
+    }
+</script>
+
+
+<script>
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function zipCheck(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+</script>
+
+<script>
+
+    function DeleteGroup(Group_ID) {
+
+        var result = confirm("Are you sure to delete this Group ?");
+        if (result == true) {
+            // var divId = "div-" + Service_ID_Auto_PK;
+
+            var Gdata = Group_ID;
+
+            var url = "/AdminSeting/DeleteGroup";
+            $.post(url, { GroupID: Gdata }, function (data) {
+                if (data == "1") {
+                    location.reload();
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                }
+            });
+        }
+    }
+
+    function AddGroup() {
+
+        if ($("#GName").val().trim() == '') {
+            $("#error_div_GName").show();
+        }
+        else {
+            $("#error_div_GName").hide();
+            $.ajax({
+                url: '/AdminSeting/AddGroup',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ GroupName: $("#GName").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#GroupModal").modal('hide');
+                        $("#GName").val('');
+                        // $("#GroupTable_Widget").html('');
+                        // $("#GroupTable_Widget").html(data);
+                        location.reload();
+                    }
+                    else {
+                        // alert('f');
+                        $("#GroupModal").modal('hide');
+                        $("#GName").val('');
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+
+    function SetModalData(GroupName, Group_ID) {
+        $("#GName").val(GroupName);
+        $("#G_ID").val(Group_ID);
+        $("#GroupModal").modal('show');
+        $("#save_btn").hide();
+        $("#edit_btn").show();
+    }
+    function EditGroup() {
+        alert();
+        if ($("#GName").val().trim() == '') {
+            $("#error_div_GName").show();
+        }
+        else {
+            $("#error_div_GName").hide();
+            $.ajax({
+                url: '/AdminSeting/EditGroup',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ GroupName: $("#GName").val(), GroupID: $("#G_ID").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#GroupModal").modal('hide');
+                        $("#GName").val('');
+                        // $("#GroupTable_Widget").html('');
+                        // $("#GroupTable_Widget").html(data);
+                        location.reload();
+                    }
+                    else {
+                        // alert('f');
+                        $("#GroupModal").modal('hide');
+                        $("#GName").val('');
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+
+
+    function DeleteSource(Source_ID) {
+
+        var result = confirm("Are you sure to delete this Source ?");
+        if (result == true) {
+            // var divId = "div-" + Service_ID_Auto_PK;
+
+            var Sdata = Source_ID;
+
+            var url = "/AdminSeting/DeleteLeadSource";
+            $.post(url, { SourceID: Sdata }, function (data) {
+                if (data == "1") {
+                    location.reload();
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                }
+            });
+        }
+    }
+
+    function AddSource() {
+
+        if ($("#SrName").val().trim() == '') {
+            $("#error_div_SrName").show();
+        }
+        else {
+            $("#error_div_SrName").hide();
+            $.ajax({
+                url: '/AdminSeting/AddLeadSource',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ SourceName: $("#SrName").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#SourceModal").modal('hide');
+                        $("#SrName").val('');
+                        // $("#GroupTable_Widget").html('');
+                        // $("#GroupTable_Widget").html(data);
+                        location.reload();
+                    }
+                    else {
+                        // alert('f');
+                        $("#SourceModal").modal('hide');
+                        $("#SrName").val('');
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+
+    function SetModalData(SourceName, Source_ID) {
+        $("#SName").val(SourceName);
+        $("#S_ID").val(Source_ID);
+        $("#SourceModal").modal('show');
+        $("#save_btn").hide();
+        $("#edit_btn").show();
+    }
+    function EditGroup() {
+        alert();
+        if ($("#SName").val().trim() == '') {
+            $("#error_div_SName").show();
+        }
+        else {
+            $("#error_div_SName").hide();
+            $.ajax({
+                url: '/AdminSeting/EditSource',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ SourceName: $("#SName").val(), SourceID: $("#S_ID").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#SourceModal").modal('hide');
+                        $("#SName").val('');
+                        // $("#GroupTable_Widget").html('');
+                        // $("#GroupTable_Widget").html(data);
+                        location.reload();
+                    }
+                    else {
+                        // alert('f');
+                        $("#SourceModal").modal('hide');
+                        $("#SName").val('');
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+
+
+    function DeleteStatus(Status_ID) {
+
+        var result = confirm("Are you sure to delete this Status ?");
+        if (result == true) {
+            // var divId = "div-" + Service_ID_Auto_PK;
+
+            var Sdata = Status_ID;
+
+            var url = "/AdminSeting/DeleteLeadStatus";
+            $.post(url, { StatusID: Sdata }, function (data) {
+                if (data == "1") {
+                    location.reload();
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                }
+            });
+        }
+    }
+
+    function AddStatus() {
+
+        if ($("#SName").val().trim() == '') {
+            $("#error_div_SName").show();
+        }
+        else {
+            $("#error_div_SName").hide();
+            $.ajax({
+                url: '/AdminSeting/AddLeadStatus',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ StatusName: $("#SName").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#StatusModal").modal('hide');
+                        $("#SName").val('');
+                        // $("#GroupTable_Widget").html('');
+                        // $("#GroupTable_Widget").html(data);
+                        location.reload();
+                    }
+                    else {
+                        // alert('f');
+                        $("#StatusModal").modal('hide');
+                        $("#SName").val('');
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+
+    function SetModalData(StatusName, Status_ID) {
+        $("#SName").val(StatusName);
+        $("#S_ID").val(Status_ID);
+        $("#StatusModal").modal('show');
+        $("#save_btn").hide();
+        $("#edit_btn").show();
+    }
+    function EditStatus() {
+
+        if ($("#SName").val().trim() == '') {
+            $("#error_div_SName").show();
+        }
+        else {
+            $("#error_div_SName").hide();
+            $.ajax({
+                url: '/AdminSeting/EditStatus',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ StatusName: $("#SName").val(), StatusID: $("#S_ID").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#StatusModal").modal('hide');
+                        $("#SName").val('');
+                        // $("#GroupTable_Widget").html('');
+                        // $("#GroupTable_Widget").html(data);
+                        location.reload();
+                    }
+                    else {
+                        // alert('f');
+                        $("#StatusModal").modal('hide');
+                        $("#SName").val('');
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+

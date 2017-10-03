@@ -1,0 +1,256 @@
+﻿@model Project.Web.Models.GroupsModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutPage_Setting.cshtml";
+
+}
+@*<script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>*@
+
+
+
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Admin Seting</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("MyAccount")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("GroupSeting")">Group Seting</a></li>
+                    <li class="active">Manage Groups</li>
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                    <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                    <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                        <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                        <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                        <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                        <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                        <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                    </ul>
+                </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">Manage Groups</h3>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GroupModal"><i class="ti-plus" title="Add New"></i></button>
+                        @*<button type="button" class="btn btn-default"><i class="ti-share-alt"></i></button>*@
+                </div>
+            </div>
+            <div class="widget-body" id="GroupTable_Widget">
+                <table id="group-list-1" style="width: 100%" class="table table-hover dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th width="10%" class="text-center">Name</th>
+                            <th width="15%" class="text-center">Created By</th>
+                            <th width="12%" class="text-center">Created Date</th>
+                            <th width="12%" class="text-center">Updated By</th>
+                            <th width="10%" class="text-center">Last Update</th>
+                            <th width="10%" class="text-center">Status</th>
+                            <th width="25%" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var grp in Model.groups)
+                            {
+
+                                <tr>
+                                    <td class="text-center">@grp.Group_Name</td>
+                                    <td class="text-center">@grp.CreatedByName</td>
+                                    <td class="text-center">@grp.CreatedDate.ToString("d MMM yyyy")</td>
+                                    <td class="text-center">@grp.UpdatedByName</td>
+                                    <td class="text-center">@grp.UpdatedDate.ToString("d MMM yyyy")</td>
+                                    <td class="text-center"><span class="label label-success">@grp.Status</span></td>
+                                    <td class="text-center">
+                                        @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                        <button type="button" class="btn btn-outline btn-primary" onclick="SetModalData('@grp.Group_Name','@grp.Group_ID');" title="Edit Group"><i class="ti-pencil"></i></button>
+                                        @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                        <button type="button" class="btn btn-outline btn-danger" onclick="DeleteGroup('@grp.Group_ID');" title="Delete Group"><i class="ti-trash"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="GroupModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Group</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-12">
+                            <label for="GName">Group Name</label>                           
+                            <input  type="text" class="form-control" id="GName" placeholder="Group Name..">
+                            <div id="error_div_GName" style="display:none;">
+                                <p style=" color:red;">Please Enter Group Name.</p>
+                            </div>  
+                            <input type="hidden" id="G_ID" />                       
+                        </div>                 
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save_btn" onclick="AddGroup();">Save</button>
+                <button type="button" class="btn btn-raised btn-danger" style="display:none;" id="edit_btn" onclick="EditGroup();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#date-added").daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
+        });
+    });
+</script>
+<script>
+    // Table Script*******
+
+    $(document).ready(function () {
+        var e1 = $("#group-list-1").DataTable({ pageLength: 10, colReorder: !0, buttons: ["copy", "excel", "pdf", "print"], searching: !0, aLengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]], order: [[5, "desc"]], columnDefs: [{ orderable: !1, targets: [0, 7] }] });
+        $("#group-list-1_wrapper .col-sm-6:eq(1)").addClass("text-right"), e1.buttons().container().appendTo("#group-list-1_wrapper .col-sm-6:eq(1)")
+
+    });
+
+
+</script>
+
+@*<script>
+    $(document).ready(function () {
+        var c = $("#group-list-1").DataTable({ lengthChange: !1, pageLength: 5, colReorder: !0, buttons: ["copy", "excel", "pdf", "print"], language: { search: "", searchPlaceholder: "Search records" }, columnDefs: [{ orderable: !1, targets: 7 }] }); c.buttons().container().appendTo("#group-list-1_wrapper .col-sm-6:eq(0)")
+    });
+</script>*@
+
+<script>   
+
+    function DeleteGroup(Group_ID) {
+
+        var result = confirm("Are you sure to delete this Group ?");
+        if (result == true) {
+            // var divId = "div-" + Service_ID_Auto_PK;
+
+            var Gdata = Group_ID;
+
+            var url = "/AdminSeting/DeleteGroup";
+            $.post(url, { GroupID: Gdata }, function (data) {
+                if (data == "1") {
+                    location.reload();
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                }
+            });
+        }
+    }
+
+    function AddGroup() {
+        
+        if ($("#GName").val().trim() == '') {           
+            $("#error_div_GName").show();
+        }
+        else {
+            $("#error_div_GName").hide();
+            $.ajax({
+                url: '/AdminSeting/AddGroup',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ GroupName: $("#GName").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#GroupModal").modal('hide');
+                        $("#GName").val('');                       
+                       // $("#GroupTable_Widget").html('');
+                       // $("#GroupTable_Widget").html(data);
+                        location.reload();
+                    }
+                    else {
+                       // alert('f');
+                        $("#GroupModal").modal('hide');
+                        $("#GName").val('');                        
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                   // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }        
+    }
+
+    function SetModalData(GroupName, Group_ID) {
+        $("#GName").val(GroupName);
+        $("#G_ID").val(Group_ID);
+        $("#GroupModal").modal('show');
+        $("#save_btn").hide();
+        $("#edit_btn").show();
+    }
+    function EditGroup() {      
+        alert();
+        if ($("#GName").val().trim() == '') {
+            $("#error_div_GName").show();
+        }
+        else {
+            $("#error_div_GName").hide();
+            $.ajax({
+                url: '/AdminSeting/EditGroup',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ GroupName: $("#GName").val(), GroupID: $("#G_ID").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        //alert('s');
+                        $("#GroupModal").modal('hide');
+                        $("#GName").val('');
+                        // $("#GroupTable_Widget").html('');
+                        // $("#GroupTable_Widget").html(data);
+                        location.reload();
+                    }
+                    else {
+                        // alert('f');
+                        $("#GroupModal").modal('hide');
+                        $("#GName").val('');
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    // alert('e');
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+</script>

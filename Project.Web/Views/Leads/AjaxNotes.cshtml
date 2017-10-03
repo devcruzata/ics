@@ -1,0 +1,20 @@
+﻿@{
+    Layout = null;
+}
+
+@foreach (var notes in Model.Notes)
+{
+    <div class="form-group meeting-box">
+        <div class="media1">
+            <div class="media-left avatar meeting-icon-avtar"><span class="task-icon"><i class="ti-notepad"></i></span></div>
+            <div class="media-body">
+                <h5 class="media-heading meeting-user">@notes.Description</h5>
+                <p class="mb-0">
+                    <a href="#" id="meeting-link" class="meetingade-user">Aded by @notes.Note_Owner_Name</a>
+                    At <span class="text-muted">02/09/2016, 01:20</span>
+                </p>
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "AjaxTemplates";
+}
+
+@{
+    Layout = null;
+}
+
+
+@foreach (var template in Model.templates)
+{
+    <tr>
+        <td class="text-center">@template.title</td>
+        @if (template.status == "Active")
+        {
+            <td class="text-center"><span class="label label-success">@template.status</span></td>
+        }
+        else
+        {
+            <td class="text-center"><span class="label label-danger">@template.status</span></td>
+        }
+        <td class="text-center">
+            <button class="btn btn-sm btn-outline btn-success" onclick="setModalData(@template.TemplateID);"><i class="ti-pencil"></i></button>
+            <button class="btn btn-sm btn-outline btn-danger"><i class="ti-trash"></i></button>
+        </td>
+    </tr>
+}

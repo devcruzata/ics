@@ -1,0 +1,126 @@
+﻿<MerchantApplicationV2 SalesRepID="c934fc64-26f2-4f27-a98b-0a13fcff70d1" PackageID="ddfdba10-c29f-4abc-bc01-c110c65212e6" ApplicationID="{{ApplicationId}}" ApplicationStatusID="WDE" CreatedWhen="{{CreatedWhen}}" UpdatedWhen="{{UpdatedWhen}}">
+  <FieldValues>
+    <FieldSection Name="Bank Information" ID="112" UID="b50b1b46-2509-447c-bc50-11027b4c326e">
+      <FieldGroup Name="Alternate Bank Information" ID="205" UID="167a9b5b-6f99-4797-ba7e-b4006b1e1e5b">
+        <FieldValue FieldID="fd6314ff-b16e-4d0a-8416-6eb3e67851ec" Hint="Bank Information / Alternate DDA | AlternateBankAccountRequired | FieldID:20502">False</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Bank Information" ID="157" UID="0d503f10-c6e1-4a14-9648-751a3131e15d">
+        <FieldValue FieldID="2122d5d1-2937-4996-a6ef-0738159fddf1" Hint="Bank Information / Bank Information  | BankCity | FieldID:16311">{{Bank City}}</FieldValue>
+        <FieldValue FieldID="525c5263-69dd-4dc7-b9b2-612ffa4c07ec" Hint="Bank Information / Bank Information  | BankName | FieldID:16290">{{Bank Name}}</FieldValue>
+        <FieldValue FieldID="7e9239a0-a4ad-4e75-a86a-94de5d9c5e4f" Hint="Bank Information / Bank Information  | BankState | FieldID:16451">{{Bank State}}</FieldValue>
+        <FieldValue FieldID="6b25de3a-8afd-4765-8395-bb2c6e5882df" Hint="Bank Information / Bank Information  | DdaNumber | FieldID:16261">{{Ac No}}</FieldValue>
+        <FieldValue FieldID="68ea1128-46b3-42e6-9ebb-1b464425a64b" Hint="Bank Information / Bank Information  | TransRoutingNumber | FieldID:16466">{{Routing Number}}</FieldValue>
+      </FieldGroup>
+    </FieldSection>
+    <FieldSection Name="Business Information" ID="102" UID="24a1ed56-86c2-448b-8968-63c2e02a7072">
+      <FieldGroup Name="Business Address" ID="119" UID="e5537e03-dd49-4dfb-a276-d45455ebc387">
+        <FieldValue FieldID="9f829d8c-b30c-47b8-a2de-532a687d708d" Hint="Business Information / Business Address | LocationAddress | FieldID:11801">{{Location Address}}</FieldValue>
+        <FieldValue FieldID="46fe84d9-0a71-4735-b8c6-047c6eebc50d" Hint="Business Information / Business Address | LocationCity | FieldID:11803">{{Location City}}</FieldValue>
+        <FieldValue FieldID="647a83c7-9c70-4bfe-b99a-8f3828567591" Hint="Business Information / Business Address | LocationState | FieldID:11804">{{Location State}}</FieldValue>
+        <FieldValue FieldID="3e08c7e1-1e50-4c6a-94b0-dd28957d5944" Hint="Business Information / Business Address | LocationZip | FieldID:11805">{{Location Zip}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Business Details" ID="122" UID="47e87c55-b60c-46a7-99b0-5ccac80ccb2a">
+        <FieldValue FieldID="ed735fc4-f0ba-4320-b0da-aaaf4ca4a623" Hint="Business Information / Business Details | FederalTaxID | FieldID:12105">{{Fed Tax}}</FieldValue>
+        <FieldValue FieldID="229898d1-2f6a-4465-9a7a-2bf9f6263183" Hint="Business Information / Business Details | MonthsInBusiness | FieldID:12104">{{Month in Busi}}</FieldValue>
+        <FieldValue FieldID="1f7e763e-4097-427b-a78e-ef0d73744b3c" Hint="Business Information / Business Details | VerifyFederalTaxID | FieldID:12106">{{Verify Fed Tax}}</FieldValue>
+        <FieldValue FieldID="b2ec8880-bb1b-412c-b92d-98691272a5e0" Hint="Business Information / Business Details | YearsInBusiness | FieldID:12103">{{Years in Busi}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Business Names" ID="158" UID="fe00ef60-f8f0-4f6b-bace-dc43e98fcf4c">
+        <FieldValue FieldID="a90a7fc2-1208-4ca6-934c-37a42bbd03c5" Hint="Business Information / Business Names | DoingBusinessAs | FieldID:11701">{{DBA}}</FieldValue>
+        <FieldValue FieldID="1c540158-2636-4e1a-916c-292f91463dd3" Hint="Business Information / Business Names | LegalBusinessName | FieldID:11702">{{Legal Business Name}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Contact Information" ID="121" UID="ccfb0f73-3fe3-4eaf-abc3-a82036962a69">
+        <FieldValue FieldID="b4fcf49c-aace-447c-9387-df6c496f672e" Hint="Business Information / Contact Information | MainEmailAddress | FieldID:12006">{{MainEmail}}</FieldValue>
+        <FieldValue FieldID="054528e5-a118-4d0d-b819-d37e59bdc225" Hint="Business Information / Contact Information | MainEmailNotProvided | FieldID:12008">False</FieldValue>
+        <FieldValue FieldID="ff1e3519-a786-4e0e-bb67-54e5c43e9d5f" Hint="Business Information / Contact Information | MainFaxPhone | FieldID:12005">{{Main Fax}}</FieldValue>
+        <FieldValue FieldID="20da1adf-3d73-478d-a89d-7b99176df58a" Hint="Business Information / Contact Information | MainPhone | FieldID:12003">{{Main Phone}}</FieldValue>
+        <FieldValue FieldID="75be1af0-51a3-4499-a3aa-a1fd4a246e54" Hint="Business Information / Contact Information | MainWebSite | FieldID:12007">{{Main Web}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Mailing Address" ID="120" UID="032acff6-c662-4a04-ac28-b1d9f5eb72f6">
+        <FieldValue FieldID="a76b68fb-f686-419a-b5f7-54a5eade1fcd" Hint="Business Information / Mailing Address | MailingAddress | FieldID:11901">{{Mailing Add}}</FieldValue>
+        <FieldValue FieldID="ba54b8a7-6b8f-425f-aedc-36e23e5419e7" Hint="Business Information / Mailing Address | MailingAddressCity | FieldID:11903">{{Mailing City}}</FieldValue>
+        <FieldValue FieldID="6c016414-5542-448b-9a7f-66caf4afcb58" Hint="Business Information / Mailing Address | MailingAddressState | FieldID:11904">{{Mailing State}}</FieldValue>
+        <FieldValue FieldID="5b73ac90-373e-4282-91ce-e4df17e9e407" Hint="Business Information / Mailing Address | MailingAddressZip | FieldID:11905">{{Mailing Zip}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Merchant Type" ID="171" UID="dc8f5ae2-09d4-4a92-b390-2ab5b944d973">
+        <FieldValue FieldID="cc38c32d-8e02-4791-ae6c-1a02d9851148" Hint="Business Information / Merchant Type | MerchantType | FieldID:11602">{{Merchant Type}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Ownership" ID="174" UID="d155119d-8de2-46f0-8550-8e07166e635d">
+        <FieldValue FieldID="760279e5-24aa-4449-80bb-6628eed3ecc9" Hint="Business Information / Ownership | OwnershipType | FieldID:16469">{{Ownership Type}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Prior Merchant Account" ID="178" UID="444f8e7d-68d1-4cfc-96e3-fe46e73f1636">
+        <FieldValue FieldID="84c9c78e-5ac9-435d-ad81-45c401946aa9" Hint="Business Information / Prior Merchant Account | HasApplicantAcceptedCreditCardsBefore | FieldID:16355">false</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Prior Merchant Account Closure" ID="179" UID="60a50478-b4a7-4cbc-abff-7d2270fb49fb">
+        <FieldValue FieldID="76345fa9-5798-45c2-88a1-e3a8589512a5" Hint="Business Information / Prior Merchant Account Closure | HasCreditCardProcessorPriorClosure | FieldID:16356">false</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Processing Breakdown" ID="123" UID="4b7798dd-855e-41d1-b1b0-0989627aa63a">
+        <FieldValue FieldID="d74089e3-3975-490f-b7aa-5396e06fc839" Hint="Business Information / Processing Breakdown | InternetPercentage | FieldID:12204">{{Internet Percent}}</FieldValue>
+        <FieldValue FieldID="2c28432e-8047-4bab-b80d-ec49e6415ebd" Hint="Business Information / Processing Breakdown | MailOrderPercentage | FieldID:12205">{{Mail Order Percent}}</FieldValue>
+        <FieldValue FieldID="046b7cd5-39f5-4678-89a8-961e6c03b4c8" Hint="Business Information / Processing Breakdown | RetailKeyedPercentage | FieldID:12203">{{Retail Keyed}}</FieldValue>
+        <FieldValue FieldID="03bd82a6-4628-4037-a45e-c6ebfe6373e1" Hint="Business Information / Processing Breakdown | RetailSwipePercentage | FieldID:12202">{{Retail Swiped}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Processing Limits" ID="180" UID="795c6037-dd9a-47bc-806b-8a070dab575b">
+        <FieldValue FieldID="0a8eed88-4106-4fd3-95f7-7417178e7e9a" Hint="Business Information / Processing Limits | MonthlyAverageTicket | FieldID:16288">{{Month Avg}}</FieldValue>
+        <FieldValue FieldID="b800a87d-6aa0-4246-a402-8da2fbbda251" Hint="Business Information / Processing Limits | MonthlyHighTicket | FieldID:16358">{{Month High}}</FieldValue>
+        <FieldValue FieldID="cbab4557-8e15-42e7-a945-d24b0b810961" Hint="Business Information / Processing Limits | MonthlyProcessingLimit | FieldID:16390">{{Month Process}}</FieldValue>
+      </FieldGroup>
+    </FieldSection>
+    <FieldSection Name="Fee Information" ID="108" UID="e95f1403-80fb-46fe-9de6-da9b01706e85">
+      <FieldGroup Name="3-Tier Credit Card Discount Fees" ID="147" UID="2234826f-29ad-4a2a-bd81-7a6ceaf12bf6">
+        <FieldValue FieldID="420c06f9-35c7-4277-8d60-6193e1aecdc3" Hint="Fee Information / 3-Tier Credit Card Discount Fees | CreditCardDiscountMidQualifiedRate_QualPlus | FieldID:16315">{{3-tier CrdMidQual}}</FieldValue>
+        <FieldValue FieldID="5bb5d0ba-6c00-4049-bad8-0f5ab0af15a5" Hint="Fee Information / 3-Tier Credit Card Discount Fees | CreditCardDiscountNonQualifiedRate_QualPlus | FieldID:16317">{{3-tier CrdNonQual}}</FieldValue>
+        <FieldValue FieldID="da5f983a-ea27-4360-a7ed-f5631c33fd3c" Hint="Fee Information / 3-Tier Credit Card Discount Fees | CreditCardDiscountQualifiedRate | FieldID:10301">{{3-tier CrdQual}}</FieldValue>
+        <FieldValue FieldID="9dd3ce8c-6d8a-4f7b-94f7-cf78faca88dd" Hint="Fee Information / 3-Tier Credit Card Discount Fees | CreditCardMidQualifiedPerItemFee | FieldID:16318">{{3-tier CrdMidQualPer}}</FieldValue>
+        <FieldValue FieldID="4b1ad9f0-fcff-4039-bf17-0cd8ca67ddb5" Hint="Fee Information / 3-Tier Credit Card Discount Fees | CreditCardNonQualifiedPerItemFee | FieldID:16319">{{3-tier CrdNonQualPer}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="3-Tier Offline-Debit Discount Fees" ID="148" UID="e270b9cf-7052-4c25-9bab-2b714be133ef">
+        <FieldValue FieldID="f125366f-760a-4f78-8c3c-a83bcf837be7" Hint="Fee Information / 3-Tier Offline Debit Discount Fees | OfflineDebitDiscountMidQualifiedRate_QualPlus | FieldID:16399">{{3-tier DbtMidQual}}</FieldValue>
+        <FieldValue FieldID="c026514b-21d3-4a1d-94a1-a969693dca41" Hint="Fee Information / 3-Tier Offline Debit Discount Fees | OfflineDebitDiscountNonQualifiedRate_QualPlus | FieldID:16398">{{3-tier DbtNonQual}}</FieldValue>
+        <FieldValue FieldID="5df6d43d-3530-4303-bb3a-b7c73b93354d" Hint="Fee Information / 3-Tier Offline Debit Discount Fees | OfflineDebitDiscountQualifiedRate | FieldID:10201">{{3-tier DbtQual}}</FieldValue>
+        <FieldValue FieldID="376545b8-0571-459f-8d50-2593a4839814" Hint="Fee Information / 3-Tier Offline Debit Discount Fees | OfflineDebitMidQualifiedPerItemFee | FieldID:16400">{{3-tier DbtMidQualPer}}</FieldValue>
+        <FieldValue FieldID="8b764f85-7432-45df-bad9-f6818290f0a8" Hint="Fee Information / 3-Tier Offline Debit Discount Fees | OfflineDebitNonQualifiedPerItemFee | FieldID:16401">{{3-tier DbtNonQualPe}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Equipment Fees" ID="207" UID="641202d3-b98e-4fc9-ba7b-40ce1482ed76">
+        <FieldValue FieldID="43f2f4f5-e1e5-4b1e-b000-be3862cf636a" Hint="Fee Information / Gateway Fees | PaymentGatewayMonthlyAccessFee | FieldID:11002">{{Gateway AccesFee}}</FieldValue>
+        <FieldValue FieldID="a8dc2658-fe8e-4a5e-97ad-205ca5a63cb8" Hint="Fee Information / Gateway Fees | PaymentGatewayPerAuthFee | FieldID:11003">{{Gateway PerAuthFee}}</FieldValue>
+        <FieldValue FieldID="949571bf-ea08-406a-b570-dc1fc7fa831e" Hint="Fee Information / Gateway Fees | PaymentGatewaySetupFee | FieldID:11001">{{Gateway SetupFee}}</FieldValue>
+        <FieldValue FieldID="7d7cdc95-531e-49c4-a39f-55e335c72ef3" Hint="Fee Information / Wireless Fees | WirelessMonthlyAccessFee | FieldID:10902">{{Wireless AccessFee}}</FieldValue>
+        <FieldValue FieldID="0022e20b-12b7-4fc0-af80-b9b33617fd8a" Hint="Fee Information / Wireless Fees | WirelessPerAuthFee | FieldID:10903">{{Wireless PerAuthFee}}</FieldValue>
+        <FieldValue FieldID="1b65c1fc-0ce0-4c3d-a9bf-aa9e06826d76" Hint="Fee Information / Wireless Fees | WirelessSetupFee | FieldID:10901">{{Wireless SetupFee}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Miscellaneous Fees" ID="172" UID="b8273dc8-818f-40f5-9e8d-0b7c17bff390">
+        <FieldValue FieldID="ada61834-7e40-49f4-bd57-d4d991bdc91a" Hint="Fee Information / Miscellaneous Fees | AchReturnItemFee | FieldID:10613">{{Ach ReturnFee}}</FieldValue>
+        <FieldValue FieldID="d725b119-eb87-4bac-8f62-85166270d2b1" Hint="Fee Information / Miscellaneous Fees | ChargebacksFee | FieldID:10612">{{ChargeBack Fee}}</FieldValue>
+        <FieldValue FieldID="56d4f1c9-3473-4c68-8119-3f68330636a6" Hint="Fee Information / Miscellaneous Fees | EbtTransactionFee | FieldID:10608">{{Ebt Trans}}</FieldValue>
+        <FieldValue FieldID="c74cd2cc-8f8a-4578-85f9-7a03d13df08d" Hint="Fee Information / Miscellaneous Fees | PinDebitTransactionFee | FieldID:10802">{{Transection Fee}}</FieldValue>
+        <FieldValue FieldID="e25bd248-0962-48a5-9db4-b3cbf6358444" Hint="Fee Information / Miscellaneous Fees | RetrievalRequestFee | FieldID:10611">{{Retrieval Req}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Monthly Fees" ID="173" UID="c9c1c351-383a-4bf4-b6c3-35b5eb2eb967">
+        <FieldValue FieldID="9f25b649-a915-4079-8ccc-0cb148a5fe82" Hint="Fee Information / Monthly Fees | CustomerServiceStatementFee | FieldID:10702">{{Statement Fee}}</FieldValue>
+        <FieldValue FieldID="e6b6a68a-e56a-4c88-b552-73d633ae8896" Hint="Fee Information / Monthly Fees | MonthlyMinimumDiscountFee | FieldID:10701">{{Monthly Mini}}</FieldValue>
+      </FieldGroup>
+      <FieldGroup Name="Processing Fees" ID="176" UID="52449394-12f2-4896-979a-6da4ddbf245f">
+        <FieldValue FieldID="8950f003-fe9c-4451-9265-471fbfc51552" Hint="Fee Information / Processing Fees | AvsFee | FieldID:10604">{{Avs}}</FieldValue>
+        <FieldValue FieldID="cb0798ac-f09b-4b42-9516-01fd41c63726" Hint="Fee Information / Processing Fees | BatchHeaderFee | FieldID:10606">{{Batch}}</FieldValue>
+        <FieldValue FieldID="4f974757-0d2f-448d-8ba5-5657a903c3de" Hint="Fee Information / Processing Fees | VisaMasterCardDiscoverAmericanExpressTransactionFee | FieldID:10601">{{Amex Transaction fee}}</FieldValue>
+      </FieldGroup>
+    </FieldSection>
+  </FieldValues>
+  <Principals>
+    <Principal>
+      <FieldValues>
+        <FieldValue FieldID="3316409c-a663-4c86-a3ac-f9e725d874be" Hint="Principal # Information / Principal | PrincipalCity | FieldID:14009">{{RCity}}</FieldValue>
+        <FieldValue FieldID="11c2f1d5-f589-4dfa-8d8f-8f908ac26394" Hint="Principal # Information / Principal | PrincipalDateOfBirth | FieldID:14015">{{Princ DOB}}</FieldValue>
+        <FieldValue FieldID="2dce116e-eea9-4fdc-897c-565322e5b715" Hint="Principal # Information / Principal | PrincipalFirstName | FieldID:14001">{{firstname}}</FieldValue>
+        <FieldValue FieldID="9b1aa983-3a9d-4df7-bc12-affa70f68f2c" Hint="Principal # Information / Principal | PrincipalLastName | FieldID:14002">{{lastname}}</FieldValue>
+        <FieldValue FieldID="e85c888a-8b04-434d-9529-57428389f484" Hint="Principal # Information / Principal | PrincipalResidentialAddress | FieldID:14007">{{RAdd}}</FieldValue>
+        <FieldValue FieldID="ec9255e2-742e-4b95-a9df-460236a3182d" Hint="Principal # Information / Principal | PrincipalSocialSecurityNumber | FieldID:14003">{{ prici SSN}}</FieldValue>
+        <FieldValue FieldID="68bb5072-ff6c-49ac-9fee-0418c029f7aa" Hint="Principal # Information / Principal | PrincipalState | FieldID:14010">{{RState}}</FieldValue>
+        <FieldValue FieldID="99ddd0ff-1d8b-41c7-b88b-739c6a1cc81c" Hint="Principal # Information / Principal | VerifyPrincipalSocialSecurityNumber | FieldID:14004">{{Princi verify SSN#}}</FieldValue>
+        <FieldValue FieldID="74465b73-4b48-4f86-937c-92e6e506e4aa" Hint="Principal # Information / Principal | PrincipalZip | FieldID:14011">{{RZip}}</FieldValue>
+      </FieldValues>
+    </Principal>
+  </Principals>
+</MerchantApplicationV2>
+

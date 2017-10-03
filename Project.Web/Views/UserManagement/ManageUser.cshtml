@@ -1,0 +1,166 @@
+﻿
+@model Project.Web.Models.UserModel
+
+<script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>
+
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Email Template</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("AdminDashboard")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("Manageuser")">Manage User</a></li>
+                    <li class="active">User Home</li>
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                        <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                            <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                        </ul>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">User Home</h3>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Template_Modal"><i class="ti-plus"></i></button>
+                    @*<button type="button" class="btn btn-default"><i class="ti-share-alt"></i></button>*@
+                </div>
+            </div>
+            <div class="widget-body">
+                <table id="lead-list-1" style="width: 100%" class="table table-hover dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th width="10%" class="text-center">Username</th>
+                            <th width="15%" class="text-center">Name</th>
+                            <th width="12%" class="text-center">Group</th>
+                            <th width="10%" class="text-center">Email</th>
+                            <th width="10%" class="text-center">Status</th>
+                            <th width="10%" class="text-center">Last Login</th>
+                            <th width="25%" class="text-center">User Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="AddUserModal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Add Template</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/Mails/SendMail" method="post" enctype="multipart/form-data" id="EmailForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-12">
+                                <label for="Title">Title</label>
+                                <input type="text" name="RelateTo_Name" class="form-control" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" id="cc_div">
+                            <div class="form-group col-sm-12">
+                                <label for="Group">Group</label>
+                                <select class="form-control">
+                                    <option value="Choose A Group">Choose A Group</option>
+                                    <option>MAS</option>
+                                    <option>CAD</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group col-sm-12">
+                                <label for="BCC">Type</label>
+                                <select class="form-control">
+                                    <option value="Choose A Group">Choose A Type</option>
+                                    <option>MAS</option>
+                                    <option>CAD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-sm-12">
+                            <textarea name="TemplateBody" id="TemplateBody" data-provide="markdown" rows="10" width="100%"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="RelateTo_ID" value="" />
+                    <input type="hidden" name="MailBy_ID" value="@HttpContext.Current.Session["UserID"].ToString()" />
+                    <input type="hidden" name="FromAddress" value="@HttpContext.Current.Session["UserName"].ToString()" />
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="cancel">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save" onclick="SendMail();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Table Script*******
+
+    $(document).ready(function () {
+
+        var e1 = $("#lead-list-1").DataTable({ pageLength: 10, colReorder: !0, buttons: ["copy", "excel", "pdf", "print"], searching: !0, aLengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]], order: [[5, "desc"]], columnDefs: [{ orderable: !1, targets: [0, 5] }] });
+        $("#lead-list-1_wrapper .col-sm-6:eq(1)").addClass("text-right"), e1.buttons().container().appendTo("#lead-list-1_wrapper .col-sm-6:eq(1)")
+
+    });
+</script>
+<script>
+    function ViewClient(Client_ID_Auto_PK) {
+        window.location = '/Clients/ViewClient?ClientId=' + Client_ID_Auto_PK;
+    }
+
+    function DeleteClient(Client_ID_Auto_PK) {
+
+        var result = confirm("Are you sure to delete this Client ?");
+        if (result == true) {
+            // var divId = "div-" + Service_ID_Auto_PK;
+
+            var Ldata = Client_ID_Auto_PK;
+
+            var url = "/Clients/DeleteClient";
+            $.post(url, { Client_ID_PK: Ldata }, function (data) {
+                if (data == "1") {
+                    location.reload();
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                }
+            });
+        }
+    }
+</script>
