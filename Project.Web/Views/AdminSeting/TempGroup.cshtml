@@ -2,22 +2,24 @@
     Layout = null;
 }
 
-                                        @foreach (var grp in Model.groups)
-                                        {
+                                        @{
+                                            foreach (var grp in Model.groups)
+                                            {
 
-                                            <tr>
-                                                <td class="text-center">@grp.Group_Name</td>
-                                                <td class="text-center">@grp.CreatedByName</td>
-                                                <td class="text-center">@grp.CreatedDate.ToString("MM/dd/yyyy")</td>
-                                                <td class="text-center">@grp.UpdatedByName</td>
-                                                <td class="text-center">@grp.UpdatedDate.ToString("MM/dd/yyyy")</td>
-                                                <td class="text-center"><span class="label label-success">@grp.Status</span></td>
-                                                <td class="text-center">
-                                                    @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
-                                                    <button type="button" class="btn btn-outline btn-primary" onclick="SetModalData('@grp.Group_Name','@grp.Group_ID');" title="Edit Department"><i class="ti-pencil"></i></button>
-                                                    @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
-                                                    <button type="button" class="btn btn-outline btn-danger" onclick="DeleteGroup('@grp.Group_ID');" title="Delete Department"><i class="ti-trash"></i></button>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td class="text-center">@grp.Group_Name</td>
+                                                    <td class="text-center">@grp.CreatedByName</td>
+                                                    <td class="text-center">@grp.CreatedDate.ToString("MM/dd/yyyy")</td>
+                                                    <td class="text-center">@grp.UpdatedByName</td>
+                                                    <td class="text-center">@grp.UpdatedDate.ToString("MM/dd/yyyy")</td>
+                                                    <td class="text-center"><span class="label label-success">@grp.Status</span></td>
+                                                    <td class="text-center">
+                                                        @*<button type="button" data-toggle="modal" data-target=".bs-example-modal-animation" class="btn btn-raised btn-primary">Launch modal</button>*@
+                                                        <button type="button" class="btn btn-outline btn-primary" onclick="SetGroupModalData('@grp.Group_Name','@grp.Group_ID');" title="Edit Department"><i class="ti-pencil"></i></button>
+                                                        @*<button type="button" class="btn btn-outline btn-success" data-toggle="modal" data-target=".bs-example-modal-animation" title="Change Status"><i class="ti-sta"></i></button>*@
+                                                        <button type="button" class="btn btn-outline btn-danger" onclick="DeleteGroup('@grp.Group_ID');" title="Delete Department"><i class="ti-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                            }
                                         }
 

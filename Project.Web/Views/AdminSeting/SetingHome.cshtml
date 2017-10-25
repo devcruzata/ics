@@ -62,6 +62,8 @@
                     <li role="presentation"><a href="#UserRoles" aria-controls="UserRoles" role="tab" data-toggle="tab">User Roles</a></li>
                     <li role="presentation"><a href="#LSource" aria-controls="LSource" role="tab" data-toggle="tab">Lead Source</a></li>
                     <li role="presentation"><a href="#LStatus" aria-controls="LStatus" role="tab" data-toggle="tab">Dispositions</a></li>
+                    <li role="presentation"><a href="#DMemo" aria-controls="LStatus" role="tab" data-toggle="tab">Memo</a></li>
+                   
                 </ul>
 
                 <div class="tab-content">
@@ -112,7 +114,7 @@
                                             <tr>
                                                 <td width="25%" style="text-align: left; background-color: #fbfbfb;"><label>Currency</label></td>
                                                 <td>@Model.Currency</td>
-                                            </tr>
+                                            </tr>                                           
                                         </table>
                                     </div>
                                 </div>
@@ -200,7 +202,7 @@
                                                     </select>
                                                     <input type="hidden" id="cur" value="@Model.Currency" />
                                                 </td>
-                                            </tr>
+                                            </tr>                                            
                                         </table>
                                     </div>
                                 </div>
@@ -210,7 +212,7 @@
 
                     <div id="Departments" role="tabpanel" class="tab-pane">
                         <div class="pull-right" style="margin-bottom:10px;">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GroupModal"><i class="ti-plus" title="Add New"></i></button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GroupModal123"><i class="ti-plus" title="Add New"></i></button>
                         </div>
 
                         <div class="widget no-border" style="margin-left:20px;">
@@ -270,6 +272,7 @@
                                        <td>@role.RoleName</td>
                                        <td>
                                            <button type="button" class="btn btn-outline btn-primary" onclick="GetUserRoleForUpdate(@role.Role_ID);" title="Edit User Role"><i class="ti-pencil"></i></button>
+                                           <button type="button" class="btn btn-outline btn-danger"  onclick="DeleteRole('@role.Role_ID');" title="Delete Role"><i class="ti-trash"></i></button>
                                        </td>
                                     </tr>
                                 }
@@ -365,6 +368,29 @@
                             </table>
                         </div>
                     </div>
+
+                    <div id="DMemo" role="tabpanel" class="tab-pane">
+                        <div class="pull-right" style="margin-bottom:10px;">                           
+                        </div>
+                        <div class="widget no-border" style="margin-left:20px;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <textarea class="form-control" id="memo"></textarea>
+                                    <input type="hidden" id="memoH" value="@Model.Memo"/>
+                                </div>                                
+                            </div>
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-primary"style="float:right;" onclick="ManageMemo();">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
                 </div>
 
             </div>
@@ -453,7 +479,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" onclick="cancelSource();">Cancel</button>
                 <button type="button" class="btn btn-raised btn-danger" id="save_btn" onclick="AddSource();">Save</button>
                 <button type="button" class="btn btn-raised btn-danger" style="display:none;" id="edit_btn" onclick="EditSource();">Save</button>
             </div>
@@ -594,7 +620,7 @@
         </div>
     </div>
 </div>
-
+</div>
 
 <div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="RolesModal">
     <div role="document" class="modal-dialog">
@@ -1044,6 +1070,7 @@
     $(document).ready(function () {
         $("#Country").val($("#cnt").val());
         $("#Currency").val($("#cur").val());
+        $("#memo").val($("#memoH").val());
     });
 </script>
 
@@ -1127,9 +1154,18 @@
 
     function DeleteGroup(Group_ID) {
 
-        var result = confirm("Are you sure to delete this Group ?");
-        if (result == true) {
-            // var divId = "div-" + Service_ID_Auto_PK;
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure to delete this Group!",
+            type: "warning",
+            showCancelButton: !0,
+            cancelButtonClass: "btn-raised btn-default",
+            cancelButtonText: "Cancel!",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: !0
+        },
+        function () {
             $(".se-pre-con").show();
             var Gdata = Group_ID;
 
@@ -1140,7 +1176,7 @@
                     $("#GroupTable_Widget").html(data);
                     $(".se-pre-con").hide();
                 }
-                else{
+                else {
                 }
                 if (data = "0") {
                     $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
@@ -1148,8 +1184,10 @@
                     $(".se-pre-con").hide();
                 }
             });
-        }
+        })
     }
+
+    
 
     function AddGroup() {
 
@@ -1170,7 +1208,7 @@
                 cache: false,
                 success: function (data) {
                     if (data != '') {
-                        alert(data);
+                      
                         $("#GroupModal123").modal('hide');
                         $("#GName").val('');
                          $("#GroupTable_Widget").html('');
@@ -1250,12 +1288,20 @@
 
 <script>
 
-
     function DeleteSource(Source_ID) {
 
-        var result = confirm("Are you sure to delete this Source ?");
-        if (result == true) {
-            // var divId = "div-" + Service_ID_Auto_PK;
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure to delete this Source!",
+            type: "warning",
+            showCancelButton: !0,
+            cancelButtonClass: "btn-raised btn-default",
+            cancelButtonText: "Cancel!",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: !0
+        },
+        function () {
             $(".se-pre-con").show();
             var Sdata = Source_ID;
 
@@ -1272,8 +1318,10 @@
                     $(".se-pre-con").hide();
                 }
             });
-        }
+        })
     }
+    
+
 
     function AddSource() {
 
@@ -1293,8 +1341,8 @@
                 processData: false,
                 cache: false,
                 success: function (data) {
-                    if (data != '') {
-                        //alert('s');
+                    if (data != '' && data != 0) {
+                       // alert(data);
                         $("#SourceModal").modal('hide');
                         $("#SrName").val('');
                         $("#SourceTable_Widget").html('');
@@ -1318,7 +1366,7 @@
     }
 
     function SetSourceModalData(SourceName, Source_ID) {
-        alert();
+       
         $("#SrEName").val(SourceName);
         $("#SrE_ID").val(Source_ID);
         $("#EditSourceModal").modal('show');
@@ -1365,22 +1413,35 @@
             });
         }
     }
+
+    function cancelSource() {
+        $("#error_div_SrName").hide();
+        $("#SrName").val('')
+    }
 </script>
 
 <script>
 
-
     function DeleteStatus(Status_ID) {
-
-        var result = confirm("Are you sure to delete this Status ?");
-        if (result == true) {
-            // var divId = "div-" + Service_ID_Auto_PK;
+       
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure to delete this Status!",
+            type: "warning",
+            showCancelButton: !0,
+            cancelButtonClass: "btn-raised btn-default",
+            cancelButtonText: "Cancel!",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: !0
+        },
+        function () {
             $(".se-pre-con").show();
             var Sdata = Status_ID;
 
             var url = "/AdminSeting/DeleteLeadStatus";
             $.post(url, { StatusID: Sdata }, function (data) {
-                if (data != "") {
+                if (data != "" && data != 0) {
                     $("#StatusTable_Widget").html('');
                     $("#StatusTable_Widget").html(data);
                     $(".se-pre-con").hide();
@@ -1391,8 +1452,31 @@
                     $(".se-pre-con").hide();
                 }
             });
-        }
+        })
     }
+    //function DeleteStatus(Status_ID) {
+
+    //    var result = confirm("Are you sure to delete this Status ?");
+    //    if (result == true) {
+    //        // var divId = "div-" + Service_ID_Auto_PK;
+    //        $(".se-pre-con").show();
+    //        var Sdata = Status_ID;
+
+    //        var url = "/AdminSeting/DeleteLeadStatus";
+    //        $.post(url, { StatusID: Sdata }, function (data) {
+    //            if (data != "") {
+    //                $("#StatusTable_Widget").html('');
+    //                $("#StatusTable_Widget").html(data);
+    //                $(".se-pre-con").hide();
+    //            }
+    //            if (data = "0") {
+    //                $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+    //                $("#error_msg_tbl").show();
+    //                $(".se-pre-con").hide();
+    //            }
+    //        });
+    //    }
+    //}
 
     function AddStatus() {
         var dt = CKEDITOR.instances["emailTemplate"].getData();
@@ -1844,9 +1928,44 @@
             }
         });
     }
+
+    function DeleteRole(Role_ID) {
+
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure to delete this Role!",
+            type: "warning",
+            showCancelButton: !0,
+            cancelButtonClass: "btn-raised btn-default",
+            cancelButtonText: "Cancel!",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: !0
+        },
+        function () {
+            $(".se-pre-con").show();
+            var Rdata = Role_ID;
+
+            var url = "/AdminSeting/DeleteRole";
+            $.post(url, { RoleID: Rdata }, function (data) {
+                if (data != "") {
+                    $('#rTable').html('');
+                    $('#rTable').html(data);
+                    $(".se-pre-con").hide();
+                }
+                else {
+                }
+                if (data = "0") {
+                    $("#error_msg_tbl").html("<p style=\"color:red;\">There is an error in processing your request. Please Try after some time.</p>");
+                    $("#error_msg_tbl").show();
+                    $(".se-pre-con").hide();
+                }
+            });
+        })
+    }
 </script>
 
-    <script>
+<script>
         $(document).ready(function () {
             CKEDITOR.replace("emailTemplate"),
             CKEDITOR.config.height = 400,
@@ -1869,6 +1988,35 @@
            
         }
     </script>
+
+<script>
+    function ManageMemo() {
+        
+        $(".se-pre-con").show();
+        $.ajax({
+            url: '/AdminSeting/ManageMemo',
+            dataType: "html",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ strMemo: $("#memo").val() }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {                
+                    $(".se-pre-con").hide();
+                }
+                else {            
+                    $(".se-pre-con").hide();
+                }
+            },
+            error: function (xhr) {               
+                $('#errorMessage').html("No connection");
+                $(".se-pre-con").hide();
+            }
+        });
+    }
+</script>
 
 
 

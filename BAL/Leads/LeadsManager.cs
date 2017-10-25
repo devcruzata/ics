@@ -420,8 +420,18 @@ namespace BAL.Leads
                       objLeads.LeadColour = dr["StatusColour"].ToString();
                       objLeads.AssignToName = Convert.ToString(dr["AssignToName"]);
                       objLeads.CreatedByName = dr["CreatedBy"].ToString();
-                      objLeads.AssignToID = Convert.ToInt64(dr["AssignTo"]);
-                      objLeads.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]).ToString("MM/dd/yyyy");
+                        if(dr["AssignTo"].ToString() != "")
+                        {
+                            objLeads.AssignToID = Convert.ToInt64(dr["AssignTo"]);
+                        }
+
+                        if (dr["CreatedDate"].ToString() != "")
+                        {
+                            objLeads.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]).ToString("MM/dd/yyyy");
+                        }
+
+                        
+                        objLeads.LeadSource = dr["LeadSource"].ToString();
                       leads.Add(objLeads);
                   }
               }

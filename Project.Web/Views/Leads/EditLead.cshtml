@@ -8,6 +8,28 @@
 <script type="text/javascript" src="@Url.Content("~/Content/BootstrapCountryPicker/bootstrap-formhelpers-countries.en_US.js")"></script>
 <script type="text/javascript" src="@Url.Content("~/Content/BootstrapCountryPicker/bootstrap-formhelpers-countries.js")"></script>
 
+<style>
+    /* enable absolute positioning */
+        .inner-addon { 
+            position: relative; 
+        }
+
+        /* style icon */
+        .inner-addon .glyphicon {
+          position: absolute;
+          padding: 10px;
+          pointer-events: none;
+        }
+
+        /* align icon */
+        .left-addon .glyphicon  { left:  0px;}
+        .right-addon .glyphicon { right: 0px;}
+
+        /* add padding  */
+        .left-addon input  { padding-left:  30px; }
+        .right-addon input { padding-right: 30px; }
+</style>
+
 <!-- Page Content -->
 <div class="page-container">
     <div class="page-header clearfix">
@@ -88,10 +110,14 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-6">
-                                        <input placeholder="Email" class="form-control form-cutom" type="text" name="Email" id="Email" value="@Model.Email">
-                                        <div id="error_Div_Email" style="display:none;color:red;">
-                                            <p style="color:red;">Please Enter Valid Email</p>
+                                        <div class="inner-addon right-addon">
+                                            <i class="ti-email" onclick="setMailData('@Model.Lead_ID','@Model.ContName','@Model.Email');" ></i>                                           
+                                            <input placeholder="Email" class="form-control form-cutom" type="text" name="Email" id="Email" value="@Model.Email">
+                                            <div id="error_Div_Email" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Valid Email</p>
+                                            </div>
                                         </div>
+                                        
                                     </div>
                                     <div class="col-sm-6">
                                         <input placeholder="Website" class="form-control form-cutom" type="text" name="website" id="website" value="@Model.website">
@@ -731,9 +757,174 @@
     </div>
 </div>
 
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="Mail_Modal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Compose Mail</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/Mails/SendMail" method="post" enctype="multipart/form-data" id="mailForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-12">
+                                <label for="ToEmail">To</label>
+                                <input type="text" name="RelateTo_Name" id="RelateTo_Name" class="form-control" value="" readonly>
+                                <input id="ToAddress" name="ToAddress" type="hidden" class="form-control" value="">
+                                <a href="#" id="cc" onclick="showCCdiv();">Add Cc</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" id="cc_div" style="display:none">
+                            <div class="form-group col-sm-12">
+                                <label for="cc">Cc</label>
+                                <input id="CcAddress" name="CcAddress" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-12">
+                                <label for="BCC">BCC</label>
+                                <input type="text" name="MailBy_Name" class="form-control" value="@HttpContext.Current.Session["User"].ToString()" readonly>
+                                <input id="BccAddress" name="BccAddress" type="hidden" class="form-control" value="@HttpContext.Current.Session["UserName"].ToString()" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-12">
+                                <label for="Subject">Subject</label>
+                                <input id="Subject" name="Subject" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Attachments</label>
+                                <div class="col-sm-10">
+                                    <input type="file" id="Attechments" name="Attechments" class="multi" multiple="multiple" data-maxsize="100024" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-sm-12">
+                            <textarea name="MailBody" id="MailBody" data-provide="markdown" rows="10" width="100%"></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" id="RelateTo_ID" name="RelateTo_ID" value="@Model.Lead_ID" />
+                    <input type="hidden" name="MailBy_ID" value="@HttpContext.Current.Session["UserID"].ToString()" />
+                    <input type="hidden" name="FromAddress" value="@HttpContext.Current.Session["UserName"].ToString()" />
+                </form>
 
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="cancelMail">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="sendMail" onclick="SendEmail();">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- /.container -->
 
+
+<script>
+
+    function showCCdiv() {
+        $("#cc").hide();
+        $("#cc_div").show();
+    }
+
+
+    function setMailData(LeadID,RelateToName,ToEmail) {
+        $("#RelateTo_Name").val(RelateToName);
+        $("#ToAddress").val(ToEmail);
+        $("#RelateTo_ID").val(LeadID);
+
+        $('#Mail_Modal').modal('show');
+    }
+    function SendEmail() {
+
+        // Checking whether FormData is available in browser
+        showLoader();
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#Attechments").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('ToName', $("#RelateTo_Name").val());
+            fileData.append('To', $("#ToAddress").val());
+            fileData.append('Cc', $("#CcAddress").val());
+            fileData.append('Bcc', $("#BccAddress").val());
+            fileData.append('subject', $("#Subject").val());
+            fileData.append('body', $("#MailBody").val());
+            fileData.append('LeadID', $("#RelateTo_ID").val());
+            // $("#loader").show();
+            $.ajax({
+                url: '/Mails/SendEmail',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (data) {
+                    if (data == 'success') {
+                        $("#Mail_Modal").modal('hide');
+                        hideLoader();
+                        $("#mailForm")[0].reset();
+                        $(".se-pre-con").hide();
+                        showMSuccessMsg();
+                    }
+                    else {
+                        $("#Mail_Modal").modal('hide');
+                        hideLoader();
+                        $(".se-pre-con").hide();
+                        $("#mailForm")[0].reset();
+                        showMErrorMsg();
+                    }
+                },
+                error: function (err) {
+                    $("#mailForm")[0].reset();
+                    hideLoader();
+                    $(".se-pre-con").hide();
+                    alert(err.statusText);
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    }
+</script>
+<script>
+    function showMSuccessMsg() {
+        swal({
+            title: "Send!",
+            text: "Mail Sent Successfully!",
+            type: "success",
+            confirmButtonClass: "btn-raised btn-success",
+            confirmButtonText: "OK"
+        })
+    }
+
+    function showMErrorMsg() {
+        swal({
+            title: "Fail!",
+            text: "Error Occured in Sending Mail!",
+            type: "error",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "OK"
+        })
+    }
+</script>
 <script>
     $(document).ready(function () {
         $("#OwnershipType").val($("#Otype").val());

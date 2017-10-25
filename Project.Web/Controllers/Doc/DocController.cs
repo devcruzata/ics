@@ -19,13 +19,13 @@ namespace Project.Web.Controllers.Doc
         // GET: /Doc/
 
         [Authorize]
-        //public ActionResult DocHome()
-        //{
-        //    session = new SessionHelper();
-        //    DocModel objDocModel = new DocModel();
-        //    objDocModel.doc = objDocManager.getDocs(Convert.ToInt64(session.UserSession.PIN),Convert.ToInt64(session.UserSession.UserId));
-        //    return View(objDocModel);
-        //}
+        public ActionResult Index()
+        {
+            //session = new SessionHelper();
+            //DocModel objDocModel = new DocModel();
+            //objDocModel.doc = objDocManager.getDocs(Convert.ToInt64(session.UserSession.PIN), Convert.ToInt64(session.UserSession.UserId));
+            return View();
+        }
 
         [Authorize]
         [HttpPost]

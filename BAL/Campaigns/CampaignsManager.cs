@@ -7,6 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL;
 using Project.Entity;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.IO;
+using Project.ViewModel;
 
 namespace BAL.Campaigns
 {
@@ -22,7 +26,7 @@ namespace BAL.Campaigns
                sqlParameter[0] = new SqlParameter("@Name", SqlDbType.NVarChar, 100);
                sqlParameter[0].Value = Name;
 
-               sqlParameter[1] = new SqlParameter("@template", SqlDbType.NVarChar, 4000);
+               sqlParameter[1] = new SqlParameter("@template", SqlDbType.NVarChar, 8000);
                sqlParameter[1].Value = template;
 
                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_AddTemplate", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
@@ -69,7 +73,7 @@ namespace BAL.Campaigns
                        objTemplates.title = dr["title"].ToString();
                        objTemplates.body = dr["templateBody"].ToString();
                        objTemplates.status = dr["status"].ToString();
-                       objTemplates.TemplateID = Convert.ToInt64(dr["Template_ID_Auto_PK"]);
+                       objTemplates.TemplateID = Convert.ToInt64(dr["TemplateID_Auto_Pk"]);
 
                        templates.Add(objTemplates);
 
@@ -194,26 +198,163 @@ namespace BAL.Campaigns
                BAL.Common.LogManager.LogError("DaleteTemplate", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
            }
            return Response;
-       }
+       }       
 
-       public async void sendCampaign()
-       {
-           try
-           {
-               var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
-               var client = new SendGridClient(apiKey);
-               var from = new EmailAddress("test@example.com", "Example User");
-               var subject = "Sending with SendGrid is Fun";
-               var to = new EmailAddress("test@example.com", "Example User");
-               var plainTextContent = "and easy to do anywhere, even with C#";
-               var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
-               var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-               var response = await client.SendEmailAsync(msg);
-           }
-           catch (Exception ex)
-           {
+        public objResponse AddnewCampaign(string title, long dispositionId, long templateId, bool sendFlag)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                SqlParameter[] sqlParameter = new SqlParameter[4];
 
-           }
-       }
-    }
+                sqlParameter[0] = new SqlParameter("@dispositionId", SqlDbType.BigInt, 10);
+                sqlParameter[0].Value = dispositionId;
+
+                sqlParameter[1] = new SqlParameter("@templateId", SqlDbType.BigInt, 10);
+                sqlParameter[1].Value = templateId;
+
+                sqlParameter[2] = new SqlParameter("@sendFlag", SqlDbType.Bit, 10);
+                sqlParameter[2].Value = sendFlag;
+
+                sqlParameter[3] = new SqlParameter("@title", SqlDbType.NVarChar, 100);
+                sqlParameter[3].Value = title;
+
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_AddNewCampaign", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = "Success";
+
+                    return Response;
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                    return Response;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Response.ErrorCode = 2001;
+                Response.ErrorMessage = "Error while processing: " + ex.Message;
+                BAL.Common.LogManager.LogError("sendCampaign", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+                return Response;
+            }
+        }
+
+        public objResponse GetCampaignData(long CampaignID)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                SqlParameter[] sqlParameter = new SqlParameter[1];
+
+                sqlParameter[0] = new SqlParameter("@CampaignID", SqlDbType.BigInt, 10);
+                sqlParameter[0].Value = CampaignID;
+
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_sendCampaign", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = "Success";
+
+                    return Response;
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                    return Response;
+                }
+            }
+            catch(Exception ex)
+            {
+                Response.ErrorCode = 2001;
+                Response.ErrorMessage = "Error while processing: " + ex.Message;
+                BAL.Common.LogManager.LogError("GetCampaignData", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+                return Response;
+            }
+        }
+
+        public List<Project.Entity.Campaigns> getAllCampaigns()
+        {
+            List<Project.Entity.Campaigns> campaigns = new List<Project.Entity.Campaigns>();
+            objResponse Response = new objResponse();
+            try
+            {
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_getAllCampaigns", DB_CONSTANTS.ConnectionString_ICS);
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = "Success";
+
+                    foreach(DataRow dr in Response.ResponseData.Tables[0].Rows)
+                    {
+                        Project.Entity.Campaigns objCampaign = new Project.Entity.Campaigns();
+                        objCampaign.Campign_ID = Convert.ToInt64(dr["Campaign_ID_Auto_Pk"]);
+                        objCampaign.Title = dr["title"].ToString();
+                        objCampaign.Disposition = dr["Disposition"].ToString();
+                        objCampaign.CratedAt = Convert.ToDateTime(dr["CreatedAt"]).ToString("MM/dd/yy");
+                        objCampaign.Status = dr["Status"].ToString();
+                        objCampaign.TotalReciever = dr["TotalReciever"].ToString();
+
+                        campaigns.Add(objCampaign);
+                    }
+                    return campaigns;
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                    return campaigns;
+                }
+            }
+            catch(Exception ex)
+            {
+                Response.ErrorCode = 2001;
+                Response.ErrorMessage = "Error while processing: " + ex.Message;
+                BAL.Common.LogManager.LogError("getAllCampaigns", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+                return campaigns;
+            }
+        }
+
+        public objResponse DaleteCampaign(long CampaignId)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                SqlParameter[] sqlParameter = new SqlParameter[1];
+
+                sqlParameter[0] = new SqlParameter("@CampaignId", SqlDbType.BigInt, 10);
+                sqlParameter[0].Value = CampaignId;
+
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_DeleteCampaign", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = Response.ResponseData.Tables[0].Rows[0][0].ToString();
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Response.ErrorCode = 2001;
+                Response.ErrorMessage = "Error while processing: " + ex.Message;
+                BAL.Common.LogManager.LogError("DaleteCampaign", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+            }
+            return Response;
+        }
+    }   
+    
 }

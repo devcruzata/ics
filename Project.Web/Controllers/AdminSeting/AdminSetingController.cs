@@ -43,6 +43,10 @@ namespace Project.Web.Controllers.AdminSeting
                     objSetings.Phone = Convert.ToString(Response.ResponseData.Tables[0].Rows[0]["Phone"]);
                     objSetings.Website = Convert.ToString(Response.ResponseData.Tables[0].Rows[0]["Website"]);
                     objSetings.Currency = Convert.ToString(Response.ResponseData.Tables[0].Rows[0]["Currency"]);
+                    if(Response.ResponseData.Tables[1].Rows.Count > 0)
+                    {
+                        objSetings.Memo = Convert.ToString(Response.ResponseData.Tables[1].Rows[0]["Memo"]);
+                    }                   
 
                     objSetings.groups = objGroupManager.GetAllGroups();
                     objSetings.source = objSourceManager.GetAllSource();
@@ -59,6 +63,30 @@ namespace Project.Web.Controllers.AdminSeting
             {
                 BAL.Common.LogManager.LogError("SetingsHome conto", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
                 return View(objSetings);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ManageMemo(string strMemo)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                Response = objGenralSetingManager.manageMemo(strMemo);
+
+                if(Response.ErrorCode == 0)
+                {
+                    return Json("1", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch(Exception ex)
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -265,20 +293,20 @@ namespace Project.Web.Controllers.AdminSeting
                     else
                     {
                         //  objGrpModel.groups = objGroupManager.GetAllGroups();
-                        return Json("", JsonRequestBehavior.AllowGet);
+                        return Json(0, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
                 {
                     // objGrpModel.groups = objGroupManager.GetAllGroups();
-                    return Json("", JsonRequestBehavior.AllowGet);
+                    return Json(0, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
             {
                 //objGrpModel.groups = objGroupManager.GetAllGroups();
                 BAL.Common.LogManager.LogError("AddLeadSource Post Method", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
-                return Json("", JsonRequestBehavior.AllowGet);
+                return Json(0, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -375,20 +403,20 @@ namespace Project.Web.Controllers.AdminSeting
                     else
                     {
                         //  objGrpModel.groups = objGroupManager.GetAllGroups();
-                        return Json("", JsonRequestBehavior.AllowGet);
+                        return Json(0, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
                 {
                     // objGrpModel.groups = objGroupManager.GetAllGroups();
-                    return Json("", JsonRequestBehavior.AllowGet);
+                    return Json(0, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
             {
                 //objGrpModel.groups = objGroupManager.GetAllGroups();
                 BAL.Common.LogManager.LogError("AddLeadStatus Post Method", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
-                return Json("", JsonRequestBehavior.AllowGet);
+                return Json(0, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -598,6 +626,33 @@ namespace Project.Web.Controllers.AdminSeting
             catch (Exception ex)
             {
                 BAL.Common.LogManager.LogError("GetRolesForEdit Get Method", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [Authorize]
+        public ActionResult DeleteRole(string RoleID)
+        {
+            objResponse Response = new objResponse();
+            RolesModel objUserRoles = new RolesModel();
+            try
+            {
+                Response = objRoleManager.DeleteRoles(Convert.ToInt64(RoleID));
+                if (Response.ErrorCode == 0)
+                {
+                    objUserRoles.roles = objRoleManager.GetAllRoles();
+                    return View("AjaxManageRoles", objUserRoles);
+                   // return Json(objUserRoles, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                BAL.Common.LogManager.LogError("DeleteRole Post Method", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }

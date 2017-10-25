@@ -1,0 +1,680 @@
+﻿
+@using Project.Web.Common;
+@{
+    SessionHelper session = new SessionHelper();
+}
+
+<script>
+    $(document).ready(function () {
+        $(".date-control").daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'MM/DD/YY'
+            },
+        });
+    });
+</script>
+    <script>
+    $(document).ready(function () {
+
+        var sourceFullView = { url: '/LeadEvents/GetDiaryEvents/' };
+        var sourceSummaryView = { url: '/LeadEvents/GetDiarySummary/' };
+        var CalLoading = true;
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next, transferTo',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            customButtons: {
+                transferTo: {
+                    text: 'Transfer To',
+                    click: function () {
+                        $('#Transfer').modal('show');
+                    }
+                }
+            },
+            defaultView: 'agendaDay',
+            editable: false,
+            allDaySlot: false,
+            selectable: true,
+            selectConstraint: {
+                start: '00:00',
+                end: '24:00',
+            },
+            slotDuration: '00:15:00',
+            events: '/LeadEvents/GetDiaryEvents/',            
+            eventClick: function (calEvent, jsEvent, view) {
+                if ($("#editPermission").val().trim() == 'on') {
+                    ViewEvent(calEvent.id, calEvent.title, calEvent.start, calEvent.end, calEvent.color)
+                }
+            },
+
+            //eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+            //    if (confirm("Confirm move?")) {
+            //        UpdateEvent(event.id, event.start);
+            //    }
+            //    else {
+            //        revertFunc();
+            //    }
+            //},
+
+            //eventResize: function (event, dayDelta, minuteDelta, revertFunc) {
+
+            //    if (confirm("Confirm change appointment length?")) {
+            //        UpdateEvent(event.id, event.start, event.end);
+            //    }
+            //    else {
+            //        revertFunc();
+            //    }
+            //},
+
+
+
+            dayClick: function (date, allDay, jsEvent, view) {               
+                $('#eventTitle').val("");
+                $('#eventDate').val(moment(date).format("MM/DD/YY"));
+                $('#eventTime').val(moment(date).format('HH:mm'));
+                ShowEventPopup(date);
+            }
+
+            //viewRender: function (view, element) {
+
+            //    if (!CalLoading) {
+            //        if (view.name == 'month') {
+            //            //$('#calendar').fullCalendar('removeEventSource', sourceFullView);
+            //            //$('#calendar').fullCalendar('removeEvents');
+            //            //$('#calendar').fullCalendar('addEventSource', sourceSummaryView);
+
+            //            $('#calendar').fullCalendar('removeEventSource', sourceSummaryView);
+            //            $('#calendar').fullCalendar('removeEvents');
+            //            $('#calendar').fullCalendar('addEventSource', sourceFullView);
+            //        }
+            //        else {
+            //            $('#calendar').fullCalendar('removeEventSource', sourceSummaryView);
+            //            $('#calendar').fullCalendar('removeEvents');
+            //            $('#calendar').fullCalendar('addEventSource', sourceFullView);
+            //        }
+            //    }
+            //}
+
+        });
+
+        CalLoading = false;
+
+
+    });
+
+    
+
+    function cancel () {
+        ClearPopupFormValues();
+        $('#addNewEvent').modal('hide');
+    }
+
+    function addnewevent() {
+        $(".se-pre-con").show();
+        $('#addNewEvent').modal('hide');
+
+        var dataRow = {
+            'Title': $('#eventTitle').val(),
+            'NewEventDate': $('#eventDate').val(),
+            'NewEventTime': $('#eventTime').val(),
+            'NewEventDuration': $('#eventDuration').val(),
+            'RelatedLead': $('#Rlead').val(),
+            'Description': $('#notes').val()
+        }
+
+        ClearPopupFormValues();
+
+        $.ajax({
+            type: 'POST',
+            url: "/LeadEvents/SaveEvent",
+            data: dataRow,
+            success: function (response) {
+                if (response == 'True') {
+                    $('#calendar').fullCalendar('refetchEvents');
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $(".se-pre-con").hide();
+                    alert('Error, could not save event!');
+                }
+            }
+        });
+    }
+
+    function ShowEventPopup(date) {
+        ClearPopupFormValues();
+        $('#addNewEvent').modal('show');
+        $('#eventTitle').focus();
+    }
+
+    function ClearPopupFormValues() {
+        $('#eventID').val("");
+        $('#eventTitle').val("");
+        $('#eventDateTime').val("");
+        $('#eventDuration').val("");
+    }
+
+    function ViewEvent(Event_ID, title, sDate, eDate, ecolor) {
+     //   alert(moment(sDate).format('MM/DD/YY'));
+     //   alert(moment(sDate).format('h:mm:ss a'));
+        // var day = moment(sDate);
+        //  var sd = day.format("dddd, MMMM Do YYYY, h:mm")
+        $(".se-pre-con").show();
+        $.ajax({
+            url: '/LeadEvents/GetEventInfo',
+            dataType: "json",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ EventId: Event_ID }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                $("#dba").html('');
+                $("#dba").html(data.DBA);
+                $("#contact").html('');
+                $("#contact").html(data.ContName);
+                $("#bphone").html('');
+                $("#bphone").html(data.bPhone);
+                $("#bemail").html('');
+                $("#bemail").html(data.Email);
+                $("#bphone").html(data.bPhone);
+                $("#src").html(data.LeadSource);
+                $("#disp").val(data.LeadStatus);
+                $("#uDesc").val(data.LastNote);
+                $("#ustartDate").val(moment(sDate).format('MM/DD/YY'));
+                $("#ustartTime").val(moment(sDate).format('HH:mm'));
+               // $("#uendDate").val(data.LeadEventEndDate);
+                $("#ueventDuration").val(data.LeadEventDuration);
+
+                //$("#reId").val(Event_ID);
+
+                $("#uId").val(Event_ID);
+                $("#uTitle").val(title);
+
+                $("#Event").modal('show')
+                $(".se-pre-con").hide();
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+                $(".se-pre-con").hide();
+            }
+        });
+    }
+
+    function updateevent() {
+        $(".se-pre-con").show();
+        $('#Event').modal('hide');
+
+        var dataRow = {
+            'EventId' : $("#uId").val(),
+            'Title': $('#uTitle').val(),
+            'NewEventDate': $('#ustartDate').val(),
+            'NewEventTime': $('#ustartTime').val(),
+            'NewEventDuration': $('#ueventDuration').val(),
+            'NewDisposition': $('#disp').val(),
+            'Description': $('#uDesc').val()
+        }
+
+       
+
+        $.ajax({
+            type: 'POST',
+            url: "/LeadEvents/UpdateEvent",
+            data: dataRow,
+            success: function (response) {
+                if (response == 'True') {
+                    $('#calendar').fullCalendar('refetchEvents');
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $(".se-pre-con").hide();
+                    alert('Error, could not save event!');
+                }
+            }
+        });
+    }
+
+    function UpdateEvent(EventID, EventStart, EventEnd) {
+
+        var dataRow = {
+            'ID': EventID,
+            'NewEventStart': EventStart,
+            'NewEventEnd': EventEnd
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "/LeadEvents/UpdateEvent",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(dataRow)
+        });
+    }
+
+
+
+    </script>
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $.post('@Url.Action("GetLeads", "LeadEvents")', {},
+                    function (fooList) {
+                        $('#Rlead').empty();
+                        $.each(fooList, function (i, foo) {
+                            //$('#MonthYear').append($("<option />").val(this.Value).text(this.Value));
+                            $('#Rlead').append('<option value="' + this.Value + '">' + this.Text + '</option');
+                        });
+                    });
+
+
+        });
+
+    $(document).ready(function () {
+        $.post('@Url.Action("GetDisposition", "LeadEvents")', {},
+                function (fooList) {
+                    $('#disp').empty();
+                    $.each(fooList, function (i, foo) {
+                        //$('#MonthYear').append($("<option />").val(this.Value).text(this.Value));
+                        $('#disp').append('<option value="' + this.Value + '">' + this.Text + '</option');
+                    });
+                });
+
+
+    });
+
+    function transferEvent() {
+
+        if ($("#ftDate").val() == '') {
+            $('#error_div_ftDate').show();
+        }
+        else if ($("#ttDate").val() == '') {
+            $('#error_div_ttDate').show();
+            $('#error_div_ftDate').hide();
+        }
+        else {
+            $('#error_div_ttDate').hide();
+            $('#error_div_ftDate').hide();
+            $(".se-pre-con").show();
+            var sd;
+            var ed;
+            sd = $("#ftDate").val();
+            ed = $("#ttDate").val();
+            $("#tstart").val(moment(sd).format("MM/DD/YY"));
+            $("#tend").val(moment(ed).format("MM/DD/YY"));
+
+            $.ajax({
+                url: '/LeadEvents/TransferEvent',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ StartDate: $("#tstart").val(), EndDate: $("#tend").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data == '1') {
+                        $('#calendar').fullCalendar('refetchEvents');
+                        $('#Transfer').modal('hide');
+                        //  $("#uForm")[0].reset();
+                        $(".se-pre-con").hide();
+                    }
+                    else {
+                        $('#Transfer').modal('hide');
+                        //  $("#uForm")[0].reset();
+                        $(".se-pre-con").hide();
+                    }
+                },
+                error: function (xhr) {
+                    $('#Transfer').modal('hide');
+                    //   $("#uForm")[0].reset();
+                    $('#errorMessage').html("No connection");
+                    $(".se-pre-con").hide();
+                }
+            });
+        }
+    }
+
+
+    function Transfer() {
+
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure to transfer these leads!",
+            type: "warning",
+            showCancelButton: !0,
+            cancelButtonClass: "btn-raised btn-default",
+            cancelButtonText: "Cancel!",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "Yes, Transfer it!",
+            closeOnConfirm: !0
+        },
+        function () {
+            transferEvent();
+        })
+    }
+
+    function RemoveEvent() {
+        $(".se-pre-con").show();
+        $.ajax({
+            url: '/LeadEvents/DeleteEvent',
+            dataType: "json",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ EventId: $("#uId").val() }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data == '1') {
+                    $('#calendar').fullCalendar('refetchEvents');
+                    $("#Event").modal('hide');
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $("#Event").modal('hide');
+                    $(".se-pre-con").hide();
+                }
+            },
+            error: function (xhr) {
+                $("#Event").modal('hide');
+                $('#errorMessage').html("No connection");
+                $(".se-pre-con").hide();
+            }
+        });
+    }
+</script>
+
+
+
+<!-- Page Content -->
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Calender</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("AdminDashboard")">Home</a></li>
+                    <li><a href="#">Calender</a></li>
+                    @*<li class="active">Genral Setings</li>*@
+                </ol>
+            </div>
+            <div class="col-sm-6">                
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">Calender</h3>
+
+            </div>
+            <div class="widget-body">
+                <div class="col-sm-12">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+<input type="hidden" id="editPermission" value="@session.UserPermissionsSession.EditTask" />
+
+<div id="addNewEvent" tabindex="-1" role="dialog" aria-labelledby="ModalEventLabel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-black">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="ModalEventLabel" class="modal-title">Add New Event</h4>
+            </div>
+            <div class="modal-body">
+                <form id="EventForm" >
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <input type="hidden" id="eventID"/>
+                            <label>Title</label>
+                            <input id="eventTitle" type="text" placeholder="Event Name" class="form-control">
+                            <div id="error_div_eventTitle" style="display:none;">
+                                <p style="color:red;">Please Enter titles</p>
+                            </div>
+                        </div>
+                    </div>     
+                    <div class="col-sm-12">
+                        <div class="form-group">    
+                            <label>Date</label>                       
+                            <input id="eventDate" type="text" placeholder="Date" class="form-control" readonly="readonly">
+                            <div id="error_div_eventTitle" style="display:none;">
+                                <p style="color:red;">Please Enter titles</p>
+                            </div>
+                        </div>
+                    </div>   
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Time</label>
+                            <input id="eventTime" type="text" placeholder="Time" class="form-control" readonly="readonly">
+                            <div id="error_div_eventTitle" style="display:none;">
+                                <p style="color:red;">Please Enter titles</p>
+                            </div>
+                        </div>
+                    </div>     
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Appointment length (minutes)</label>
+                            <input type="text" class="form-control" id="eventDuration" placeholder="15"><br />
+                            <div id="error_div_eventDuration" style="display:none;">
+                                <p style="color:red;">Please Enter titles</p>
+                            </div>
+                        </div>
+                    </div>                  
+                    
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="">Related Lead</label>
+                            <select id="Rlead" class="form-control "></select>
+                            <div id="error_div_Rlead" style="display:none;">
+                                <p style="color:red;">Please choose a person</p>
+                            </div>
+                        </div>
+                    </div>                   
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="">Note</label>
+                            <textarea id="notes" class="form-control" placeholder="Notes"></textarea>
+                        </div>
+                    </div>
+                  
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" onclick="cancel();">Cancel</button>
+                <button id="btnAddNewEvent" type="submit" class="btn btn-raised btn-black" onclick="addnewevent();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Event" tabindex="-1" role="dialog" aria-labelledby="ModalEventLabel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-black">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="ModalEventLabel" class="modal-title">Event Info</h4>
+            </div>
+            <div class="modal-body">
+                <form id="eForm">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>DBA :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p id="dba"></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>Contact :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p id="contact"></p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>Business Phone :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p id="bphone"></p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>Business Email :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p id="bemail"></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>Business Phone :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p id="bphone"></p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>Source :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p id="src"></p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>Disposition :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <select id="disp" class="form-control "></select>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="reId" />
+                </form>
+                <form id="uForm">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input id="uTitle" type="text" placeholder="Event Name" class="form-control ">
+                        </div>
+                    </div>
+                    @*<div class="col-sm-12">
+                            <div class="form-group">
+                                <input id="uColor" type="text" value="" class="form-control">
+                            </div>
+                        </div>*@
+                    @*<div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="checkbox-inline checkbox-custom">
+                                    <input id="dateFlag" type="checkbox" value="" onclick="showDateDiv();">
+                                    <label for="dateFlag" class="checkbox-muted text-muted">Change Time And Date</label>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div id="dateDiv">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input id="ustartDate" type="text" class="form-control date-control" placeholder="Start Date">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Time</label>
+                                <input id="ustartTime" type="text" placeholder="Start Time" class="form-control ">
+                            </div>
+                        </div>
+                        @*<div class="col-sm-8">
+                                <div class="form-group">
+                                    <input id="uendDate" type="text" class="form-control date-control" placeholder="End Date">
+                                </div>
+                            </div>*@
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Appointment length (minutes)</label>
+                                <input id="ueventDuration" type="text" placeholder="End Time" class="form-control ">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Note</label>
+                            <textarea id="uDesc" class="form-control" placeholder="Notes"></textarea>
+                        </div>
+                    </div>
+                    <input id="ustart" type="hidden">
+                    <input id="uend" type="hidden">
+                    <input id="uId" type="hidden">
+                    <input id="dtFlag" type="hidden" value="0" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="update" onclick="updateevent()">Update</button>
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-danger" id="remove" onclick="RemoveEvent();">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Transfer" tabindex="-1" role="dialog" aria-labelledby="ModalEventLabel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-black">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="ModalEventLabel" class="modal-title">Transfer To Date</h4>
+            </div>
+            <div class="modal-body">
+                <form id="uForm">
+                    <div id="dateDiv">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ftDate">From</label>
+                                <input id="ftDate" type="text" class="form-control date-control" placeholder="From Date">
+                                <div id="error_div_ftDate" style="display:none;">
+                                    <p style="color:red;">Please Choose A Date</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ttDate">To</label>
+                                <input id="ttDate" type="text" class="form-control date-control" placeholder="To Date">
+                                <div id="error_div_ttDate" style="display:none;">
+                                    <p style="color:red;">Please Choose A Date</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input id="tstart" type="hidden">
+                    <input id="tend" type="hidden">
+                    <input id="uId" type="hidden">
+                    <input id="dtFlag" type="hidden" value="0" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="update" onclick="Transfer();">Transfer</button>
+            </div>
+        </div>
+    </div>
+</div>

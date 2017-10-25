@@ -14,7 +14,7 @@
         $(".date-control").daterangepicker({
             singleDatePicker: true,
             locale: {
-                format: 'MM/DD/YYYY'
+                format: 'MM/DD/YY'
             },
         });
     });
@@ -103,7 +103,7 @@
                             <input id="start" type="text" class="form-control" readonly>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" style="display:none;">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="" id="startTime" />
                              <div id="error_div_startTime" style="display:none;">
@@ -111,7 +111,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" style="display:none;">
                         <div class="form-group">
                             <input id="endTime" type="text" class="form-control">
                             <div id="error_div_endTime" style="display:none;">
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12" style="display:none;">
+                    <div class="col-sm-12" style="display:none;" style="display:none;">
                         <div class="form-group">
                             <input id="end" type="text" class="form-control" readonly>
                         </div>
@@ -231,22 +231,22 @@
                         </div>
                     </div>*@
                     <div id="dateDiv">
-                        <div class="col-sm-8">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <input id="ustartDate" type="text" class="form-control date-control" placeholder="Start Date">
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <input id="ustartTime" type="text" placeholder="Start Time" class="form-control ">
                             </div>
                         </div>
-                        <div class="col-sm-8">
+                        @*<div class="col-sm-8">
                             <div class="form-group">
                                 <input id="uendDate" type="text" class="form-control date-control" placeholder="End Date">
                             </div>
-                        </div>
-                        <div class="col-sm-4">
+                        </div>*@
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <input id="uendTime" type="text" placeholder="End Time" class="form-control ">
                             </div>
@@ -257,8 +257,8 @@
                             <textarea id="uDesc" class="form-control" placeholder="Notes"></textarea>
                         </div>
                     </div>
-                    <input id="start" type="hidden">
-                    <input id="end" type="hidden">
+                    <input id="ustart" type="hidden">
+                    <input id="uend" type="hidden">
                     <input id="uId" type="hidden">
                     <input id="dtFlag" type="hidden" value="0" />
                 </form>
@@ -271,9 +271,51 @@
     </div>
 </div>
 
-
+<div id="Transfer" tabindex="-1" role="dialog" aria-labelledby="ModalEventLabel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-black">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="ModalEventLabel" class="modal-title">Transfer To Date</h4>
+            </div>
+            <div class="modal-body">                
+                <form id="uForm">            
+                    <div id="dateDiv">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ftDate">From</label>
+                                <input id="ftDate" type="text" class="form-control date-control" placeholder="From Date">
+                                <div id="error_div_ftDate" style="display:none;">
+                                    <p style="color:red;">Please Choose A Date</p>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ttDate">To</label>
+                                <input id="ttDate" type="text" class="form-control date-control" placeholder="To Date">
+                                <div id="error_div_ttDate" style="display:none;">
+                                    <p style="color:red;">Please Choose A Date</p>
+                                </div>
+                            </div>
+                        </div>                      
+                    </div>
+                   
+                    <input id="tstart" type="hidden">
+                    <input id="tend" type="hidden">
+                    <input id="uId" type="hidden">
+                    <input id="dtFlag" type="hidden" value="0" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="update" onclick="Transfer();">Transfer</button>
+            </div>
+        </div>
+    </div>
+</div>
 <input type="hidden" id="hov" />
 <input type="hidden" id="editPermission" value="@session.UserPermissionsSession.EditTask"/>
+<input type="hidden" id="ttm" />
 <script>
 
     $(document).ready(function () {
@@ -281,24 +323,44 @@
         function e() { $("#addNewEvent").modal("hide"), $("#fullcalendar").fullCalendar("renderEvent", { title: $("#inputTitleEvent").val(), start: new Date($("#start").val()), end: new Date($("#end").val()), color: $("#inputBackgroundEvent").val() }, !0) }
 
         $("#fullcalendar").fullCalendar({
+            
             header: {
-                left: "prev,next",
+                left: "prev,next, transferTo",
                 center: "title",
                 right: "month,agendaWeek,agendaDay"
             },
+            customButtons: {
+                transferTo: {
+                    text: 'Transfer To',
+                    click: function () {
+                        $('#Transfer').modal('show');
+                    }
+                }
+            },
+            defaultView: 'agendaDay',
             buttonIcons: {
                 prev: " ti-angle-left",
                 next: " ti-angle-right"
             },
-            //  timeFormat: 'h(:mm)t',
-            timeFormat : 'H:mm',
-            timezone: 'local',
+             timeFormat: 'h(:mm)t',
+            //timeFormat : 'H:mm',
+            timezone: 'UTC',
             droppable: !0,
             selectable: !0,
-            editable: !1,
+            selectConstraint: {
+                start: '00:00',
+                end: '24:00',
+            },
+            editable: !1,           
             select: function (e, t, a) {
-                $("#start").val(moment(e).format("YYYY/MM/DD")),
-                $("#end").val(moment(t).format("YYYY/MM/DD")),
+                $('#ttm').val(e);
+                $("#start").val(moment(e).format("YYYY/MM/DD HH:mm")),
+                $("#end").val(moment(t).format("YYYY/MM/DD HH:mm")),
+             //   $("#start").val(moment.utc(e, 'MM/DD/YY HH:MM').format('MM/DD/YY HH:MM tt')),
+                
+                //  $("#start").val(e),
+                //  $("#end").val(t),
+                $('#ttm').val(e);
                 $("#inputTitleEvent").val(""), $("#addNewEvent").modal("show")
             },
             allDay: !1,
@@ -344,33 +406,34 @@
     $("#inputBackgroundEvent").minicolors({ theme: "bootstrap" });
 
     function validateEventForm() {
-
+        alert($('#ttm').val());
+        alert($("#start").val());
         if ($('#inputTitleEvent').val().trim() == "") {
             $("#error_div_inputTitleEvent").show();
             return false;
         }
-        else if ($('#startTime').val().trim() == "") {
-            $("#error_div_startTime").show();
-            $("#error_div_inputTitleEvent").hide();
-            return false;
-        }
-        else if ($('#endTime').val().trim() == "") {
-            $("#error_div_endTime").show();
-            $("#error_div_startTime").hide();
-            $("#error_div_inputTitleEvent").hide();
-            return false;
-        }
+        //else if ($('#startTime').val().trim() == "") {
+        //    $("#error_div_startTime").show();
+        //    $("#error_div_inputTitleEvent").hide();
+        //    return false;
+        //}
+        //else if ($('#endTime').val().trim() == "") {
+        //    $("#error_div_endTime").show();
+        //    $("#error_div_startTime").hide();
+        //    $("#error_div_inputTitleEvent").hide();
+        //    return false;
+        //}
         else if ($('#Rlead').val().trim() == "0") {
             $("#error_div_Rlead").show();
-            $("#error_div_endTime").hide();
-            $("#error_div_startTime").hide();
+           // $("#error_div_endTime").hide();
+          //  $("#error_div_startTime").hide();
             $("#error_div_inputTitleEvent").hide();
             return false;
         }
         else{
             $("#error_div_Rlead").hide();
-            $("#error_div_endTime").hide();
-            $("#error_div_startTime").hide();
+            //$("#error_div_endTime").hide();
+           // $("#error_div_startTime").hide();
             $("#error_div_inputTitleEvent").hide();
             return true;
         }
@@ -386,7 +449,8 @@
                 dataType: "json",
                 type: "POST",
                 contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify({ Title: $("#inputTitleEvent").val(), StartDate: $("#start").val() + ' ' + $("#startTime").val(), EndDate: $("#end").val() + ' ' + $("#endTime").val(), RelatedLead: $("#Rlead").val(), Description: $("#description").val() }),
+               // data: JSON.stringify({ Title: $("#inputTitleEvent").val(), StartDate: $("#start").val() + ' ' + $("#startTime").val(), EndDate: $("#end").val() + ' ' + $("#endTime").val(), RelatedLead: $("#Rlead").val(), Description: $("#description").val() }),
+                data: JSON.stringify({ Title: $("#inputTitleEvent").val(), StartDate: $("#start").val() , EndDate: $("#end").val() , RelatedLead: $("#Rlead").val(), Description: $("#description").val() }),
                 async: true,
                 processData: false,
                 cache: false,
@@ -483,28 +547,35 @@
         $(".se-pre-con").show();
         var sd;
         var ed;
-        if ($("#ustartDate").val().indexOf('/') > -1) {
-            alert('u');
-             sd = $("#ustartDate").val().replace(/\//g, "-");
-        }
-        else {
-             sd = $("#ustartDate").val();
-        }
+        sd = $("#ustartDate").val() + ' ' + $("#ustartTime").val();
+        ed = $("#ustartDate").val() + ' ' + $("#uendTime").val();
+        $("#ustart").val(moment(sd).format("MM/DD/YY HH:mm"));
+        $("#uend").val(moment(ed).format("MM/DD/YY HH:mm"));
+       
+       
+        //if ($("#ustartDate").val().indexOf('/') > -1) {
+            
+        //    sd = $("#ustartDate").val().replace(/\//g, "-");
+        //    alert(sd);
+        //}
+        //else {
+        //     sd = $("#ustartDate").val();
+        //}
 
-        if ($("#uendDate").val().indexOf('/') > -1) {
-            alert('e');
-            ed = $("#uendDate").val().replace(/\//g, "-");
-        }
-        else {
-            ed = $("#uendDate").val();
-        }
+        //if ($("#uendDate").val().indexOf('/') > -1) {
+        //    alert('e');
+        //    ed = $("#uendDate").val().replace(/\//g, "-");
+        //}
+        //else {
+        //    ed = $("#uendDate").val();
+        //}
       
         $.ajax({
             url: '/Calender/UpdateEvent',
             dataType: "json",
             type: "POST",
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({ Title: $("#uTitle").val(), StartDate: sd + ' ' + $("#ustartTime").val(), EndDate: ed + ' ' + $("#uendTime").val(), Description: $("#uDesc").val(), DateFlag: $("#dtFlag").val(), EventId: $("#uId").val() }),
+            data: JSON.stringify({ Title: $("#uTitle").val(), StartDate: $("#ustart").val(), EndDate: $("#uend").val(), Description: $("#uDesc").val(), DateFlag: $("#dtFlag").val(), EventId: $("#uId").val() }),
             async: true,
             processData: false,
             cache: false,
@@ -583,6 +654,76 @@
 
     }
 
+    function transferEvent() {
+
+        if ($("#ftDate").val() == '') {
+            $('#error_div_ftDate').show();
+        }
+        else if ($("#ttDate").val() == '') {
+            $('#error_div_ttDate').show();
+            $('#error_div_ftDate').hide();
+        }
+        else {
+            $('#error_div_ttDate').hide();
+            $('#error_div_ftDate').hide();
+            $(".se-pre-con").show();
+            var sd;
+            var ed;
+            sd = $("#ftDate").val();
+            ed = $("#ttDate").val();
+            $("#tstart").val(moment(sd).format("MM/DD/YY"));
+            $("#tend").val(moment(ed).format("MM/DD/YY"));
+
+            $.ajax({
+                url: '/Calender/TransferEvent',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ StartDate: $("#tstart").val(), EndDate: $("#tend").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data == '1') {
+                        $('#fullcalendar').fullCalendar('refetchEvents');
+                        $('#Transfer').modal('hide');
+                      //  $("#uForm")[0].reset();
+                        $(".se-pre-con").hide();
+                    }
+                    else {
+                        $('#Transfer').modal('hide');
+                      //  $("#uForm")[0].reset();
+                        $(".se-pre-con").hide();
+                    }
+                },
+                error: function (xhr) {
+                    $('#Transfer').modal('hide');
+                 //   $("#uForm")[0].reset();
+                    $('#errorMessage').html("No connection");
+                    $(".se-pre-con").hide();
+                }
+            });
+        }        
+    }
+
+
+    function Transfer() {
+
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure to transfer these leads!",
+            type: "warning",
+            showCancelButton: !0,
+            cancelButtonClass: "btn-raised btn-default",
+            cancelButtonText: "Cancel!",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "Yes, Transfer it!",
+            closeOnConfirm: !0
+        },
+        function () {
+            transferEvent();
+        })
+    }
 </script>
 
 <script type="text/javascript">

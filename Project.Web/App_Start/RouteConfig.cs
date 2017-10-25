@@ -129,6 +129,12 @@ namespace Project.Web
             );
 
             routes.MapRoute(
+            name: "Docs",
+            url: "Docs/list",
+            defaults: new { controller = "Doc", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Authentication", action = "Login", id = UrlParameter.Optional }

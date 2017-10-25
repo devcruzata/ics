@@ -30,6 +30,8 @@ namespace Project.Web.Models
 
         public string Currency { get; set; }
 
+        public string Memo { get; set; }
+
         public List<AdminSeting> seting { get; set; }
 
         public List<Groups> groups { get; set; }

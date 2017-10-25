@@ -13,6 +13,7 @@
             <td>@role.RoleName</td>
             <td>
                 <button type="button" class="btn btn-outline btn-primary" onclick="GetUserRoleForUpdate(@role.Role_ID);" title="Edit User Role"><i class="ti-pencil"></i></button>
+                <button type="button" class="btn btn-outline btn-danger" onclick="DeleteRole('@role.Role_ID');" title="Delete Role"><i class="ti-trash"></i></button>
             </td>
         </tr>
     }

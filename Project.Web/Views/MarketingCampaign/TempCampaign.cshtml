@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+}
+
+@foreach (var campaign in ViewBag.Campaigns)
+{
+    <tr>
+        <td class="text-center">@campaign.Title</td>
+        <td class="text-center">@campaign.TotalReciever</td>
+        <td class="text-center">@campaign.Disposition</td>
+        <td class="text-center">@campaign.CratedAt</td>
+        @if (campaign.Status == "Active")
+        {
+            <td class="text-center"><span class="label label-success">@campaign.Status</span></td>
+        }
+        else
+        {
+            <td class="text-center"><span class="label label-warning" onclick="SendCampaign(@campaign.Campign_ID);">@campaign.Status</span></td>
+        }
+        
+        <td class="text-center">
+          
+            <button class="btn btn-sm btn-outline btn-danger" onclick="DeleteCampaign(@campaign.Campign_ID)" title="Delete Campaign"><i class="ti-trash"></i></button>
+        </td>    </tr>
+}

@@ -25,4 +25,16 @@ namespace Project.Entity
 
         public string EventColor { get; set; }
     }
+
+    public class LeadEvent
+    {
+        public long ID;
+        public string Title;
+        public long Relatedlead;
+        public string StartDateString;
+        public string EndDateString;
+        public string StatusString;
+        public string StatusColor;
+        public string ClassName;
+    }
 }

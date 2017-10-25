@@ -1,0 +1,381 @@
+﻿@{
+    ViewBag.Title = "test";
+}
+
+@using Project.Web.Common;
+@{
+    SessionHelper session = new SessionHelper();
+}
+
+@*<script>
+        $(document).ready(function () {
+            $("#ecolor").minicolors({ theme: "bootstrap" })
+        });
+    </script>*@
+
+@*<script>
+    $(document).ready(function () {
+        $(".date-control").daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'MM/DD/YYYY'
+            },
+        });
+    });
+</script>*@
+
+@*<script>
+    $(document).ready(function () {
+        $("#startTime").datetimepicker({ locale: "en-gb", format: "LT" });
+        $("#endTime").datetimepicker({ locale: "en-gb", format: "LT" });
+        $("#ustartTime").datetimepicker({ locale: "en-gb", format: "LT" });
+        $("#uendTime").datetimepicker({ locale: "en-gb", format: "LT" });
+    });
+</script>*@
+
+<script>
+    $(document).ready(function () {
+        $("#ecolor").minicolors({ theme: "bootstrap" });
+        $("#uColor").minicolors({ theme: "bootstrap" });
+    });
+</script>
+
+
+
+
+<!-- Page Content -->
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Calender</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("AdminDashboard")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("Calender")">Calender</a></li>
+                    @*<li class="active">Genral Setings</li>*@
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                        <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                            <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                        </ul>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">Calendar</h3>
+
+            </div>
+            <div class="widget-body">
+                <div class="col-sm-12">
+                    <div id="fullcalendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+<div id="addNewEvent" tabindex="-1" role="dialog" aria-labelledby="ModalEventLabel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-black">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="ModalEventLabel" class="modal-title">Add New Event</h4>
+            </div>
+            <div class="modal-body">
+                <form id="eForm">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <input id="inputTitleEvent" type="text" placeholder="Event Name" class="form-control">
+                            <div id="error_div_inputTitleEvent" style="display:none;">
+                                <p style="color:red;">Please Enter titles</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8" style="display:none;">
+                        <div class="form-group">
+                            <input id="start" type="text" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" style="display:none;">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="" id="startTime" />
+                            <div id="error_div_startTime" style="display:none;">
+                                <p style="color:red;">Please Enter start Time</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" style="display:none;">
+                        <div class="form-group">
+                            <input id="endTime" type="text" class="form-control">
+                            <div id="error_div_endTime" style="display:none;">
+                                <p style="color:red;">Please Enter end Time</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="display:none;" style="display:none;">
+                        <div class="form-group">
+                            <input id="end" type="text" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="">Related Lead</label>
+                            <select id="Rlead" class="form-control "></select>
+                            <div id="error_div_Rlead" style="display:none;">
+                                <p style="color:red;">Please choose a person</p>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-sm-12">
+                            <div class="form-group">
+                                <input id="inputBackgroundEvent" type="text" value="#0667D6" class="form-control">
+                            </div>
+                        </div>*@
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <textarea id="description" class="form-control" placeholder="Notes"></textarea>
+                        </div>
+                    </div>
+                    <input id="start" type="hidden">
+                    <input id="end" type="hidden">
+                    <input id="allDay" type="hidden">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
+                <button id="btnAddNewEvent" type="submit" class="btn btn-raised btn-black">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Event" tabindex="-1" role="dialog" aria-labelledby="ModalEventLabel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-black">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="ModalEventLabel" class="modal-title">Event Info</h4>
+            </div>
+            <div class="modal-body">
+                <form id="eForm">
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>Related To :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p id="relateTo"></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>Contact :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p id="contact"></p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="col-sm-4">
+                            <p><b>Business Email :</b></p>
+                        </div>
+                        <div class="col-sm-8">
+                            <p id="bemail"></p>
+                        </div>
+                    </div>
+
+
+                    <input type="hidden" id="reId" />
+                </form>
+                <form id="uForm">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <input id="uTitle" type="text" placeholder="Event Name" class="form-control ">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="UCRelateTo">Relate To</label>
+                            <select id="UCRelateTo" class="form-control">
+                                <option class="active" value="0">Choose a Option</option>
+                                <option class="active" value="LEAD">Lead</option>
+                                <option value="OPPORTUNITY">Opportunity</option>
+                                <option value="CLIENT">Client</option>
+                            </select>
+                            <div id="error_div_UCRelateTo" style="display:none;">
+                                <p style="color:red;">Please Choose A Related Person</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="CRelateToName">Name</label>
+                            <select id="UCRelateToName" class="form-control TRelateToName"></select>
+                            <div id="error_div_UCRelateToName" style="display:none;">
+                                <p style="color:red;">Please Choose A Related Entity</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <input id="uColor" type="text" value="" class="form-control">
+                        </div>
+                    </div>
+                    @*<div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="checkbox-inline checkbox-custom">
+                                    <input id="dateFlag" type="checkbox" value="" onclick="showDateDiv();">
+                                    <label for="dateFlag" class="checkbox-muted text-muted">Change Time And Date</label>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div id="dateDiv">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <input id="ustartDate" type="text" class="form-control date-control" placeholder="Start Date">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input id="ustartTime" type="text" placeholder="Start Time" class="form-control ">
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <input id="uendDate" type="text" class="form-control date-control" placeholder="End Date">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input id="uendTime" type="text" placeholder="End Time" class="form-control ">
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-sm-12">
+                            <div class="form-group">
+                                <textarea id="uDesc" class="form-control" placeholder="Notes"></textarea>
+                            </div>
+                        </div>*@
+                    @*<div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="clr">Color</label>
+                                <input id="ecolor" type="text" value="#9b59b6" class="form-control">
+                            </div>
+                        </div>*@
+                    <input id="start" type="hidden">
+                    <input id="end" type="hidden">
+                    <input id="uId" type="hidden">
+                    <input id="dtFlag" type="hidden" value="0" />
+                    <input type="hidden" id="RID" />
+                    <input type="hidden" id="RTYPE" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="update" onclick="updateEvent()">Update</button>
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-danger" id="remove" onclick="RemoveEvent();">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="hov" />
+<input type="hidden" id="editPermission" value="" />
+<input type="hidden" id="eid" value="" />
+
+
+<script>
+    $(document).ready(function () {
+
+        var sourceFullView = { url: '/Home/GetDiaryEvents/' };
+        var sourceSummaryView = { url: '/Home/GetDiarySummary/' };
+        var CalLoading = true;
+
+        $('#fullcalendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultView: 'agendaDay',
+            editable: true,
+            allDaySlot: false,
+            selectable: true,
+            slotMinutes: 15,
+            events: '/Home/GetDiaryEvents/',
+            eventClick: function (calEvent, jsEvent, view) {
+                alert('You clicked on event id: ' + calEvent.id
+                    + "\nSpecial ID: " + calEvent.someKey
+                    + "\nAnd the title is: " + calEvent.title);
+
+            },
+
+            eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+                if (confirm("Confirm move?")) {
+                    UpdateEvent(event.id, event.start);
+                }
+                else {
+                    revertFunc();
+                }
+            },
+
+            eventResize: function (event, dayDelta, minuteDelta, revertFunc) {
+
+                if (confirm("Confirm change appointment length?")) {
+                    UpdateEvent(event.id, event.start, event.end);
+                }
+                else {
+                    revertFunc();
+                }
+            },
+
+
+
+            dayClick: function (date, allDay, jsEvent, view) {
+                $('#eventTitle').val("");
+                $('#eventDate').val($.fullCalendar.formatDate(date, 'dd/MM/yyyy'));
+                $('#eventTime').val($.fullCalendar.formatDate(date, 'HH:mm'));
+                ShowEventPopup(date);
+            },
+
+            viewRender: function (view, element) {
+
+                if (!CalLoading) {
+                    if (view.name == 'month') {
+                        $('#calendar').fullCalendar('removeEventSource', sourceFullView);
+                        $('#calendar').fullCalendar('removeEvents');
+                        $('#calendar').fullCalendar('addEventSource', sourceSummaryView);
+                    }
+                    else {
+                        $('#calendar').fullCalendar('removeEventSource', sourceSummaryView);
+                        $('#calendar').fullCalendar('removeEvents');
+                        $('#calendar').fullCalendar('addEventSource', sourceFullView);
+                    }
+                }
+            }
+
+        });
+
+        CalLoading = false;
+
+
+    });
+ </script>
+
+
+
+
+
+

@@ -409,7 +409,7 @@ if it's not present, don't show loader */
                         <li><a href="@Url.RouteUrl("Manageuser")" class="bubble"><i class="ti-id-badge"></i><span class="sidebar-title">Users </span></a></li>
                     }
 
-
+                <li><a href="@Url.RouteUrl("Docs")" class="bubble"><i class="ti-files"></i><span class="sidebar-title">Documents</span></a></li>
                     <li><a href="@Url.RouteUrl("Reports")" class="bubble"><i class="ti-files"></i><span class="sidebar-title">Reports</span></a></li>
 
                     @if(session.UserPermissionsSession.SiteManagement == "on")
@@ -628,9 +628,9 @@ if it's not present, don't show loader */
 
 
 
-    <div id="loader" style="position: fixed; top: 0; left: 0; height: 100%; width: 100%; display: none; background-color: black; opacity: 0.7; z-index: 999;">
+    @*<div id="loader" style="position: fixed; top: 0; left: 0; height: 100%; width: 100%; display: none; background-color: black; opacity: 0.7; z-index: 999;">
         <img src="../Content/Images/loader.gif" style="position: absolute; margin-left: 50%; height: 100px; margin-top: 320px;" />
-    </div>
+    </div>*@
 
 
     <div id="loader" style="position: fixed; top: 0; left: 0; height: 100%; width: 100%; display: none; background-color: black; opacity: 0.7; z-index: 999;">
@@ -698,7 +698,7 @@ if it's not present, don't show loader */
     <script type="text/javascript" src="@Url.Content("~/Content/plugins/datatables.net-responsive/js/dataTables.responsive.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/plugins/datatables.net-responsive-bs/js/responsive.bootstrap.js")"></script>
     <!-- jQuery UI-->
-    <script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery-ui/jquery-ui.min.js").."></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery-ui/jquery-ui.min.js")"></script>
     <!-- FullCalendar-->
     <script type="text/javascript" src="@Url.Content("~/Content/plugins/fullcalendar/dist/fullcalendar.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Content/plugins/fullcalendar/dist/fullcalendar.min.js")"></script>

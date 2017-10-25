@@ -20,4 +20,15 @@ namespace Project.Web.Models
 
         
     }
+
+    public class CalenderEventModel
+    {
+        public int ID { get; set; }
+        public string Title { get; set; }
+        public long RelatedLead { get; set; }
+        public System.DateTime DateTimeScheduled { get; set; }
+        public int AppointmentLength { get; set; }
+        public int StatusENUM { get; set; }
+        public string StatusColor { get; set; }
+    }
 }

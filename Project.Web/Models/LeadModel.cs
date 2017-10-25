@@ -210,6 +210,10 @@ namespace Project.Web.Models
         public string LeadEventStartTime { get; set; }
 
         public string LeadEventEndTime { get; set; }
+
+        public string LeadEventDuration { get; set; }
+
+        public string LastNote { get; set; }
     }
 
     public class LeadSubmisionModel

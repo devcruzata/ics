@@ -48,8 +48,7 @@
                     <thead>
                         <tr>                           
                             <th class="text-center">Title</th>
-                            <th class="text-center">No of Recievers</th>                      
-                            <th class="text-center">Source</th>
+                            <th class="text-center">No of Recievers</th>                   
                             <th class="text-center">Disposition</th>
                             <th class="text-center">Created On</th>
                             <th class="text-center">Status</th>
@@ -57,7 +56,26 @@
                         </tr>
                     </thead>
                     <tbody id="uTableBody">
-
+                        @foreach(var campaign in ViewBag.Campaigns)
+                        {
+                            <tr>
+                                <td class="text-center">@campaign.Title</td>
+                                <td class="text-center">@campaign.TotalReciever</td>
+                                <td class="text-center">@campaign.Disposition</td>
+                                <td class="text-center">@campaign.CratedAt</td>
+                                @if (campaign.Status == "Active")
+                                {
+                                    <td class="text-center"><span class="label label-success">@campaign.Status</span></td>
+                                }
+                                else
+                                {
+                                    <td class="text-center"><span class="label label-warning" onclick="SendCampaign(@campaign.Campign_ID);">@campaign.Status</span></td>
+                                }                               
+                                <td class="text-center">                                   
+                                    <button class="btn btn-sm btn-outline btn-danger" onclick="DeleteCampaign(@campaign.Campign_ID)" title="Delete Campaign"><i class="ti-trash"></i></button>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
 
@@ -83,7 +101,10 @@
                         <div class="form-group col-sm-6">
                             <label for="NTitle">Title</label>
                             @*@Html.DropDownListFor(m => m.AssignToID, (List<SelectListItem>)ViewBag.UserList, new { @class = "form-control form-cutom" })*@
-                            <input type="text" id="title" class="form-control" />                           
+                            <input type="text" id="title" class="form-control" />  
+                            <div id="error_div_title" style="display:none;">
+                                <p style="color:red">Please Enter Title</p>
+                            </div>                         
                         </div>
 
                        
@@ -95,45 +116,58 @@
                         <div class="form-group col-sm-6">
                             <label for="dipo_id">Dispotion</label>
                              @*@Html.DropDownListFor(m => m.AssignToID, (List<SelectListItem>)ViewBag.UserList, new { @class = "form-control form-cutom" })*@
-                            <select id="dipo_id" class="form-control"></select>                          
+                            <select id="dipo_id" class="form-control"></select>
+                            <div id="error_div_dipo_id" style="display:none;">
+                                <p style="color:red">Please Enter Title</p>
+                            </div>                           
                         </div>     
                         <div class="form-group col-sm-6">
                             <label for="temp_id">Template</label>
                             @*@Html.DropDownListFor(m => m.AssignToID, (List<SelectListItem>)ViewBag.UserList, new { @class = "form-control form-cutom" })*@
                             <select id="temp_id" class="form-control"></select>
+                            <div id="error_div_temp_id" style="display:none;">
+                                <p style="color:red">Please Enter Title</p>
+                            </div> 
                         </div>                   
                     </div>
                 </div>               
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Close</button>
-                <button type="button" class="btn btn-raised btn-black">Save & Send</button>
+                <button type="button" class="btn btn-raised btn-black" onclick="ManageCampaign('0')">Add</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    $(document).ready(function () {
+       
+        $(".se-pre-con").show();
+
+        getDisposition();
+
+        getTemplates();
+        $(".se-pre-con").hide();
+    });
+</script>
+
+<script>
     // Table Script*******
 
     $(document).ready(function () {
 
-        var e1 = $("#lead-list-1").DataTable({ pageLength: 50, colReorder: !0, buttons: [], searching: !0, aLengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]], order: [[5, "desc"]], columnDefs: [{ orderable: !1, targets: [0, 6] }] });
+        var e1 = $("#lead-list-1").DataTable({ pageLength: 50, colReorder: !0, buttons: [], searching: !0, aLengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]], order: [[5, "desc"]], columnDefs: [{ orderable: !1, targets: [0, 5] }] });
         $("#lead-list-1_wrapper .col-sm-6:eq(1)").addClass("text-right"), e1.buttons().container().appendTo("#lead-list-1_wrapper .col-sm-6:eq(1)")
 
     });
 </script>
 
 <script>
-    $(document).ready(function () {
-        $(".se-pre-con").show();
-        getDisposition();
-
-        getTemplates();
-        $(".se-pre-con").hide();
-    });
+    
 
     function getDisposition() {
+      
         $.ajax({
             url: '/MarketingCampaign/GetDisposition',
             dataType: "json",
@@ -189,5 +223,113 @@
                 $('#errorMessage').html("No connection");
             }
         });
+    }
+
+    function ManageCampaign(sFlag) {
+        if ($('#title').val().trim() == '') {
+            $('#error_div_title').show();            
+        }
+        else if ($('#dipo_id').val() == '0') {
+            $('#error_div_dipo_id').show();
+            $('#error_div_title').hide();
+        }
+        else if ($('#temp_id').val() == '0') {
+            $('#error_div_temp_id').show();
+            $('#error_div_dipo_id').hide();
+            $('#error_div_title').hide();
+        }
+        else {
+            $('#error_div_temp_id').hide();
+            $('#error_div_dipo_id').hide();
+            $('#error_div_title').hide();
+
+            $.ajax({
+                url: '/MarketingCampaign/SaveCampaign',
+                dataType: "html",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ title: $('#title').val(), sendFlag: $('#title').val(), dispositionID: $('#dipo_id').val(), templateId: $('#temp_id').val(), sendFlag : sFlag }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != "") {
+                        
+                        $('#uTableBody').html('');
+                        $('#uTableBody').html(data);
+                        $('#campaign_Modal').modal('hide');
+                         $(".se-pre-con").hide();
+                    }
+                    else {
+                        alert('f');
+                        $('#campaign_Modal').modal('hide');
+                         $(".se-pre-con").hide();
+                    }
+                },
+                error: function (xhr) {
+                     $(".se-pre-con").hide();
+                    $('#errorMessage').html("No connection");
+                }
+            });
+        }
+    }
+
+    function SendCampaign(campId) {
+        $.ajax({
+            url: '/MarketingCampaign/SendCampaign',
+            dataType: "html",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ CampaignId : campId }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != "") {
+                    $('#uTableBody').val('');
+                    $('#uTableBody').val(data);
+                    $('#campaign_Modal').modal('hide');
+                    $(".se-pre-con").hide();
+                }
+                else {
+
+                    $('#campaign_Modal').modal('hide');
+                    $(".se-pre-con").hide();
+                }
+            },
+            error: function (xhr) {
+                $(".se-pre-con").hide();
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+
+    function DeleteCampaign(Campaign_ID_Auto_PK) {
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure to delete this Campaign!",
+            type: "warning",
+            showCancelButton: !0,
+            cancelButtonClass: "btn-raised btn-default",
+            cancelButtonText: "Cancel!",
+            confirmButtonClass: "btn-raised btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: !0
+        },
+        function () {
+            $(".se-pre-con").show();
+            var Cdata = Campaign_ID_Auto_PK;
+            var url = "/MarketingCampaign/DeleteCampaign";
+            $.post(url, { campaignId: Cdata }, function (data) {
+                if (data != "") {
+                    $('#uTableBody').html('');
+                    $('#uTableBody').html(data);
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $(".se-pre-con").hide();
+                }
+            });
+        })
     }
 </script>

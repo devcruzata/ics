@@ -263,7 +263,55 @@ namespace BAL.Calender
             }
             return Response;
         }
-        
+
+        public objResponse AddNewEvent(string Title, string StartDate, string EndDate, string RLead, string Description, long CreatedBy)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                SqlParameter[] sqlParameter = new SqlParameter[6];
+
+                sqlParameter[0] = new SqlParameter("@Title", SqlDbType.NVarChar, 1000);
+                sqlParameter[0].Value = Title;
+
+                sqlParameter[1] = new SqlParameter("@StartDate", SqlDbType.NVarChar , 100);
+                sqlParameter[1].Value = StartDate;
+
+                sqlParameter[2] = new SqlParameter("@EndDate", SqlDbType.NVarChar, 100);
+                sqlParameter[2].Value = EndDate;
+
+                sqlParameter[3] = new SqlParameter("@RLead", SqlDbType.BigInt, 16);
+                sqlParameter[3].Value = Convert.ToInt64(RLead);
+
+                sqlParameter[4] = new SqlParameter("@Description", SqlDbType.NVarChar, 200);
+                sqlParameter[4].Value = Description;
+
+                sqlParameter[5] = new SqlParameter("@CreatedBy", SqlDbType.BigInt, 16);
+                sqlParameter[5].Value = CreatedBy;
+
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_AddNewEventUpdated", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = Response.ResponseData.Tables[0].Rows[0][0].ToString();
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ErrorCode = 3001;
+                Response.ErrorMessage = ex.Message.ToString();
+                BAL.Common.LogManager.LogError("AddNewEvent", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+            }
+            return Response;
+        }
+
 
         public objResponse UpdateEventDate(int Eventid, DateTime StartDate, DateTime EndDate)
         {
@@ -390,6 +438,81 @@ namespace BAL.Calender
                 Response.ErrorCode = 3001;
                 Response.ErrorMessage = ex.Message.ToString();
                 BAL.Common.LogManager.LogError("UpdateEventType2", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+            }
+            return Response;
+        }
+
+        public objResponse GetEventForTransfer(string StartDate)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                SqlParameter[] sqlParameter = new SqlParameter[1];
+               
+
+                sqlParameter[0] = new SqlParameter("@StartDate", SqlDbType.NVarChar, 60);
+                sqlParameter[0].Value = StartDate;
+
+
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_GetEventsForTransfer", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = Response.ResponseData.Tables[0].Rows[0][0].ToString();
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ErrorCode = 3001;
+                Response.ErrorMessage = ex.Message.ToString();
+                BAL.Common.LogManager.LogError("GetEventForTransfer", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+            }
+            return Response;
+        }
+
+        public objResponse TransferEvent(long EventId, DateTime StartDate, DateTime EndDate)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                SqlParameter[] sqlParameter = new SqlParameter[3];
+
+                sqlParameter[0] = new SqlParameter("@EventId", SqlDbType.Int, 10);
+                sqlParameter[0].Value = EventId;
+
+                sqlParameter[1] = new SqlParameter("@StartDate", SqlDbType.DateTime, 60);
+                sqlParameter[1].Value = StartDate;
+
+                sqlParameter[2] = new SqlParameter("@EndDate", SqlDbType.DateTime, 60);
+                sqlParameter[2].Value = EndDate;               
+
+
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_TransferEvent", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = Response.ResponseData.Tables[0].Rows[0][0].ToString();
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ErrorCode = 3001;
+                Response.ErrorMessage = ex.Message.ToString();
+                BAL.Common.LogManager.LogError("TransferEvent", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
             }
             return Response;
         }

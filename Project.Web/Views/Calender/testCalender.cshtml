@@ -1,0 +1,119 @@
+﻿
+
+<!-- Page Content -->
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Calender</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("AdminDashboard")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("Calender")">Calender</a></li>
+                    @*<li class="active">Genral Setings</li>*@
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                        <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                            <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                        </ul>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">Calender</h3>
+
+            </div>
+            <div class="widget-body">
+                <div class="col-sm-12">
+                    <div id="fullcalendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#fullcalendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'agendaDay'
+            },
+            defaultView: 'agendaDay',
+            allDaySlot: false,
+            scrollTime: moment().format('HH:mm:ss'),
+            slotDuration: '00:15:00',
+            minTime: '06:45:00',
+            maxTime: '23:15:00',
+            eventDurationEditable: true,
+            eventStartEditable: true,
+
+            selectable: true,
+            selectHelper: true,
+            select: function (start, end) {
+                if (start != end) {
+                    console.log(start)
+                    $('#calendar').fullCalendar('unselect');
+                    return false;
+                }
+                var title = prompt('Event Title:');
+                var eventData;
+                if (title) {
+                    eventData = {
+                        title: title,
+                        start: start,
+                        end: end
+                    };
+                    $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                }
+                $('#calendar').fullCalendar('unselect');
+            },
+
+
+            events: [
+				{
+				    title: 'Meeting',
+				    start: '2017-10-06T10:30:00',
+				    end: '2017-10-06T10:45:00'
+				},
+				{
+				    title: 'Lunch',
+				    start: '2017-10-06T10:30:00',
+				    end: '2017-10-06T10:45:00'
+				},
+				{
+				    title: 'Birthday Party',
+				    start: '2017-10-06T10:30:00',
+				    end: '2017-10-06T10:45:00'
+				},
+				{
+				    title: 'Meeting',
+				    start: '2017-10-06T15:30:00',
+				    end: '2017-10-06T15:45:00',
+				    color: '#FF7F50'
+				},
+				{
+				    title: 'Lunch',
+				    start: '2017-10-06T15:30:00',
+				    end: '2017-10-06T15:45:00',
+				    color: '#FF7F50'
+				}
+            ]
+
+        });
+
+    });
+</script>

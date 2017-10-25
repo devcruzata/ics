@@ -183,7 +183,7 @@ namespace BAL.Utility
                    foreach (DataRow dr in Response.ResponseData.Tables[0].Rows)
                    {
                        TextValue objText = new TextValue();
-                       objText.Value = dr["Template_ID_Auto_PK"].ToString();
+                       objText.Value = dr["TemplateID_Auto_Pk"].ToString();
                        objText.Text = dr["title"].ToString();
                        templates.Add(objText);
                    }

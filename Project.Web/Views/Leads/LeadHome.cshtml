@@ -8,7 +8,7 @@
         $(".date-control").daterangepicker({
             singleDatePicker: true,
             locale: {
-                format: 'MM/DD/YYYY'
+                format: 'MM/DD/YY'
             },
         });
     });
@@ -69,7 +69,8 @@
                                     <input id="selectAll" type="checkbox" value="option1">
                                     <label for="selectAll" class="pl-0">&nbsp;</label>
                                 </div>
-                            </th>                         
+                            </th>         
+                            <th class="text-center">Source</th>                
                             <th class="text-center">DBA</th>
                             <th class="text-center">Contact Name</th>                           
                             @*<th class="text-center">Email</th>*@
@@ -96,6 +97,7 @@
                                                     <label for="check_@lead.Lead_ID" class="pl-0">&nbsp;</label>
                                                 </div>
                                             </td>
+                                            <td class="text-center">@lead.LeadSource</td>
                                             <td class="text-center">@lead.DBA</td>
                                             <td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.ContName</td>                               
                                             @*<td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.Email</td>*@
@@ -137,6 +139,7 @@
                                                 <label for="check_@lead.Lead_ID" class="pl-0">&nbsp;</label>
                                             </div>
                                         </td>
+                                       <td class="text-center">@lead.LeadSource</td>
                                        <td class="text-center">@lead.DBA</td>
                                        <td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.ContName</td>                               
                                        @*<td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.Email</td>*@
@@ -177,6 +180,7 @@
                                                 <label for="check_@lead.Lead_ID" class="pl-0">&nbsp;</label>
                                             </div>
                                         </td>
+                                       <td class="text-center">@lead.LeadSource</td>
                                        <td class="text-center">@lead.DBA</td>
                                        <td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.ContName</td>                               
                                        @*<td class="text-center" onclick="ViewLeads('@lead.Lead_ID')">@lead.Email</td>*@
@@ -269,6 +273,9 @@
                             <label for="NTitle">Assign User</label>
                             @Html.DropDownListFor(m => m.AssignToID, (List<SelectListItem>)ViewBag.UserList, new { @class = "form-control form-cutom" })
                             <input type="hidden" id="leadid" value="" />
+                            <div id="error_div_AssignToID" style="display:none;">
+                                <p style="color:red;">Please Choose A User</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -769,7 +776,7 @@
     }
 
     function AssignLead() {
-        $(".se-pre-con").show();
+        //
         var aFlag = false;
         var leads = $("#Leads").val().split(',');
         for (var i = 0; i < leads.length; ++i) {
@@ -779,8 +786,9 @@
         }
 
         if (aFlag == true) {
-           
-            if ($("#UserSelect").val() != '0') {
+            $(".se-pre-con").show();
+            if ($("#AssignToID").val() != '0') {
+                
                 $('#error_Div_AssignTo').hide();
                 $(".se-pre-con").show();
                 $.post('/Leads/AjaxAssignLead', { Lead_ID: $("#Leads").val(), User_ID: $("#AssignToID").val() }, function (data) {
@@ -795,7 +803,7 @@
                 });
             }
             else {
-                $('#error_Div_AssignTo').show();
+                $('#error_div_AssignToID').show();
                 $(".se-pre-con").hide();
             }
         }

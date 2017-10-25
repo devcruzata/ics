@@ -4,6 +4,7 @@ using Project.Web.Common;
 using Project.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,6 +19,11 @@ namespace Project.Web.Controllers.Calender
         // GET: /Calender/
 
         public ActionResult ManageCalender()
+        {
+            return View();
+        }
+
+        public ActionResult testCalender()
         {
             return View();
         }
@@ -49,12 +55,13 @@ namespace Project.Web.Controllers.Calender
             session = new SessionHelper();
             try
             {
-                DateTime fromDate = Convert.ToDateTime(StartDate);
-                //DateTime toDate = Convert.ToDateTime(EndDate).AddDays(-1);
-                DateTime toDate = Convert.ToDateTime(EndDate);
+                  DateTime fromDate = Convert.ToDateTime(StartDate);
+                 // DateTime toDate = Convert.ToDateTime(EndDate).AddDays(-1);
+                  DateTime toDate = Convert.ToDateTime(EndDate);
 
                 // Response = Response = objCalender.AddNewEvent(Title, BAL.Helper.Helper.ConvertToDateNullable(StartDate, "YYYY/MM/DD hh:mm a"), BAL.Helper.Helper.ConvertToDateNullable(StartDate, "YYYY/MM/DD hh:mm a"), EventColor,Description);
-                Response = Response = objCalender.AddNewEvent(Title, fromDate, toDate, RelatedLead, Description,session.UserSession.UserId);
+                  Response = Response = objCalender.AddNewEvent(Title, fromDate, toDate, RelatedLead, Description,session.UserSession.UserId);
+                //Response = Response = objCalender.AddNewEvent(Title, StartDate, EndDate, RelatedLead, Description, session.UserSession.UserId);
                 if (Response.ErrorCode == 0)
                 {
                     return Json("1", JsonRequestBehavior.AllowGet);
@@ -84,14 +91,14 @@ namespace Project.Web.Controllers.Calender
             objModel.ContName = Response.ResponseData.Tables[0].Rows[0]["ContactName"].ToString();
             objModel.bPhone = Response.ResponseData.Tables[0].Rows[0]["BusinessPhone"].ToString();
             objModel.Email = Response.ResponseData.Tables[0].Rows[0]["Email"].ToString();
-            string LeadEventStart = Convert.ToDateTime(Response.ResponseData.Tables[0].Rows[0]["event_start"]).ToString("MM/dd/yyyy hh:mm tt");
+            string LeadEventStart = Convert.ToDateTime(Response.ResponseData.Tables[0].Rows[0]["event_start"]).ToString("MM/dd/yy hh:mm tt");
 
             temp1 = LeadEventStart.Split(' ').ToList();
             objModel.LeadEventStartDate = temp1[0];
             objModel.LeadEventStartTime = temp1[1] + " " + temp1[2];
 
-            string LeadEventEnd = Convert.ToDateTime(Response.ResponseData.Tables[0].Rows[0]["event_end"]).AddDays(-1).ToString("MM/dd/yyyy hh:mm tt");
-            //string LeadEventEnd = Convert.ToDateTime(Response.ResponseData.Tables[0].Rows[0]["event_end"]).ToString("MM/dd/yyyy hh:mm tt");
+            //string LeadEventEnd = Convert.ToDateTime(Response.ResponseData.Tables[0].Rows[0]["event_end"]).AddDays(-1).ToString("MM/dd/yyyy hh:mm tt");
+            string LeadEventEnd = Convert.ToDateTime(Response.ResponseData.Tables[0].Rows[0]["event_end"]).ToString("MM/dd/yy hh:mm tt");
 
             temp2 = LeadEventEnd.Split(' ').ToList();
             objModel.LeadEventEndDate = temp2[0];
@@ -155,23 +162,25 @@ namespace Project.Web.Controllers.Calender
             session = new SessionHelper();
             try
             {
-                List<string> temp1 = new List<string>();
-                List<string> temp2 = new List<string>();
+               // List<string> temp1 = new List<string>();
+               // List<string> temp2 = new List<string>();
 
                  
-                   temp1= StartDate.Split(' ').ToList(); 
-                   temp2= EndDate.Split(' ').ToList();
+                //   temp1= StartDate.Split(' ').ToList(); 
+               //    temp2= EndDate.Split(' ').ToList();
                    
 
-                DateTime fromDate = Convert.ToDateTime(temp1[0].Split('-').ToList()[2]+"/"+temp1[0].Split('-').ToList()[0]+"/"+temp1[0].Split('-').ToList()[1]+" "+temp1[1]+" "+temp1[2]);
+             //   DateTime fromDate = Convert.ToDateTime(temp1[0].Split('-').ToList()[2]+"/"+temp1[0].Split('-').ToList()[0]+"/"+temp1[0].Split('-').ToList()[1]+" "+temp1[1]+" "+temp1[2]);
                // DateTime toDate = Convert.ToDateTime(temp2[0].Split('-').ToList()[2]+"/"+temp2[0].Split('-').ToList()[0]+"/"+temp2[0].Split('-').ToList()[1]+" "+temp2[1]+" "+temp2[2]).AddDays(1);
-                DateTime toDate = Convert.ToDateTime(temp2[0].Split('-').ToList()[2] + "/" + temp2[0].Split('-').ToList()[0] + "/" + temp2[0].Split('-').ToList()[1] + " " + temp2[1] + " " + temp2[2]);
+             //   DateTime toDate = Convert.ToDateTime(temp2[0].Split('-').ToList()[2] + "/" + temp2[0].Split('-').ToList()[0] + "/" + temp2[0].Split('-').ToList()[1] + " " + temp2[1] + " " + temp2[2]);
                 
                   //  DateTime fromDate = Convert.ToDateTime(StartDate);
                   //  DateTime toDate = Convert.ToDateTime(EndDate).AddDays(1);
                     //DateTime toDate = Convert.ToDateTime(EndDate);
 
-                    Response = Response = objCalender.UpdateEventType1(Convert.ToInt32(EventId), Title, fromDate, toDate, Description, Convert.ToInt64(session.UserSession.UserId));
+                    DateTime fromDate = Convert.ToDateTime(StartDate);
+                    DateTime toDate = Convert.ToDateTime(EndDate);
+                Response = Response = objCalender.UpdateEventType1(Convert.ToInt32(EventId), Title, fromDate, toDate, Description, Convert.ToInt64(session.UserSession.UserId));
                     if (Response.ErrorCode == 0)
                     {
                         return Json("1", JsonRequestBehavior.AllowGet);
@@ -187,6 +196,75 @@ namespace Project.Web.Controllers.Calender
                 BAL.Common.LogManager.LogError("UpdateEvent conto Method", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
                 return Json("0", JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public JsonResult TransferEvent(string StartDate, string EndDate)
+        {
+            objResponse Response = new objResponse();
+            session = new SessionHelper();
+            List<Events> events = new List<Events>();
+            List<string> temp1 = new List<string>();
+            List<string> temp2 = new List<string>();
+            try
+            {
+                DateTime fromDate = Convert.ToDateTime(StartDate);
+                DateTime toDate = Convert.ToDateTime(StartDate).AddDays(1);
+
+                 List<string> temp3 = new List<string>();
+                 List<string> temp4 = new List<string>();
+
+
+                   temp3= fromDate.ToString().Split(' ').ToList(); 
+                   temp4= toDate.ToString().Split(' ').ToList();
+
+
+                //  DateTime fromDate = Convert.ToDateTime(temp3[0].Split('-').ToList()[2]+"/"+temp1[0].Split('-').ToList()[0]+"/"+temp1[0].Split('-').ToList()[1]+" "+temp1[1]+" "+temp1[2]);
+                //  DateTime toDate = Convert.ToDateTime(temp3[0].Split('-').ToList()[2]+"/"+temp2[0].Split('-').ToList()[0]+"/"+temp2[0].Split('-').ToList()[1]+" "+temp2[1]+" "+temp2[2]).AddDays(1);
+                //   DateTime toDate = Convert.ToDateTime(temp2[0].Split('-').ToList()[2] + "/" + temp2[0].Split('-').ToList()[0] + "/" + temp2[0].Split('-').ToList()[1] + " " + temp2[1] + " " + temp2[2]);
+
+                //Response = objCalender.GetEventForTransfer(StartDate);
+                //if(Response.ErrorCode == 0)
+                //{
+                //foreach (DataRow dr in Response.ResponseData.Tables[0].Rows)
+                //{
+                //    Events objevents = new Events();
+                //    objevents.Event_Id = Convert.ToInt64(dr["Event_ID_Auto_PK"]);
+
+                //    objevents.StartDate = Convert.ToDateTime(Response.ResponseData.Tables[0].Rows[0]["event_start"]).ToString("MM/dd/yy hh:mm tt");
+                //    objevents.EndDate = Convert.ToDateTime(Response.ResponseData.Tables[0].Rows[0]["event_end"]).ToString("MM/dd/yy hh:mm tt");
+
+                //    events.Add(objevents);                  
+                //}
+                var ApptListForDate = objCalender.LoadAppointmentSummaryInDateRange(temp3[0], temp4[0]);
+                foreach (var ev in ApptListForDate)
+                    {
+                        temp1 = ev.StartDateString.Split(' ').ToList();
+                        string osDate = temp1[0];
+                        string osTime = temp1[1] + " " + temp1[2];
+                        DateTime nStart = Convert.ToDateTime(EndDate+" "+temp1[1] + " " + temp1[2]);
+
+                        temp2 = ev.EndDateString.Split(' ').ToList();
+                        string oeDate = temp2[0];
+                        string oeTime = temp2[1] + " " + temp2[2];
+                        DateTime nEnd = Convert.ToDateTime(EndDate + " " + temp2[1] + " " + temp2[2]);
+
+                        Response = objCalender.TransferEvent(ev.ID,nStart, nEnd);
+                        
+                    }
+                    return Json("1", JsonRequestBehavior.AllowGet);
+
+                //}
+                //else
+                //{
+                //    return Json("0", JsonRequestBehavior.AllowGet);
+                //}
+            }
+            catch(Exception ex)
+            {
+                BAL.Common.LogManager.LogError("TransferEvent conto Method", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+                return Json("0", JsonRequestBehavior.AllowGet);
+            }
+            
         }
 
         [HttpPost]

@@ -22,8 +22,8 @@ namespace Project.Web.Controllers.EmailTemplate
             {
                 Response =  UtilityManager.getEmailTemplate(recieverId);
 
-                string mailBody = PopulateBody(Response.ResponseData.Tables[0].Rows[0][0].ToString(), Response.ResponseData.Tables[0].Rows[0][2].ToString(), ConfigurationManager.AppSettings["mailTemplatedir"].ToString());
-                string toEmail = Response.ResponseData.Tables[0].Rows[0][1].ToString();
+                string mailBody = PopulateBody(Response.ResponseData.Tables[0].Rows[0][0].ToString(), Response.ResponseData.Tables[1].Rows[0][1].ToString(), ConfigurationManager.AppSettings["mailTemplatedir"].ToString());
+                string toEmail = Response.ResponseData.Tables[1].Rows[0][0].ToString();
 
                 if (Helper.SendEmail(toEmail, "ICS", mailBody))
                 {

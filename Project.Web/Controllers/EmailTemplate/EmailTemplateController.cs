@@ -67,7 +67,7 @@ namespace Project.Web.Controllers.EmailTemplate
 
                 if (response.ErrorCode == 0)
                 {
-                    objModel.TemplateID = Convert.ToInt64(response.ResponseData.Tables[0].Rows[0]["Template_ID_Auto_PK"]);
+                    objModel.TemplateID = Convert.ToInt64(response.ResponseData.Tables[0].Rows[0]["TemplateID_Auto_Pk"]);
                     objModel.title = response.ResponseData.Tables[0].Rows[0]["title"].ToString();
                     objModel.body = response.ResponseData.Tables[0].Rows[0]["templateBody"].ToString();
                     return Json(objModel, JsonRequestBehavior.AllowGet);
