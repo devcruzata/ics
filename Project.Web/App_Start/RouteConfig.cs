@@ -116,10 +116,16 @@ namespace Project.Web
             defaults: new { controller = "Application", action = "ApplicationHome" }
             );
 
+            //routes.MapRoute(
+            //name: "Calender",
+            //url: "Leads/ManageCalender",
+            //defaults: new { controller = "Calender", action = "ManageCalender" }
+            //);
+
             routes.MapRoute(
             name: "Calender",
             url: "Leads/ManageCalender",
-            defaults: new { controller = "Calender", action = "ManageCalender" }
+            defaults: new { controller = "LeadEvents", action = "Index" }
             );
 
             routes.MapRoute(

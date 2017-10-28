@@ -39,6 +39,9 @@ namespace BAL.Common
                 sqlParameter[4] = new SqlParameter("@StackTrace", SqlDbType.NVarChar, 4000);
                 sqlParameter[4].Value = StackTrace;
 
+                //sqlParameter[5] = new SqlParameter("@remark", SqlDbType.NVarChar, 200);
+                //sqlParameter[5].Value = remark;
+
                 DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_LogError", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
 
 

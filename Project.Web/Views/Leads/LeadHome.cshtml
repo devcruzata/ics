@@ -124,7 +124,7 @@
                                                  <button type="button" class="btn btn-sm btn-outline btn-warning" data-toggle="modal" data-target="#Mail_Modal" onclick="setMailData('@lead.Lead_ID','@lead.ContName','@lead.Email');" title="Send Mail"><i class="ti-email"></i></button>
                                                  <button type="button" class="btn btn-sm btn-outline btn-success" data-toggle="modal" data-target="#assignTo_Modal" title="Assign Lead" onclick="setData('@lead.Lead_ID','@lead.AssignToID')"><i class="ti-link"></i></button>                                  
                                                  <button type="button" class="btn btn-sm btn-outline btn-danger" title="Refresh"><i class="ti-reload"></i></button>
-                                                 <button type="button" class="btn btn-sm btn-outline btn-info" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@lead.Lead_ID','@lead.ContName')"><i class="ti-timer"></i></button>
+                                                 <button type="button" class="btn btn-sm btn-outline btn-info" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@lead.Lead_ID','@lead.ContName','@lead.DBA')"><i class="ti-timer"></i></button>
                                             </td>
                                       </tr>
                                     }
@@ -167,7 +167,7 @@
                                              <button type="button" class="btn btn-sm btn-outline btn-warning" data-toggle="modal" data-target="#Mail_Modal" onclick="setMailData('@lead.Lead_ID','@lead.ContName','@lead.Email');" title="Send Mail"><i class="ti-email"></i></button>
                                              <button type="button" class="btn btn-sm btn-outline btn-success" data-toggle="modal" data-target="#assignTo_Modal" title="Assign Lead" onclick="setData('@lead.Lead_ID','@lead.AssignToID')"><i class="ti-link"></i></button>                                  
                                              <button type="button" class="btn btn-sm btn-outline btn-danger" title="Refresh"><i class="ti-reload"></i></button>
-                                             <button type="button" class="btn btn-sm btn-outline btn-info" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@lead.Lead_ID','@lead.ContName')"><i class="ti-timer"></i></button>
+                                             <button type="button" class="btn btn-sm btn-outline btn-info" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@lead.Lead_ID','@lead.ContName','@lead.DBA')"><i class="ti-timer"></i></button>
                                       </td>
                                  </tr>
                                 }                                
@@ -208,7 +208,7 @@
                                              <button type="button" class="btn btn-sm btn-outline btn-warning" data-toggle="modal" data-target="#Mail_Modal" onclick="setMailData('@lead.Lead_ID','@lead.ContName','@lead.Email');" title="Send Mail"><i class="ti-email"></i></button>
                                              <button type="button" class="btn btn-sm btn-outline btn-success" data-toggle="modal" data-target="#assignTo_Modal" title="Assign Lead" onclick="setData('@lead.Lead_ID','@lead.AssignToID')"><i class="ti-link"></i></button>                                  
                                              <button type="button" class="btn btn-sm btn-outline btn-danger" title="Refresh"><i class="ti-reload"></i></button>
-                                             <button type="button" class="btn btn-sm btn-outline btn-info" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@lead.Lead_ID','@lead.ContName')"><i class="ti-timer"></i></button>
+                                             <button type="button" class="btn btn-sm btn-outline btn-info" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@lead.Lead_ID','@lead.ContName','@lead.DBA')"><i class="ti-timer"></i></button>
                                       </td>
                                    </tr>
                                 }                            
@@ -371,20 +371,32 @@
                 <form id="eForm">
                     <div class="col-sm-12">
                         <div class="form-group">
+                            <label>Title</label>
                             <input id="inputTitleEvent" type="text" placeholder="Event Name" class="form-control">
+                            <div id="error_div_inputTitleEvent" style="display:none;">
+                                <p style="color:red;">Please Enter Title.</p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
+                            <label>Date</label>
                             <input id="startDate" type="text" class="form-control  date-control">
+                            <div id="error_div_startDate" style="display:none;">
+                                <p style="color:red;">Please Choose A Date.</p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
+                            <label>Time</label>
                             <input type="text" class="form-control" placeholder="" id="startTime" />
+                            <div id="error_div_startTime" style="display:none;">
+                                <p style="color:red;">Please Choose A Time.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    @*<div class="col-sm-6">
                         <div class="form-group">
                             <input id="endDate" type="text" class="form-control  date-control">
                         </div>
@@ -393,13 +405,23 @@
                         <div class="form-group">
                             <input id="endTime" type="text" class="form-control">
                         </div>
+                    </div>*@
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Event Duration (in mnts)</label>
+                            <input id="eventDuration" type="text" class="form-control">
+                            <div id="error_div_eventDuration" style="display:none;">
+                                <p style="color:red;">Please Enter value in multiple 15 mnts.</p>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="RLeadName">Related Lead</label>
                             <input type="text" id="RLeadName" class="form-control" readonly/>
-                            <input type="hidden" id="Rlead"/>                           
+                            <input type="hidden" id="Rlead"/>    
+                                                  
                         </div>
                     </div>
                     @*<div class="col-sm-12">
@@ -409,6 +431,7 @@
                         </div>*@
                     <div class="col-sm-12">
                         <div class="form-group">
+                            <label>Note</label>
                             <textarea id="description" class="form-control" placeholder="Notes"></textarea>
                         </div>
                     </div>
@@ -418,8 +441,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default">Cancel</button>
-                <button id="btnAddNewEvent" type="submit" class="btn btn-raised btn-black" onclick="AddNewEvent();">Save</button>
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" onclick="cancelEvent();" >Cancel</button>
+                <button id="btnAddNewEvent" type="submit" class="btn btn-raised btn-black" onclick="addnewevent();">Save</button>
             </div>
         </div>
     </div>
@@ -428,8 +451,8 @@
 
 <script>
     $(document).ready(function () {
-        $("#startTime").datetimepicker({ locale: "en-gb", format: "LT" });
-        $("#endTime").datetimepicker({ locale: "en-gb", format: "LT" });
+        $("#startTime").datetimepicker({ locale: "en-gb", format: "LT", stepping: 15, format: 'HH:mm' });
+        $("#endTime").datetimepicker({ locale: "en-gb", format: "LT", stepping: 15,  format: 'HH:mm' });
     });
 </script>
 
@@ -699,42 +722,137 @@
     }
 
 
-    function setEventData(LeadID, ContactPerson) {
+    function setEventData(LeadID, ContactPerson,dba) {
         $("#RLeadName").val(ContactPerson);
         $("#Rlead").val(LeadID);
+        $("#inputTitleEvent").val(dba);
     }
 
-    function AddNewEvent() {
-        $(".se-pre-con").show();
-        $.ajax({
-            url: '/Calender/SaveEvent',
-            dataType: "json",
-            type: "POST",
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({ Title: $("#inputTitleEvent").val(), StartDate: $("#startDate").val() + ' ' + $("#startTime").val(), EndDate: $("#endDate").val() + ' ' + $("#endTime").val(), RelatedLead: $("#Rlead").val(), Description: $("#description").val() }),
-            async: true,
-            processData: false,
-            cache: false,
-            success: function (data) {
-                if (data == '1') {                   
-                    $("#TaskModal").modal('hide');
-                    $("#eForm")[0].reset();
-                    $(".se-pre-con").hide();
-                }
-                else {
-                    $("#TaskModal").modal('hide');
-                    $("#eForm")[0].reset();
-                    $(".se-pre-con").hide();
-                }
-            },
-            error: function (xhr) {
-                $("#TAskModal").modal('hide');
-                $("#eForm")[0].reset();
-                $('#errorMessage').html("No connection");
-                $(".se-pre-con").hide();
-            }
-        });
+    function validateEventForm() {
+        if ($("#inputTitleEvent").val() == '') {
+            $('#error_div_inputTitleEvent').show();
+            return false;
+        }
+        
+        else if ($('#startDate').val() == '') {
+            $('#error_div_startDate').show();
+            $('#error_div_inputTitleEvent').hide();
+            return false;
+        }
+        else if ($('#startTime').val() == '') {
+            $('#error_div_startTime').show();
+            $('#error_div_startDate').hide();
+            $('#error_div_inputTitleEvent').hide();
+            return false;
+        }
+        else if ($('#eventDuration').val() == '') {
+            $('#error_div_eventDuration').show();
+            $('#error_div_startTime').hide();
+            $('#error_div_startDate').hide();
+            $('#error_div_inputTitleEvent').hide();
+            return false;
+        }
+        else if ($('#eventDuration').val() != '' && ((parseInt($('#eventDuration').val()) % 15) != 0)) {
+            $('#error_div_eventDuration').show();
+            $('#error_div_startTime').hide();
+            $('#error_div_startDate').hide();
+            $('#error_div_inputTitleEvent').hide();
+            return false;
+        }        
+        else {
+            $('#error_div_eventDuration').hide();
+            $('#error_div_startTime').hide();
+            $('#error_div_startDate').hide();
+            $('#error_div_inputTitleEvent').hide();
+            return true;
+        }
     }
+
+    function addnewevent() {
+        if (validateEventForm()) {
+            $(".se-pre-con").show();
+            $("#TaskModal").modal('hide');
+            var startTime;
+            var tim = $("#startTime").val().split(' ');
+            var tim1 = tim[0].split(':')[0].length;
+            alert(tim[0]);
+            alert(tim1);
+            if (tim[0].split(':')[0].length = 1) {
+                startTime = '0' + tim[0].split(':')[0] + ':' + tim[0].split(':')[1] + ' ' + tim[1];
+                alert(startTime);
+            }
+            else {
+                startTime = tim[0];
+                alert(startTime);
+            }
+            alert(moment($("#startTime").val(), 'HH:mm').format('HH:mm'));
+            
+            var dataRow = {
+                'Title': $("#inputTitleEvent").val(),
+                'NewEventDate': moment($("#startDate").val()).format('MM/DD/YY'),
+                'NewEventTime': moment($("#startTime").val(), 'HH:mm').format('HH:mm'),
+                'NewEventDuration': $('#eventDuration').val(),
+                'RelatedLead': $('#Rlead').val(),
+                'Description': $('#description').val()
+            }
+
+           // ClearPopupFormValues();
+
+            $.ajax({
+                type: 'POST',
+                url: "/LeadEvents/SaveEvent",
+                data: dataRow,
+                success: function (response) {
+                    if (response == 'True') {
+                        $("#TaskModal").modal('hide');
+                        $("#eForm")[0].reset();
+                        $(".se-pre-con").hide();                        
+                    }
+                    else {
+                        $("#TaskModal").modal('hide');
+                        $("#eForm")[0].reset();
+                        $(".se-pre-con").hide();
+                    }
+                }
+            });
+        }
+    }
+
+    function cancelEvent() {
+        $("#eForm")[0].reset();
+    }
+
+    //function AddNewEvent() {
+    //    $(".se-pre-con").show();
+    //    $.ajax({
+    //        url: '/Calender/SaveEvent',
+    //        dataType: "json",
+    //        type: "POST",
+    //        contentType: 'application/json; charset=utf-8',
+    //        data: JSON.stringify({ Title: $("#inputTitleEvent").val(), StartDate: $("#startDate").val() + ' ' + $("#startTime").val(), EndDate: $("#endDate").val() + ' ' + $("#endTime").val(), RelatedLead: $("#Rlead").val(), Description: $("#description").val() }),
+    //        async: true,
+    //        processData: false,
+    //        cache: false,
+    //        success: function (data) {
+    //            if (data == '1') {                   
+    //                $("#TaskModal").modal('hide');
+    //                $("#eForm")[0].reset();
+    //                $(".se-pre-con").hide();
+    //            }
+    //            else {
+    //                $("#TaskModal").modal('hide');
+    //                $("#eForm")[0].reset();
+    //                $(".se-pre-con").hide();
+    //            }
+    //        },
+    //        error: function (xhr) {
+    //            $("#TAskModal").modal('hide');
+    //            $("#eForm")[0].reset();
+    //            $('#errorMessage').html("No connection");
+    //            $(".se-pre-con").hide();
+    //        }
+    //    });
+    //}
 </script>
 
 

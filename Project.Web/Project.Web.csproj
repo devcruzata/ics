@@ -11663,6 +11663,7 @@
     <None Include="Properties\PublishProfiles\ics_21_sept.pubxml" />
     <None Include="Properties\PublishProfiles\ics_22_aug.pubxml" />
     <None Include="Properties\PublishProfiles\ics_24_oct.pubxml" />
+    <None Include="Properties\PublishProfiles\ics_25_oct.pubxml" />
     <None Include="Properties\PublishProfiles\ics_27_jan.pubxml" />
     <None Include="Properties\PublishProfiles\ics_31_Jan.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />

@@ -417,6 +417,23 @@ namespace Project.Web.Controllers.Leads
 
         [Authorize]
         [HttpPost]
+        public ActionResult AjaxLeadEvents(string LeadID)
+        {
+            LeadModel objLeadModel = new LeadModel();
+            session = new SessionHelper();
+            try
+            {
+                objLeadModel.Notes = UtilityManager.getNotesByRelateToID(session.UserSession.UserType, Convert.ToInt64(LeadID), session.UserSession.UserId);
+                return View(objLeadModel);
+            }
+            catch (Exception ex)
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
         public ActionResult AjaxDocs(string LeadID)
         {
             LeadModel objLeadsModel = new LeadModel();
@@ -1038,7 +1055,7 @@ namespace Project.Web.Controllers.Leads
                     objLeadModel.LeadSource = Response.ResponseData.Tables[0].Rows[0][85].ToString();
                     objLeadModel.AssignToID = Convert.ToInt64(Response.ResponseData.Tables[0].Rows[0][86]);
 
-                    objLeadModel.Task = UtilityManager.getTasksByRelateToID(Convert.ToInt64(LeadID), session.UserSession.UserType, session.UserSession.UserId);                   
+                    //objLeadModel.Eve = UtilityManager.getTasksByRelateToID(Convert.ToInt64(LeadID), session.UserSession.UserType, session.UserSession.UserId);                   
                     objLeadModel.Notes = UtilityManager.getNotesByRelateToID(session.UserSession.UserType, Convert.ToInt64(LeadID), session.UserSession.UserId);
 
                     ViewBag.Status_List = list;

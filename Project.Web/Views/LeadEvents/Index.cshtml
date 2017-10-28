@@ -31,6 +31,8 @@
                 transferTo: {
                     text: 'Transfer To',
                     click: function () {
+                        var dt = $('#calendar').fullCalendar('getDate');
+                        $('#ftDate').val(moment(dt).format("MM/DD/YY"));
                         $('#Transfer').modal('show');
                     }
                 }
@@ -113,8 +115,38 @@
         $('#addNewEvent').modal('hide');
     }
 
+    function validateEventForm() {
+        if ($('#eventTitle').val() == '') {
+            $('#error_div_eventTitle').show();
+            return false;
+        }
+        else if ($('#eventDuration').val() == '') {
+            $('#error_div_eventDuration').show();
+            $('#error_div_eventTitle').hide();
+            return false;
+        }
+        else if ($('#eventDuration').val() != '' && ((parseInt($('#eventDuration').val())%15) != 0)) {
+            $('#error_div_eventDuration').show();
+            $('#error_div_eventTitle').hide();
+            return false;
+        }
+        else if ($('#Rlead').val() == '0') {
+            $('#error_div_Rlead').show();
+            $('#error_div_eventDuration').hide();
+            $('#error_div_eventTitle').hide();
+            return false;
+        }
+        else {
+            $('#error_div_Rlead').hide();
+            $('#error_div_eventDuration').hide();
+            $('#error_div_eventTitle').hide();
+            return true;
+        }
+    }
+
     function addnewevent() {
-        $(".se-pre-con").show();
+        if (validateEventForm()) {
+             $(".se-pre-con").show();
         $('#addNewEvent').modal('hide');
 
         var dataRow = {
@@ -143,6 +175,7 @@
                 }
             }
         });
+        }
     }
 
     function ShowEventPopup(date) {
@@ -174,6 +207,8 @@
             processData: false,
             cache: false,
             success: function (data) {
+                $('#ModalEventLabel').html('');
+                $('#ModalEventLabel').html(data.DBA);
                 $("#dba").html('');
                 $("#dba").html(data.DBA);
                 $("#contact").html('');
@@ -256,7 +291,10 @@
         });
     }
 
-
+    function initTransferModal() {
+        var dt = $('#calendar').fullCalendar('getDate');
+        $('#ftDate').val(moment(dt).format("MM/DD/YY"));
+    }
 
     </script>
 
@@ -465,9 +503,9 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label>Appointment length (minutes)</label>
-                            <input type="text" class="form-control" id="eventDuration" placeholder="15"><br />
+                            <input type="text" class="form-control" id="eventDuration" placeholder="15" value="15"><br />
                             <div id="error_div_eventDuration" style="display:none;">
-                                <p style="color:red;">Please Enter titles</p>
+                                <p style="color:red;">Please Enter Duration in Multiple of 15 mnts</p>
                             </div>
                         </div>
                     </div>                  

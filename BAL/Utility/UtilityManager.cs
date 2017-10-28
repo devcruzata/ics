@@ -530,7 +530,9 @@ namespace BAL.Utility
            return notes;
        }
 
-       public static objResponse getEmailTemplate(long rID)
+       
+
+        public static objResponse getEmailTemplate(long rID)
        {
            objResponse Response = new objResponse();
        

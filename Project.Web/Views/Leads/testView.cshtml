@@ -879,11 +879,11 @@
                 </div>
             </div>
 
-            <div class="widget meeeting-panel">
+            @*<div class="widget meeeting-panel">
                 <div class="widget-heading clearfix hdng-metng">
                     <h3 class="widget-title pull-left heading-custom">Events</h3>
                     <div class="pull-right">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TaskModal"><i class="ti-plus"></i> Add</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#TaskModal" title="Add Event" onclick="setEventData('@Model.Lead_ID','@Model.ContName','@Model.DBA')"><i class="ti-plus"></i> Add</button>
                     </div>
                 </div>
                 <div class="widget-body meeting-maindiv">
@@ -913,7 +913,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
 
             
         </div>
@@ -924,106 +924,7 @@
 <input type="hidden" id="Lead_ID" name="Lead_ID" value="@Model.Lead_ID" />
 <input type="hidden" id="AssignTo" value="@HttpContext.Current.Session["UserName"].ToString()" />
 
-<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="TaskModal">
-    <div role="document" class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                <h4 id="myAnimationModalLabel" class="modal-title">Add A Event</h4>
-            </div>
-            <div class="modal-body">
-                <form id="taskForm">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group col-sm-12">
-                                <label for="TTitle">Title</label>
-                                <input type="text" id="TTitle" name="Title" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group col-sm-6">
-                                <label for="startDate">Start Date</label>
-                                <div class="input-group">
-                                    <input id="startDate" type="text" class="form-control  date-control"><span class="input-group-addon"><span class="ti-calendar"></span></span>
-                                </div>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for="endDate">Due Date</label>
-                                <div class="input-group">
-                                    <input id="endDate" type="text" class="form-control  date-control"><span class="input-group-addon"><span class="ti-calendar"></span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group col-sm-6">
-                                <label for="TRelateTo">Relate To</label>
-                                <select id="TRelateTo" class="form-control" disabled="disabled">
-                                    <option class="active" value="LEAD">Lead</option>
-                                    <option value="OPPORTUNITY">Opportunity</option>
-                                    <option value="CLIENT">Client</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-6">
-                                <label for="TRelateToName">Name</label>
-                                <div class="input-group">
-                                    <input id="TRelateToName" type="text" class="form-control" value="@Model.ContName" readonly><span class="input-group-addon"><span class="ti-search"></span></span>
-                                </div>
-                            </div>
-                            <div class="form-group col-sm-12">
-                                <label for="Description">Description</label>
-                                <textarea class="form-control" placeholder="Description.." id="Description"></textarea>
-                                <div id="error_div_Notes" style="display:none;">
-                                    <p style="color:red;">Please add Note For Changing Status</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group col-sm-4">
-                                <div class="checkbox-inline checkbox-custom pull-left">
-                                    <input id="TRemindMe" type="checkbox" onclick="SetTReminder();">
-                                    <label for="TRemindMe" class="checkbox-muted text-muted">&nbsp; Remind Me Before </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3 form-group" id="Th_div" style="display:none;">
-                                <input type="number" class="form-control" id="THoures" min="1" max="24" placeholder="Hours" />
-                            </div>
-                            <div class="col-sm-3 form-group" id="Tm_div" style="display:none;">
-                                <input type="number" class="form-control" id="TMinutes" min="1" max="60" placeholder="Minutes" />
-                            </div>
-                        </div>
-                    </div>
-                    @if (@HttpContext.Current.Session["User_Type"].ToString() == "Administrator")
-                    {
-                        @*<div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group col-sm-6">
-                                        <label for="AssignToSelect">Assign To</label>
-                                        <select id="AssignToSelect" class="form-control" onchange="SetAssignTo();">
-                                            @foreach (var user in ViewBag.Users)
-                                            {
-                                                <option value="@user.Email">@user.FullName</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>*@
-                    }
-                </form>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="cancel">Cancel</button>
-                <button type="button" class="btn btn-raised btn-danger" id="save" onclick="SheduleTask();">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="Notes_Modal">
@@ -1147,6 +1048,94 @@
         </div>
     </div>
 </div>
+
+<div id="TaskModal" tabindex="-1" role="dialog" aria-labelledby="ModalEventLabel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-black">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="ModalEventLabel" class="modal-title">Add New Event</h4>
+            </div>
+            <div class="modal-body">
+                <form id="eForm">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input id="inputTitleEvent" type="text" placeholder="Event Name" class="form-control">
+                            <div id="error_div_inputTitleEvent" style="display:none;">
+                                <p style="color:red;">Please Enter Title.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input id="startDate" type="text" class="form-control  date-control">
+                            <div id="error_div_startDate" style="display:none;">
+                                <p style="color:red;">Please Choose A Date.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Time</label>
+                            <input type="text" class="form-control" placeholder="" id="startTime" />
+                            <div id="error_div_startTime" style="display:none;">
+                                <p style="color:red;">Please Choose A Time.</p>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-sm-6">
+                            <div class="form-group">
+                                <input id="endDate" type="text" class="form-control  date-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input id="endTime" type="text" class="form-control">
+                            </div>
+                        </div>*@
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Event Duration (in mnts)</label>
+                            <input id="eventDuration" type="text" class="form-control">
+                            <div id="error_div_eventDuration" style="display:none;">
+                                <p style="color:red;">Please Enter value in multiple 15 mnts.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="RLeadName">Related Lead</label>
+                            <input type="text" id="RLeadName" class="form-control" readonly />
+                            <input type="hidden" id="Rlead" />
+
+                        </div>
+                    </div>
+                    @*<div class="col-sm-12">
+                            <div class="form-group">
+                                <input id="inputBackgroundEvent" type="text" value="#0667D6" class="form-control">
+                            </div>
+                        </div>*@
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Note</label>
+                            <textarea id="description" class="form-control" placeholder="Notes"></textarea>
+                        </div>
+                    </div>
+                    <input id="start" type="hidden">
+                    <input id="end" type="hidden">
+                    <input id="allDay" type="hidden">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" onclick="cancelEvent();">Cancel</button>
+                <button id="btnAddNewEvent" type="submit" class="btn btn-raised btn-black" onclick="addnewevent();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- /.container -->
 
 
@@ -1230,8 +1219,8 @@
     $(document).ready(function () {
         // // $("#startDate").datetimepicker({ locale: "en-gb" });
         // $("#endDate").datetimepicker({ locale: "en-gb" });
-        $("#startTime").datetimepicker({ locale: "en-gb", format: "LT" });
-        $("#endTime").datetimepicker({ locale: "en-gb", format: "LT" });
+        $("#startTime").datetimepicker({ locale: "en-gb", format: "LT" , stepping: 15,  format: 'HH:mm' });
+        $("#endTime").datetimepicker({ locale: "en-gb", format: "LT", stepping: 15, format: 'HH:mm' });
     });
 </script>
 
@@ -1319,7 +1308,7 @@
 
 <script>
     function AddNote() {
-        showLoader();
+         $(".se-pre-con").show();
         $.ajax({
             url: '/Notes/AjaxAddNote',
             dataType: "json",
@@ -1333,19 +1322,19 @@
                 if (data = 'Success') {
                     $("#Notes_Modal").modal('hide');
                     $("#noteForm")[0].reset();
-                    hideLoader();
+                    $(".se-pre-con").hide();
                     setNotesTabData();
                 }
                 else {
                     $("#Notes_Modal").modal('hide');
                     $("#noteForm")[0].reset();
-                    hideLoader();
+                    $(".se-pre-con").hide();
                 }
             },
             error: function (xhr) {
                 $('#errorMessage').html("No connection");
                 $("#noteForm")[0].reset();
-                hideLoader();
+                $(".se-pre-con").hide();
             }
         });
     }
@@ -1619,5 +1608,94 @@
     }
 
 
+</script>
+
+<script>
+    function setEventData(LeadID, ContactPerson,dba) {
+        $("#RLeadName").val(ContactPerson);
+        $("#Rlead").val(LeadID);
+        $("#inputTitleEvent").val(dba);
+    }
+
+    function validateEventForm() {
+        if ($("#inputTitleEvent").val() == '') {
+            $('#error_div_inputTitleEvent').show();
+            return false;
+        }
+
+        else if ($('#startDate').val() == '') {
+            $('#error_div_startDate').show();
+            $('#error_div_inputTitleEvent').hide();
+            return false;
+        }
+        else if ($('#startTime').val() == '') {
+            $('#error_div_startTime').show();
+            $('#error_div_startDate').hide();
+            $('#error_div_inputTitleEvent').hide();
+            return false;
+        }
+        else if ($('#eventDuration').val() == '') {
+            $('#error_div_eventDuration').show();
+            $('#error_div_startTime').hide();
+            $('#error_div_startDate').hide();
+            $('#error_div_inputTitleEvent').hide();
+            return false;
+        }
+        else if ($('#eventDuration').val() != '' && ((parseInt($('#eventDuration').val()) % 15) != 0)) {
+            $('#error_div_eventDuration').show();
+            $('#error_div_startTime').hide();
+            $('#error_div_startDate').hide();
+            $('#error_div_inputTitleEvent').hide();
+            return false;
+        }
+        else {
+            $('#error_div_eventDuration').hide();
+            $('#error_div_startTime').hide();
+            $('#error_div_startDate').hide();
+            $('#error_div_inputTitleEvent').hide();
+            return true;
+        }
+    }
+
+    function addnewevent() {
+        if (validateEventForm()) {
+            $(".se-pre-con").show();
+            $("#TaskModal").modal('hide');       
+         
+
+            var dataRow = {
+                'Title': $("#inputTitleEvent").val(),
+                'NewEventDate': moment($("#startDate").val()).format('MM/DD/YY'),
+                'NewEventTime': moment($("#startTime").val(), 'HH:mm').format('HH:mm'),
+                'NewEventDuration': $('#eventDuration').val(),
+                'RelatedLead': $('#Rlead').val(),
+                'Description': $('#description').val()
+            }
+
+            // ClearPopupFormValues();
+
+            $.ajax({
+                type: 'POST',
+                url: "/LeadEvents/SaveEvent",
+                data: dataRow,
+                success: function (response) {
+                    if (response == 'True') {
+                        $("#TaskModal").modal('hide');
+                        $("#eForm")[0].reset();
+                        $(".se-pre-con").hide();
+                    }
+                    else {
+                        $("#TaskModal").modal('hide');
+                        $("#eForm")[0].reset();
+                        $(".se-pre-con").hide();
+                    }
+                }
+            });
+        }
+    }
+
+    function cancelEvent() {
+        $("#eForm")[0].reset();
+    }
 </script>
 

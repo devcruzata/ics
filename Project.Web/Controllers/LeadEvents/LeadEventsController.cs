@@ -154,18 +154,33 @@ namespace Project.Web.Controllers.LeadEvents
             objResponse Response = new objResponse();
             SessionHelper session = new SessionHelper();
             List<Events> events = new List<Events>();
-            List<string> temp1 = new List<string>();        
+            List<string> temp1 = new List<string>();
+            string nd=""; 
             try
             {
-                DateTime fromDate = Convert.ToDateTime(StartDate);
-                DateTime toDate = Convert.ToDateTime(StartDate).AddDays(1);
-                DateTime newToDate  = Convert.ToDateTime(EndDate);
-            
-                List<string> temp4 = new List<string>();      
+                //objLeadEventManager.test("0");
+                //DateTime fromDate = Convert.ToDateTime(StartDate);
+                //objLeadEventManager.test("1");
+                //DateTime toDate = Convert.ToDateTime(StartDate).AddDays(1);
+                //objLeadEventManager.test("2");
+                //DateTime newToDate  = Convert.ToDateTime(EndDate);
+                //objLeadEventManager.test("3");
+                //List<string> temp4 = new List<string>();      
+                //temp4 = newToDate.ToString().Split(' ').ToList();
+
+
+                objLeadEventManager.test("5");
+                DateTime fromDate = DateTime.ParseExact(StartDate, "MM/dd/yy", CultureInfo.InvariantCulture);
+                objLeadEventManager.test("6");
+                DateTime toDate = DateTime.ParseExact(StartDate, "MM/dd/yy", CultureInfo.InvariantCulture).AddDays(1);
+                objLeadEventManager.test("7");
+                DateTime newToDate = DateTime.ParseExact(EndDate, "MM/dd/yy", CultureInfo.InvariantCulture);
+                objLeadEventManager.test("8");
+                List<string> temp4 = new List<string>();
                 temp4 = newToDate.ToString().Split(' ').ToList();
 
 
-               
+
                 var ApptListForDate = objLeadEventManager.GetLeadEventsInDatetimeRangeForTransfer(fromDate, toDate);
                 foreach (var ev in ApptListForDate)
                 {
@@ -173,8 +188,13 @@ namespace Project.Web.Controllers.LeadEvents
                     string osDate = temp1[0];
                    // string osTime = temp1[1] + " " + temp1[2];
                     string osTime = temp1[1] ;
-                    DateTime nStart = DateTime.ParseExact(temp4[0]+" "+osTime, "MM/dd/yy HH:mm", CultureInfo.InvariantCulture);
-                   
+                    nd = newToDate + " " + osTime;
+                    objLeadEventManager.test(nd);
+                    //DateTime nStart = DateTime.ParseExact(newToDate + " "+osTime, "MM/dd/yy HH:mm", CultureInfo.InvariantCulture);
+
+                    DateTime nStart = Convert.ToDateTime(temp4[0] + " " + osTime);
+
+
 
                     Response = objLeadEventManager.TransferLeadEvent(ev.ID, nStart);
 
@@ -185,7 +205,7 @@ namespace Project.Web.Controllers.LeadEvents
             }
             catch (Exception ex)
             {
-                BAL.Common.LogManager.LogError("TransferEvent conto Method", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+                BAL.Common.LogManager.LogError("TransferEvent conto Method.", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
                 return Json("0", JsonRequestBehavior.AllowGet);
             }
 

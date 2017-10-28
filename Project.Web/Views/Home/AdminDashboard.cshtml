@@ -323,7 +323,7 @@
 
                 @if (session.UserPermissionsSession.MerchantApplication == "on")
                 {
-                    <li><a href="@Url.RouteUrl("MerchantApplication")" target="_blank" class="bubble"><i class="ti-user"></i><span class="sidebar-title">Application</span></a></li>
+                    <li><a href="@Url.RouteUrl("MerchantApplication")" target="_blank" class="bubble"><i class="ti-user"></i><span class="sidebar-title">Applications</span></a></li>
                 }
 
                 @if (session.UserPermissionsSession.MerchantinfoSystemwideLeads == "on" || session.UserPermissionsSession.MerchantinfoAssociatedLead == "on")
@@ -333,15 +333,15 @@
 
                 @if (session.UserPermissionsSession.SystemwideLeads == "on" || session.UserPermissionsSession.AssociatedLeads == "on")
                 {
-                    <li><a href="@Url.RouteUrl("ManageLead")" class="bubble"><i class="ti-id-badge"></i><span class="sidebar-title">Manage Leads</span></a></li>
+                    <li><a href="@Url.RouteUrl("ManageLead")" class="bubble"><i class="ti-id-badge"></i><span class="sidebar-title">Leads</span></a></li>
                 }
 
                 <li><a href="@Url.RouteUrl("Campaigns")" class="bubble"><i class="ti-id-badge"></i><span class="sidebar-title">Marketing</span></a></li>
-                <li><a href="@Url.RouteUrl("EmailTemplates")" class="bubble"><i class="ti-id-badge"></i><span class="sidebar-title">Email Template</span></a></li>
+                <li><a href="@Url.RouteUrl("EmailTemplates")" class="bubble"><i class="ti-id-badge"></i><span class="sidebar-title">Email Templates</span></a></li>
 
                 @if (session.UserPermissionsSession.Calendar == "on")
                 {
-                    <li><a href="@Url.RouteUrl("Calender")" class="bubble"><i class="ti-id-badge"></i><span class="sidebar-title">Calender</span></a></li>
+                    <li><a href="@Url.RouteUrl("Calender")" class="bubble"><i class="ti-id-badge"></i><span class="sidebar-title">Calendar</span></a></li>
                 }
 
 
