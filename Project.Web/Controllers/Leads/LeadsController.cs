@@ -1316,5 +1316,76 @@ namespace Project.Web.Controllers.Leads
             }
         }
 
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult GetPricingTemplateData(string PType)
+        {
+            objResponse response = new objResponse();
+
+            RatesAndFee objRates = new RatesAndFee();
+            try
+            {
+                response = UtilityManager.getPricingTemplateData(PType);
+                if(response.ErrorCode == 0)
+                {
+                    objRates.Rate_ID_Auto_PK = Convert.ToInt64(response.ResponseData.Tables[0].Rows[0]["Rate_ID_Auto_PK"]);
+                    objRates.Rate_Type = response.ResponseData.Tables[0].Rows[0]["Rate_Type"].ToString();
+                    objRates.Debit_Qual = response.ResponseData.Tables[0].Rows[0]["Debit_Qual"].ToString();
+                    objRates.Debit_MID_Qual = response.ResponseData.Tables[0].Rows[0]["Debit_MID_Qual"].ToString();
+                    objRates.Debit_MID_Qual_Per_Item = response.ResponseData.Tables[0].Rows[0]["Debit_MID_Qual_Per_Item"].ToString();
+                    objRates.Debit_Non_Qual = response.ResponseData.Tables[0].Rows[0]["Debit_Non_Qual"].ToString();
+                    objRates.Credit_Qual = response.ResponseData.Tables[0].Rows[0]["Credit_Qual"].ToString();
+                    objRates.Credit_MID_Qual = response.ResponseData.Tables[0].Rows[0]["Credit_MID_Qual"].ToString();
+                    objRates.Credit_MID_Qual_Per_Item = response.ResponseData.Tables[0].Rows[0]["Credit_MID_Qual_Per_Item"].ToString();
+                    objRates.Credit_Non_Qual = response.ResponseData.Tables[0].Rows[0]["Credit_Non_Qual"].ToString();
+                    objRates.Debit_Transaction_Fee = response.ResponseData.Tables[0].Rows[0]["Debit_Transaction_Fee"].ToString();
+                    objRates.Return_Transaction_Fee = response.ResponseData.Tables[0].Rows[0]["Return_Transaction_Fee"].ToString();
+                    objRates.EBT_Transaction_Fee = response.ResponseData.Tables[0].Rows[0]["EBT_Transaction_Fee"].ToString();
+                    objRates.Electronic_AVS_Fee = response.ResponseData.Tables[0].Rows[0]["Electronic_AVS_Fee"].ToString();
+                    objRates.AMEX_Trans_Fee = response.ResponseData.Tables[0].Rows[0]["AMEX_Trans_Fee"].ToString();
+                    objRates.Statement_Fee = response.ResponseData.Tables[0].Rows[0]["Statement_Fee"].ToString();
+                    objRates.MonthlyMinimum = response.ResponseData.Tables[0].Rows[0]["MonthlyMinimum"].ToString();
+                    objRates.ChargeBack_Fee = response.ResponseData.Tables[0].Rows[0]["ChargeBack_Fee"].ToString();
+                    objRates.Batch_Fee = response.ResponseData.Tables[0].Rows[0]["Batch_Fee"].ToString();
+                    objRates.ReserveAccount_Fee = response.ResponseData.Tables[0].Rows[0]["ReserveAccount_Fee"].ToString();
+                    objRates.FDR_HelpDesk_Fee = response.ResponseData.Tables[0].Rows[0]["FDR_HelpDesk_Fee"].ToString();
+                    objRates.FDR_Asst_Service_Fee = response.ResponseData.Tables[0].Rows[0]["FDR_Asst_Service_Fee"].ToString();
+                    objRates.ACH_Change_Fee = response.ResponseData.Tables[0].Rows[0]["ACH_Change_Fee"].ToString();
+                    objRates.RetrivalRequest_Fee = response.ResponseData.Tables[0].Rows[0]["RetrivalRequest_Fee"].ToString();
+                    objRates.Voice_Auth_Fee = response.ResponseData.Tables[0].Rows[0]["Voice_Auth_Fee"].ToString();
+                    objRates.Annual_Fee = response.ResponseData.Tables[0].Rows[0]["Annual_Fee"].ToString();
+                    objRates.PCI_NonAction_Fee = response.ResponseData.Tables[0].Rows[0]["PCI_NonAction_Fee"].ToString();
+                    objRates.Regulatory_Fee = response.ResponseData.Tables[0].Rows[0]["Regulatory_Fee"].ToString();
+                    objRates.Regulatory_NonComplience_Fee = response.ResponseData.Tables[0].Rows[0]["Regulatory_NonComplience_Fee"].ToString();
+                    objRates.Early_Termination_Bef1 = response.ResponseData.Tables[0].Rows[0]["Early_Termination_Bef1"].ToString();
+                    objRates.Early_Termination_Aft1 = response.ResponseData.Tables[0].Rows[0]["Early_Termination_Aft1"].ToString();
+                    objRates.Early_Termination_Bef2 = response.ResponseData.Tables[0].Rows[0]["Early_Termination_Bef2"].ToString();
+                    objRates.InterchangeClear_Fee = response.ResponseData.Tables[0].Rows[0]["InterchangeClear_Fee"].ToString();
+                    objRates.WirelessSetup_Fee = response.ResponseData.Tables[0].Rows[0]["WirelessSetup_Fee"].ToString();
+                    objRates.WirelessMonthly_Fee = response.ResponseData.Tables[0].Rows[0]["WirelessMonthly_Fee"].ToString();
+                    objRates.WirelessAuth_Fee = response.ResponseData.Tables[0].Rows[0]["WirelessAuth_Fee"].ToString();
+                    objRates.GatewaySetup_Fee = response.ResponseData.Tables[0].Rows[0]["GatewaySetup_Fee"].ToString();
+                    objRates.GatewayMonthly_Fee = response.ResponseData.Tables[0].Rows[0]["GatewayMonthly_Fee"].ToString();
+                    objRates.GatewayAuth_Fee = response.ResponseData.Tables[0].Rows[0]["GatewayAuth_Fee"].ToString();
+
+
+                  
+
+                    return Json(objRates, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                BAL.Common.LogManager.LogError("GetPricingTemplateData Post", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

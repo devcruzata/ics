@@ -613,7 +613,17 @@
                                             <option value="POS Reprogram">POS Reprogram</option>
                                         </select>
                                     </div>
-
+                                    <div class="col-sm-6">
+                                        <select class="form-control" name="pTemplate" id="pTemplate" onchange="setPricingData();">
+                                            <option value="0">Select Pricing Template</option>
+                                            <option value="3-Tiered">3-Tiered</option>
+                                            <option value="6-Tiered">6-Tiered</option>
+                                            <option value="ERR">ERR</option>
+                                            <option value="Interchange">Interchange</option>  
+                                            <option value="Tired-Pricing">Tired-Pricing</option>
+                                            <option value="Mobile-Tiered">Mobile-Tiered</option>                                            
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -937,6 +947,8 @@
     $(document).ready(function () {
         $("#leadForm")[0].reset();
     });
+
+   
 </script>
 
 <script>
@@ -1222,5 +1234,29 @@
                 });
     }*@
 
+    function setPricingData() {
+        alert($('#pTemplate').val());
+        var dataRow = {
+            'PType': $('#pTemplate').val()
+        }
+        $.ajax({
+            type: 'POST',
+            url: "/Leads/GetPricingTemplateData",
+            //data: JSON.stringify({ PricingType: $('#pTemplate').val() }),
+            data: dataRow,
+            success: function (response) {
+                if (response == 'True') {
+                    $("#TaskModal").modal('hide');
+                    $("#eForm")[0].reset();
+                    $(".se-pre-con").hide();
+                }
+                else {
+                    $("#TaskModal").modal('hide');
+                    $("#eForm")[0].reset();
+                    $(".se-pre-con").hide();
+                }
+            }
+        });
+    }
     
 </script>
