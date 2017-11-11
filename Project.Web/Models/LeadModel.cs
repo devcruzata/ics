@@ -8,8 +8,12 @@ namespace Project.Web.Models
 {
     public class LeadModel
     {
+
         public long Lead_ID { get; set; }
 
+        /// <summary>
+        /// Business Info
+        /// </summary>
         public string DBA { get; set; }
 
         public string ContName { get; set; }
@@ -64,6 +68,11 @@ namespace Project.Web.Models
 
         public string mzip { get; set; }
 
+
+        /// <summary>
+        /// Owner Info
+        /// </summary>
+
         public string FName { get; set; }
 
         public string LName { get; set; }
@@ -87,6 +96,11 @@ namespace Project.Web.Models
         public string rzip { get; set; }
 
         public string OwnerPhone { get; set; }
+
+
+        /// <summary>
+        /// Financial Info
+        /// </summary>
 
         public string MerchantType { get; set; }
 
@@ -116,7 +130,11 @@ namespace Project.Web.Models
 
         public string BacNumber { get; set; }
 
-        public string Equipment { get; set; }
+        /// <summary>
+        /// Pricing Info
+        /// </summary>
+
+
 
         public string DebitQual { get; set; }
 
@@ -160,20 +178,104 @@ namespace Project.Web.Models
 
         public string BatchFee { get; set; }
 
-        public string GatewayFee { get; set; }
+        public string CreditDisocuntRate { get; set; }
 
-        public string WirelessFee { get; set; }
+        public string DebitDiscountRate { get; set; }
 
-        public string RetrievalFee { get; set; }
+        public string ERRSurcharge { get; set; }
 
+        public string InterchangeRate { get; set; }
+
+        public string DiscountRate { get; set; }
+
+        public string ReserveAccountFee { get; set; }
+
+        public string FDRHelpDeskFee { get; set; }
+
+        public string FDRAsstServiceFee { get; set; }
+
+        public string ACHChangeFee { get; set; }
+
+        public string RetrivalRequestFee { get; set; }
+
+        public string VoiceAuthFee { get; set; }
+
+        public string AnnualFee { get; set; }
+
+        public string PCINonActionFee { get; set; }
+
+        public string RegulatoryFee { get; set; }
+
+        public string RegulatoryNonComplienceFee { get; set; }
+
+        public string EarlyTerminationBefore1Year { get; set; }
+
+        public string EarlyTerminationAfter1Year { get; set; }
+
+        public string EarlyTerminationBefore2Year { get; set; }
+
+        public string InterchangeClearFee { get; set; }
+
+        public string WirelessSetupFee { get; set; }
+
+        public string WirelessMonthlyFee { get; set; }
+
+        public string WirelessAuthFee { get; set; }
+
+        public string GatewaySetupFee { get; set; }
+
+        public string GatewayMonthlyFee { get; set; }
+
+        public string GatewayAuthFee { get; set; }
+
+        /// <summary>
+        /// Equipment Section
+        /// </summary>        
+        public string EquipmentNo { get; set; }
+
+        public string EPNReaders { get; set; }
+
+        public string Terminals { get; set; }
+
+        public string EquipmentType1 { get; set; }
+
+        public string TerminalType { get; set; }
+
+        public string FreeTerminal { get; set; }
+
+        public string SoftwareName { get; set; }
+
+        public string GatewayName { get; set; }
+
+        public string EquipmentSerial { get; set; }
+
+        public string Pinpad { get; set; }
+
+        public string PinPadPurchasePrice { get; set; }
+
+        public string PinpadSerial { get; set; }
+
+        public string ShippingMethod { get; set; }
+
+        public string Shipped { get; set; }
+
+        public string TrackingNumber { get; set; }
+
+        public string EquipmentType2 { get; set; }
+
+        public string PurchasePrice { get; set; }
+
+        public string ApplicableTaxes { get; set; }
+
+
+        /// <summary>
+        /// Genral Info
+        /// </summary>
         public long CreatedBy { get; set; }
-
 
         public string CreatedDate { get; set; }
 
-
         public string UpdatedBy { get; set; }
-
 
         public string UpdatedDate { get; set; }
 
@@ -187,7 +289,7 @@ namespace Project.Web.Models
 
         public List<Notes> Notes { get; set; }
 
-       // public List<Meetings> Meeting { get; set; }
+        // public List<Meetings> Meeting { get; set; }
 
         public List<Activity> Activity { get; set; }
 
@@ -195,7 +297,7 @@ namespace Project.Web.Models
 
         public List<Tasks> Task { get; set; }
 
-       // public List<Mails> mails { get; set; }
+        // public List<Mails> mails { get; set; }
 
         public string CreatedByName { get; set; }
 
@@ -214,26 +316,42 @@ namespace Project.Web.Models
         public string LeadEventDuration { get; set; }
 
         public string LastNote { get; set; }
+
+        //Rates and fees section
+
+        public string RatesType { get; set; }
+
+
+
+        // Equipment section
+
+
+
+
+
+
+
+
     }
 
     public class LeadSubmisionModel
     {
-       
+
         public long businessName { get; set; }
 
-       
+
         public long contactName { get; set; }
 
-       
+
         public long contactPhone { get; set; }
 
-        
+
         public long secondaryPhone { get; set; }
 
-        
+
         public long email { get; set; }
 
-       
+
         public long cooments { get; set; }
     }
 }

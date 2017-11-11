@@ -279,114 +279,273 @@ namespace BAL.Leads
               BAL.Common.LogManager.LogError("AddLeadStep3", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
           }
           return Response;
-      }
+      }      
 
-      public objResponse AddLeadStep4(Project.Entity.Leads objLeads)
-      {
-          objResponse Response = new objResponse();
-          try
-          {
-              SqlParameter[] sqlParameter = new SqlParameter[26];
+        public objResponse AddLeadStep4(Project.Entity.Leads objLeads)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                SqlParameter[] sqlParameter = new SqlParameter[49];
 
-              sqlParameter[0] = new SqlParameter("@DebitQual", SqlDbType.NVarChar, 50);
-              sqlParameter[0].Value = objLeads.DebitQual;
+                sqlParameter[0] = new SqlParameter("@DebitQual", SqlDbType.NVarChar, 50);
+                sqlParameter[0].Value = objLeads.DebitQual;
 
-              sqlParameter[1] = new SqlParameter("@DebitMIDQual", SqlDbType.NVarChar, 50);
-              sqlParameter[1].Value = objLeads.DebitMIDQual;
+                sqlParameter[1] = new SqlParameter("@DebitMIDQual", SqlDbType.NVarChar, 50);
+                sqlParameter[1].Value = objLeads.DebitMIDQual;
 
-              sqlParameter[2] = new SqlParameter("@DebitNonQual", SqlDbType.NVarChar, 50);
-              sqlParameter[2].Value = objLeads.DebitNonQual;
+                sqlParameter[2] = new SqlParameter("@DebitNonQual", SqlDbType.NVarChar, 50);
+                sqlParameter[2].Value = objLeads.DebitNonQual;
 
-              sqlParameter[3] = new SqlParameter("@CreditQual", SqlDbType.NVarChar, 50);
-              sqlParameter[3].Value = objLeads.CreditQual;
+                sqlParameter[3] = new SqlParameter("@CreditQual", SqlDbType.NVarChar, 50);
+                sqlParameter[3].Value = objLeads.CreditQual;
 
-              sqlParameter[4] = new SqlParameter("@CreditMIDQual", SqlDbType.NVarChar, 50);
-              sqlParameter[4].Value = objLeads.CreditMIDQual;
+                sqlParameter[4] = new SqlParameter("@CreditMIDQual", SqlDbType.NVarChar, 50);
+                sqlParameter[4].Value = objLeads.CreditMIDQual;
 
-              sqlParameter[5] = new SqlParameter("@CreditNonQual", SqlDbType.NVarChar, 50);
-              sqlParameter[5].Value = objLeads.CreditNonQual;
+                sqlParameter[5] = new SqlParameter("@CreditNonQual", SqlDbType.NVarChar, 50);
+                sqlParameter[5].Value = objLeads.CreditNonQual;
 
-              sqlParameter[6] = new SqlParameter("@DebitQualPerItem", SqlDbType.NVarChar, 50);
-              sqlParameter[6].Value = objLeads.DebitQualPerItem;
+                sqlParameter[6] = new SqlParameter("@DebitQualPerItem", SqlDbType.NVarChar, 50);
+                sqlParameter[6].Value = objLeads.DebitQualPerItem;
 
-              sqlParameter[7] = new SqlParameter("@DebitMIDQualPerItem", SqlDbType.NVarChar, 50);
-              sqlParameter[7].Value = objLeads.DebitMIDQualPerItem;
+                sqlParameter[7] = new SqlParameter("@DebitMIDQualPerItem", SqlDbType.NVarChar, 50);
+                sqlParameter[7].Value = objLeads.DebitMIDQualPerItem;
 
-              sqlParameter[8] = new SqlParameter("@DebitNonQualPerItem", SqlDbType.NVarChar, 50);
-              sqlParameter[8].Value = objLeads.DebitNonQualPerItem;
+                sqlParameter[8] = new SqlParameter("@DebitNonQualPerItem", SqlDbType.NVarChar, 50);
+                sqlParameter[8].Value = objLeads.DebitNonQualPerItem;
 
-              sqlParameter[9] = new SqlParameter("@CreditQualPerItem", SqlDbType.NVarChar, 50);
-              sqlParameter[9].Value = objLeads.CreditQualPerItem;
+                sqlParameter[9] = new SqlParameter("@CreditQualPerItem", SqlDbType.NVarChar, 50);
+                sqlParameter[9].Value = objLeads.CreditQualPerItem;
 
-              sqlParameter[10] = new SqlParameter("@CreditMIDQualPerItem", SqlDbType.NVarChar, 50);
-              sqlParameter[10].Value = objLeads.CreditMIDQualPerItem;
+                sqlParameter[10] = new SqlParameter("@CreditMIDQualPerItem", SqlDbType.NVarChar, 50);
+                sqlParameter[10].Value = objLeads.CreditMIDQualPerItem;
 
-              sqlParameter[11] = new SqlParameter("@CreditNonQualPerItem", SqlDbType.NVarChar, 50);
-              sqlParameter[11].Value = objLeads.CreditNonQualPerItem;
+                sqlParameter[11] = new SqlParameter("@CreditNonQualPerItem", SqlDbType.NVarChar, 50);
+                sqlParameter[11].Value = objLeads.CreditNonQualPerItem;
 
-              sqlParameter[12] = new SqlParameter("@DebitTransFee", SqlDbType.NVarChar, 50);
-              sqlParameter[12].Value = objLeads.DebitTransFee;
+                sqlParameter[12] = new SqlParameter("@DebitTransFee", SqlDbType.NVarChar, 50);
+                sqlParameter[12].Value = objLeads.DebitTransFee;
 
-              sqlParameter[13] = new SqlParameter("@ReturnTransFee", SqlDbType.NVarChar, 50);
-              sqlParameter[13].Value = objLeads.ReturnTransFee;
+                sqlParameter[13] = new SqlParameter("@ReturnTransFee", SqlDbType.NVarChar, 50);
+                sqlParameter[13].Value = objLeads.ReturnTransFee;
 
-              sqlParameter[14] = new SqlParameter("@EBTTransFee", SqlDbType.NVarChar, 50);
-              sqlParameter[14].Value = objLeads.EBTTransFee;
+                sqlParameter[14] = new SqlParameter("@EBTTransFee", SqlDbType.NVarChar, 50);
+                sqlParameter[14].Value = objLeads.EBTTransFee;
 
-              sqlParameter[15] = new SqlParameter("@ElectroAVSFee", SqlDbType.NVarChar, 50);
-              sqlParameter[15].Value = objLeads.ElectroAVSFee;
+                sqlParameter[15] = new SqlParameter("@ElectroAVSFee", SqlDbType.NVarChar, 50);
+                sqlParameter[15].Value = objLeads.ElectroAVSFee;
 
-              sqlParameter[16] = new SqlParameter("@AMEXTransFee", SqlDbType.NVarChar, 50);
-              sqlParameter[16].Value = objLeads.AMEXTransFee;
+                sqlParameter[16] = new SqlParameter("@AMEXTransFee", SqlDbType.NVarChar, 50);
+                sqlParameter[16].Value = objLeads.AMEXTransFee;
 
-              sqlParameter[17] = new SqlParameter("@StatementFee", SqlDbType.NVarChar, 50);
-              sqlParameter[17].Value = objLeads.StatementFee;
+                sqlParameter[17] = new SqlParameter("@StatementFee", SqlDbType.NVarChar, 50);
+                sqlParameter[17].Value = objLeads.StatementFee;
 
-              sqlParameter[18] = new SqlParameter("@MontMini", SqlDbType.NVarChar, 50);
-              sqlParameter[18].Value = objLeads.MontMini;
+                sqlParameter[18] = new SqlParameter("@MontMini", SqlDbType.NVarChar, 50);
+                sqlParameter[18].Value = objLeads.MontMini;
 
-              sqlParameter[19] = new SqlParameter("@ChargeBackFee", SqlDbType.NVarChar, 50);
-              sqlParameter[19].Value = objLeads.ChargeBackFee;
+                sqlParameter[19] = new SqlParameter("@ChargeBackFee", SqlDbType.NVarChar, 50);
+                sqlParameter[19].Value = objLeads.ChargeBackFee;
 
-              sqlParameter[20] = new SqlParameter("@BatchFee", SqlDbType.NVarChar, 50);
-              sqlParameter[20].Value = objLeads.BatchFee;
+                sqlParameter[20] = new SqlParameter("@BatchFee", SqlDbType.NVarChar, 50);
+                sqlParameter[20].Value = objLeads.BatchFee;
 
-              sqlParameter[21] = new SqlParameter("@GatewayFee", SqlDbType.NVarChar, 50);
-              sqlParameter[21].Value = objLeads.GatewayFee;
+                sqlParameter[21] = new SqlParameter("@Lead_ID", SqlDbType.BigInt, 10);
+                sqlParameter[21].Value = objLeads.Lead_ID;
 
-              sqlParameter[22] = new SqlParameter("@WirelessFee", SqlDbType.NVarChar, 50);
-              sqlParameter[22].Value = objLeads.WirelessFee;
+                sqlParameter[22] = new SqlParameter("@Equipment", SqlDbType.NVarChar, 80);
+                sqlParameter[22].Value = "";
 
-              sqlParameter[23] = new SqlParameter("@RetrievalFee", SqlDbType.NVarChar, 50);
-              sqlParameter[23].Value = objLeads.RetrievalFee;
+                sqlParameter[23] = new SqlParameter("@RatesType", SqlDbType.NVarChar, 50);
+                sqlParameter[23].Value = objLeads.RatesType;
 
-              sqlParameter[24] = new SqlParameter("@Lead_ID", SqlDbType.BigInt, 10);
-              sqlParameter[24].Value = objLeads.Lead_ID;
+                sqlParameter[24] = new SqlParameter("@CreditDisocuntRate", SqlDbType.NVarChar, 50);
+                sqlParameter[24].Value = objLeads.CreditDisocuntRate;
 
-              sqlParameter[25] = new SqlParameter("@Equipment", SqlDbType.NVarChar, 80);
-              sqlParameter[25].Value = objLeads.Equipment;
+                sqlParameter[25] = new SqlParameter("@DebitDiscountRate", SqlDbType.NVarChar, 50);
+                sqlParameter[25].Value = objLeads.DebitDiscountRate;
 
-              DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_AddLeadStep4", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+                sqlParameter[26] = new SqlParameter("@ERRSurcharge", SqlDbType.NVarChar, 50);
+                sqlParameter[26].Value = objLeads.ERRSurcharge;
+
+                sqlParameter[27] = new SqlParameter("@InterchangeRate", SqlDbType.NVarChar, 50);
+                sqlParameter[27].Value = objLeads.InterchangeRate;
+
+                sqlParameter[28] = new SqlParameter("@DiscountRate", SqlDbType.NVarChar, 50);
+                sqlParameter[28].Value = objLeads.DiscountRate;
+
+                sqlParameter[29] = new SqlParameter("@ReserveAccountFee", SqlDbType.NVarChar, 50);
+                sqlParameter[29].Value = objLeads.ReserveAccountFee;
+
+                sqlParameter[30] = new SqlParameter("@FDRHelpDeskFee", SqlDbType.NVarChar, 50);
+                sqlParameter[30].Value = objLeads.FDRHelpDeskFee;
+
+                sqlParameter[31] = new SqlParameter("@FDRAsstServiceFee", SqlDbType.NVarChar, 50);
+                sqlParameter[31].Value = objLeads.FDRAsstServiceFee;
+
+                sqlParameter[32] = new SqlParameter("@ACHChangeFee", SqlDbType.NVarChar, 50);
+                sqlParameter[32].Value = objLeads.ACHChangeFee;
+
+                sqlParameter[33] = new SqlParameter("@RetrivalRequestFee", SqlDbType.NVarChar, 50);
+                sqlParameter[33].Value = objLeads.RetrivalRequestFee;
+
+                sqlParameter[34] = new SqlParameter("@VoiceAuthFee", SqlDbType.NVarChar, 50);
+                sqlParameter[34].Value = objLeads.VoiceAuthFee;
+
+                sqlParameter[35] = new SqlParameter("@AnnualFee", SqlDbType.NVarChar, 50);
+                sqlParameter[35].Value = objLeads.AnnualFee;
+
+                sqlParameter[36] = new SqlParameter("@PCINonActionFee", SqlDbType.NVarChar, 50);
+                sqlParameter[36].Value = objLeads.PCINonActionFee;
+
+                sqlParameter[37] = new SqlParameter("@RegulatoryFee", SqlDbType.NVarChar, 50);
+                sqlParameter[37].Value = objLeads.RegulatoryFee;
+
+                sqlParameter[38] = new SqlParameter("@RegulatoryNonComplienceFee", SqlDbType.NVarChar, 50);
+                sqlParameter[38].Value = objLeads.RegulatoryNonComplienceFee;
+
+                sqlParameter[39] = new SqlParameter("@EarlyTerminationBefore1Year", SqlDbType.NVarChar, 50);
+                sqlParameter[39].Value = objLeads.EarlyTerminationBefore1Year;
+
+                sqlParameter[40] = new SqlParameter("@EarlyTerminationAfter1Year", SqlDbType.NVarChar, 50);
+                sqlParameter[40].Value = objLeads.EarlyTerminationAfter1Year;
+
+                sqlParameter[41] = new SqlParameter("@EarlyTerminationBefore2Year", SqlDbType.NVarChar, 50);
+                sqlParameter[41].Value = objLeads.EarlyTerminationBefore2Year;
+
+                sqlParameter[42] = new SqlParameter("@InterchangeClearFee", SqlDbType.NVarChar, 50);
+                sqlParameter[42].Value = objLeads.InterchangeClearFee;
+
+                sqlParameter[43] = new SqlParameter("@WirelessSetupFee", SqlDbType.NVarChar, 50);
+                sqlParameter[43].Value = objLeads.WirelessSetupFee;
+
+                sqlParameter[44] = new SqlParameter("@WirelessMonthlyFee", SqlDbType.NVarChar, 50);
+                sqlParameter[44].Value = objLeads.WirelessMonthlyFee;
+
+                sqlParameter[45] = new SqlParameter("@WirelessAuthFee", SqlDbType.NVarChar, 50);
+                sqlParameter[45].Value = objLeads.WirelessAuthFee;
+
+                sqlParameter[46] = new SqlParameter("@GatewaySetupFee", SqlDbType.NVarChar, 50);
+                sqlParameter[46].Value = objLeads.GatewaySetupFee;
+
+                sqlParameter[47] = new SqlParameter("@GatewayMonthlyFee", SqlDbType.NVarChar, 50);
+                sqlParameter[47].Value = objLeads.GatewayMonthlyFee;
+
+                sqlParameter[48] = new SqlParameter("@GatewayAuthFee", SqlDbType.NVarChar, 50);
+                sqlParameter[48].Value = objLeads.GatewayAuthFee;
 
 
-              if (Response.ResponseData.Tables[0].Rows.Count > 0)
-              {
-                  Response.ErrorCode = 0;
-                  Response.ErrorMessage = Response.ResponseData.Tables[0].Rows[0][0].ToString(); ;
-              }
-              else
-              {
-                  Response.ErrorCode = 2001;
-                  Response.ErrorMessage = "There is an Error. Please Try After some time.";
-              }
-          }
-          catch (Exception ex)
-          {
-              Response.ErrorMessage = ex.Message.ToString();
-              BAL.Common.LogManager.LogError("AddLeadStep4", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
-          }
-          return Response;
-      }
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_AddLeadStep4", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = Response.ResponseData.Tables[0].Rows[0][0].ToString(); ;
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ErrorMessage = ex.Message.ToString();
+                BAL.Common.LogManager.LogError("AddLeadStep4", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+            }
+            return Response;
+        }
+
+        public objResponse AddLeadStep5(Project.Entity.Leads objLeads)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                SqlParameter[] sqlParameter = new SqlParameter[17];
+
+                sqlParameter[0] = new SqlParameter("@EquipmentNo", SqlDbType.NVarChar, 50);
+                sqlParameter[0].Value = objLeads.EquipmentNo;
+
+                sqlParameter[1] = new SqlParameter("@EPNReaders", SqlDbType.NVarChar, 50);
+                sqlParameter[1].Value = objLeads.EPNReaders;
+
+                sqlParameter[2] = new SqlParameter("@Terminals", SqlDbType.NVarChar, 50);
+                sqlParameter[2].Value = objLeads.Terminals;
+
+                sqlParameter[3] = new SqlParameter("@EquipmentType1", SqlDbType.NVarChar, 50);
+                sqlParameter[3].Value = objLeads.EquipmentType1;
+
+                sqlParameter[4] = new SqlParameter("@TerminalType", SqlDbType.NVarChar, 50);
+                sqlParameter[4].Value = objLeads.TerminalType;
+
+                sqlParameter[5] = new SqlParameter("@FreeTerminal", SqlDbType.NVarChar, 50);
+                sqlParameter[5].Value = objLeads.FreeTerminal;
+
+                sqlParameter[6] = new SqlParameter("@SoftwareName", SqlDbType.NVarChar, 50);
+                sqlParameter[6].Value = objLeads.SoftwareName;
+
+                sqlParameter[7] = new SqlParameter("@GatewayName", SqlDbType.NVarChar, 50);
+                sqlParameter[7].Value = objLeads.GatewayName;
+
+                sqlParameter[8] = new SqlParameter("@EquipmentSerial", SqlDbType.NVarChar, 50);
+                sqlParameter[8].Value = objLeads.EquipmentSerial;
+
+                sqlParameter[9] = new SqlParameter("@Pinpad", SqlDbType.NVarChar, 50);
+                sqlParameter[9].Value = objLeads.Pinpad;
+
+                sqlParameter[10] = new SqlParameter("@PinPadPurchasePrice", SqlDbType.NVarChar, 50);
+                sqlParameter[10].Value = objLeads.PinPadPurchasePrice;
+
+                sqlParameter[11] = new SqlParameter("@PinpadSerial", SqlDbType.NVarChar, 50);
+                sqlParameter[11].Value = objLeads.PinpadSerial;
+
+                sqlParameter[12] = new SqlParameter("@ShippingMethod", SqlDbType.NVarChar, 50);
+                sqlParameter[12].Value = objLeads.ShippingMethod;
+
+                sqlParameter[13] = new SqlParameter("@Shipped", SqlDbType.NVarChar, 50);
+                sqlParameter[13].Value = objLeads.Shipped;
+
+                sqlParameter[14] = new SqlParameter("@TrackingNumber", SqlDbType.NVarChar, 50);
+                sqlParameter[14].Value = objLeads.TrackingNumber;
+
+                sqlParameter[15] = new SqlParameter("@EquipmentType2", SqlDbType.NVarChar, 50);
+                sqlParameter[15].Value = objLeads.EquipmentType2;
+
+                sqlParameter[16] = new SqlParameter("@PurchasePrice", SqlDbType.NVarChar, 50);
+                sqlParameter[16].Value = objLeads.PurchasePrice;
+
+                sqlParameter[17] = new SqlParameter("@ApplicableTaxes", SqlDbType.NVarChar, 50);
+                sqlParameter[17].Value = objLeads.ApplicableTaxes;
+
+                sqlParameter[18] = new SqlParameter("@Lead_ID", SqlDbType.BigInt, 10);
+                sqlParameter[18].Value = objLeads.Lead_ID;
+
+
+
+
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_AddLeadStep5", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = Response.ResponseData.Tables[0].Rows[0][0].ToString(); ;
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ErrorMessage = ex.Message.ToString();
+                BAL.Common.LogManager.LogError("AddLeadStep5", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+            }
+            return Response;
+        }
 
       public List<Project.Entity.Leads> getAllLeads(string logedUser , string UserRole)
       {
@@ -580,7 +739,40 @@ namespace BAL.Leads
           return Response;
       }
 
-      public objResponse changeStatus(string Lead_ID , string DispId , string Notes , string LogedUser)
+        public objResponse getDispositionModalData(long LeadId)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                SqlParameter[] sqlParameter = new SqlParameter[1];
+
+                sqlParameter[0] = new SqlParameter("@LeadId", SqlDbType.BigInt, 10);
+                sqlParameter[0].Value = LeadId;
+
+
+                DATA_ACCESS_LAYER.Fill(Response.ResponseData, "usp_getDispoModalData", sqlParameter, DB_CONSTANTS.ConnectionString_ICS);
+
+
+                if (Response.ResponseData.Tables[0].Rows.Count > 0)
+                {
+                    Response.ErrorCode = 0;
+                    Response.ErrorMessage = "Suceess";
+                }
+                else
+                {
+                    Response.ErrorCode = 2001;
+                    Response.ErrorMessage = "There is an Error. Please Try After some time.";
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ErrorMessage = ex.Message.ToString();
+                BAL.Common.LogManager.LogError("getDispositionModalData", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+            }
+            return Response;
+        }
+
+        public objResponse changeStatus(string Lead_ID , string DispId , string Notes , string LogedUser)
       {
           objResponse Response = new objResponse();
           try

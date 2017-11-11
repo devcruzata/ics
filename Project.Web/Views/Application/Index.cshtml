@@ -1,0 +1,2748 @@
+﻿@model Project.Web.Models.ApplicationModel
+
+
+<!-- jQuery-->
+<script type="text/javascript" src="@Url.Content("~/Content/plugins/jquery/dist/jquery.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/BootstrapCountryPicker/bootstrap-formhelpers-countries.en_US.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Content/BootstrapCountryPicker/bootstrap-formhelpers-countries.js")"></script>
+
+<style>
+    .content_btn:hover {
+        width: 70px;
+        height: 70px;
+        background-color: #fff;
+        border: 1px solid #1f364f !important;
+    }
+
+    .addBorder {
+        border: 1px solid red;
+    }
+</style>
+
+<!-- Page Content -->
+<div class="page-container">
+    <div class="page-header clearfix">
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="mt-0 mb-5">Merchant Applications</h4>
+                <ol class="breadcrumb mb-0">
+                    <li><a href="@Url.RouteUrl("AdminDashboard")">Home</a></li>
+                    <li><a href="@Url.RouteUrl("MerchantApplication")">Merchant Applications</a></li>
+                    @*<li class="active">Genral Setings</li>*@
+                </ol>
+            </div>
+            <div class="col-sm-6">
+                @*<div class="btn-group mt-5">
+                        <button type="button" class="btn btn-default btn-outline"><i class="flag-icon flag-icon-us mr-5"></i> English</button>
+                        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-default btn-outline dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInDown">
+                            <li><a href="#"><i class="flag-icon flag-icon-de mr-5"></i> German</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-fr mr-5"></i> French</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-es mr-5"></i> Spanish</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-it mr-5"></i> Italian</a></li>
+                            <li><a href="#"><i class="flag-icon flag-icon-jp mr-5"></i> Japanese</a></li>
+                        </ul>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="page-content container-fluid">
+        <div class="widget">
+            <div class="widget-heading clearfix">
+                <h3 class="widget-title pull-left">Merchant Applications</h3>
+                @if (ViewBag.Error_Msg != "")
+                {
+                    <div style="margin-left:200px;">
+                        <p style="color:red;">@ViewBag.Error_Msg</p>
+                    </div>
+                }
+
+            </div>
+            <div class="widget-body">
+
+                <ul role="tablist" class="nav nav-tabs mb-15 viewlead-tabs">
+                    <li role="presentation"><a href="#UStatus" aria-controls="UStatus" role="tab" data-toggle="tab">Underwritng Status</a></li>
+                    <li role="presentation" class="active"><a href="#NApp" aria-controls="NApp" role="tab" data-toggle="tab">New Application</a></li>
+                    <li role="presentation"><a href="#InApp" aria-controls="InApp" role="tab" data-toggle="tab">Incompelet Apps</a></li>
+                    <li role="presentation"><a href="#IR" aria-controls="IR" role="tab" data-toggle="tab">In Review</a></li>
+                    <li role="presentation"><a href="#SApp" aria-controls="SApp" role="tab" data-toggle="tab">Submited Apps</a></li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <div id="UStatus" role="tabpanel" class="tab-pane">
+                        <div class="widget no-border" style="margin-left:20px;">
+
+                        </div>
+                    </div>
+
+                    <div id="NApp" role="tabpanel" class="tab-pane active">
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" class="btn btn-xlg  btn-primary" id="b1">Get Started</button>
+                                    <button type="button" class="btn btn-xlg  btn-primary" id="b2">Business Info</button>
+                                    <button type="button" class="btn btn-xlg  btn-primary" id="b3">Contact Info</button>
+                                    <button type="button" class="btn btn-xlg  btn-primary" id="b4">Account Info</button>
+                                    <button type="button" class="btn btn-xlg  btn-primary" id="b5">Financial Info</button>
+                                    <button type="button" class="btn btn-xlg  btn-primary" id="b6">Pricing Info</button>
+                                    <button type="button" class="btn btn-xlg  btn-primary" id="b7">Review</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget no-border activepage" id="step1" style="display:none;">
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <h3>
+                                        Application Requirment
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-sm-12 text-center">
+                                    <p>
+                                        The application process will take approximately 5 minutes to complete. Please ensure that you have the following required items prior to proceeding:
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-sm-12 text-center">
+                                    <p>
+                                        1) Corporate and location information including Federal Tax ID<br />
+                                        2) Owner's personal information
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-sm-12 text-center">
+                                    <h4 style="color:red">
+                                        Start New Application
+                                    </h4>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+                                <form action="/Application/AjaxAddAppStep1" method="post" id="formStep1">
+                                    <div class="col-sm-12 ">
+                                        <div class="col-sm-3">
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="SRep">Email Address <span style="color:red;">*</span></label>
+                                            <input class="form-control form-cutom" type="text" name="MerAppUserName" id="MerAppUserName">
+                                        </div>
+                                        <div class="col-sm-3">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 " style="margin-top:20px;">
+                                        <div class="col-sm-3">
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="ISRep">Password <span style="color:red;">*</span></label>
+                                            <input class="form-control form-cutom" type="password" name="MerAppPassword" id="MerAppPassword">
+                                        </div>
+                                        <div class="col-sm-3">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12" style="margin-top:20px;">
+                                        <div class="col-sm-3">
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="ISRep">Promotional Code (Optional)</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="promoCode" id="promopCode">
+                                        </div>
+                                        <div class="col-sm-3">
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="col-sm-12 text-center" style="margin-top:20px;">
+                                    <div class="col-sm-3">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-info btn-outline" id="b1Next">Start Application</button>
+                                        <button class="btn btn-info btn-outline" data-toggle="modal" data-target="#resume_Modal" id="resume" onclick="clearModal();">Resume Application</button>
+                                        <input type="hidden" name="MerchantApp_ID" id="appIdStep1" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget no-border" id="step2" style="display:none">
+                            <fieldset>
+                                <legend>Corporate Information</legend>
+                                <form action="/Application/AjaxAddAppStep2" method="post" id="formStep2">
+                                    <div class="row">
+                                        <div class="form-group" style="margin-top:20px;">
+                                            <div class="col-sm-4">
+                                                <label for="SRep">Legal Business Name <span style="color:red;">*</span></label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="LBN" id="LBN">
+                                                <div id="error_Div_LBN" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Business Name</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group" style="margin-top:20px;">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Legal Business Name <span style="color:red;">*</span></label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="LBN" id="LBN">
+                                                <div id="error_Div_LBN" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Business Name</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <div class="checkbox-inline checkbox-custom">
+                                                    <input id="sDBA" type="checkbox" value="" onclick="checkSameAsDBA();">
+                                                    <label for="sDBA" class="checkbox-muted text-muted">Same As Legal Business Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Doing Business As <span style="color:red;">*</span></label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="DBA" id="DBA">
+                                                <div id="error_Div_ContName" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Contact Name</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Business Description <span style="color:red;">*</span></label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="bDesc" id="bDesc">
+                                                <div id="error_Div_ContName" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Contact Name</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Ownership Type <span style="color:red;">*</span></label>
+                                                <select class="form-control" name="OwnershipType" id="OwnershipType">
+                                                    <option value="0">Select Ownership</option>
+                                                    <option value="SoleProprietorship">Sole Proprietorship</option>
+                                                    <option value="Corporation">Corporation</option>
+                                                    <option value="LLC">LLC</option>
+                                                    <option value="LegalOrMedicalCorporation">Legal or Medical Corporation</option>
+                                                    <option value="Partnership">Partnership</option>
+                                                    <option value="NonProfit">Non-Profit</option>
+                                                    <option value="Government">Government</option>
+                                                    <option value="TaxExempt">TaxExempt</option>
+                                                    <option value="TrustEstateAssociation">Trust Estate Association</option>
+                                                    <option value="Other">Other</option>
+                                                </select>
+                                                <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Password</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Time In Business <span style="color:red;">*</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:5px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <select class="form-control" name="yr" id="yr">
+                                                    <option value="">Years</option>
+                                                    <option value="0">0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14">14</option>
+                                                    <option value="15">15</option>
+                                                </select>
+                                                <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Password</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <select class="form-control" name="mt" id="mt">
+                                                    <option value="">Months</option>
+                                                    <option value="0">0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                                <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Password</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Website URL</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="website" id="website">
+                                                <div id="error_Div_ContName" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Contact Name</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Fedral Tax Id Number <span style="color:red;">*</span> <span style="color:blue;"><b><i class="ti-info-alt" title="Fedral Tax ID should be of 9 digit"></i></b></span></label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="ftID" id="ftID" onkeypress="return isNumberKey(event)" maxlength="9">
+                                                <div id="error_Div_ContName" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Contact Name</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="LAddress1">Location Address 1</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="LAddress1" id="LAddress1">
+                                                <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Username</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="LAddress2">Location Address 2</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="LAddress2" id="LAddress2">
+                                                <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Password</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">City</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="city" id="city">
+                                                <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Username</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="SRep">State</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="state" id="state">
+                                                <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Password</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Zip</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="zip" id="zip" onkeypress="return isNumberKey(event)" maxlength="5">
+                                                <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Username</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Location Phone Number</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="LPhoneNo" id="LPhoneNo" onkeypress="return isNumberKey(event)" maxlength="13">
+                                                <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Username</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Location Fax Number</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="LFaxNo" id="LFaxNo" onkeypress="return isNumberKey(event)" maxlength="13">
+                                                <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Password</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Business Email</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="bEmail" id="bEmail">
+                                                <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Username</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Mailing Address</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <div class="checkbox-inline checkbox-custom">
+                                                    <input id="sameAsLoc" type="checkbox" value="" onclick="checkMailingAddress();">
+                                                    <label for="sameAsLoc" class="checkbox-muted text-muted">Same As Location Address</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="LAddress1">Address 1</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="MAddress1" id="MAddress1">
+                                                <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Username</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="LAddress2">Address 2</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="MAddress2" id="MAddress2">
+                                                <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Password</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">City</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="mcity" id="mcity">
+                                                <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Username</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="SRep">State</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="mstate" id="mstate">
+                                                <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Password</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="form-group">
+                                            <div class="col-sm-6">
+                                                <label for="SRep">Zip</label>
+                                                <input placeholder="" class="form-control form-cutom" type="text" name="mzip" id="mzip" onkeypress="return isNumberKey(event)" maxlength="5">
+                                                <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                    <p style="color:red;">Please Enter Merchant Application Username</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" name="MerchantApp_ID" id="appIdStep2" />
+                                </form>
+                            </fieldset>
+                            
+
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-info btn-outline" id="b2Next">Next >></button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="widget no-border" id="step3" style="display:none">
+
+                            <form action="/Application/AjaxAddAppStep3" method="post" id="formStep3">
+                                <div class="row">
+                                    <div class="form-group" style="margin-top:20px;">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">First Name <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="FName" id="FName">
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Last Name <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="LName" id="LName">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Date of Birth <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom date-added" type="text" name="DOB" id="DOB">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Social Security No. <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="SocSecurity" id="SocSecurity" onkeypress="return isNumberKey(event)" maxlength="9">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Driver License No. <span style="color:red;">*</span></label>
+                                            <input placeholder="Driver License" class="form-control form-cutom" type="text" name="DLicense" id="DLicense">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Driver License State <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="DLicenseState" id="DLicenseState">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <div class="checkbox-inline checkbox-custom">
+                                                <input id="OwnersameAsLoc" type="checkbox" value="" onclick="checkResidenceAddress();">
+                                                <label for="OwnersameAsLoc" class="checkbox-muted text-muted">Same As Business Address</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Address 1 <span style="color:red;">*</span></label>
+                                            <input class="form-control form-cutom" type="text" name="RAddress1" id="RAddress1">
+                                            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Merchant Application Username</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Address 2 </label>
+                                            <input class="form-control form-cutom" type="text" name="RAddress2" id="RAddress2">
+                                            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Merchant Application Password</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:5px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">City <span style="color:red;">*</span></label>
+                                            <input class="form-control form-cutom" type="text" name="rcity" id="rcity">
+                                            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Merchant Application Username</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">State </label>
+                                            <input class="form-control form-cutom" type="text" name="rstate" id="rstate">
+                                            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Merchant Application Password</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Zip <span style="color:red;">*</span></label>
+                                            <input class="form-control form-cutom" type="text" name="rzip" id="rzip" onkeypress="return isNumberKey(event)" maxlength="7">
+                                            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Merchant Application Username</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Ip Address</label>
+                                            <textarea class="form-control form-cutom" id="ipAdd" readonly></textarea>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Signature</label>
+                                            <textarea class="form-control form-cutom" id="sign" readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="MerchantApp_ID" id="appIdStep3" />
+                            </form>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-info btn-outline" id="b3Back" onclick="LoadStep1();"><< Back</button>
+                                        <button class="btn btn-info btn-outline" id="b3Next">Next >></button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget no-border" id="step4" style="display:none">
+                            <form action="/Application/AjaxAddAppStep4" method="post" id="formStep4">
+                                <div class="row">
+                                    <div class="form-group" style="margin-top:20px;">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Merchant Type <span style="color:red;">*</span></label>
+                                            <select class="form-control" name="MerchantType" id="MerchantType">
+                                                <option value="0">Select Merchant Type</option>
+                                                <option value="CashAdvanceBanksOnly">Cash Advance Banks Only</option>
+                                                <option value="QSRRegistrationRequired">QSR Registration Required</option>
+                                                <option value="Restaurant">Restaurant</option>
+                                                <option value="Retail">Retail</option>
+                                                <option value="RetailWithTip">Retail With Tip</option>
+                                                <option value="Utility">Utility</option>
+                                                <option value="Convenience">Convenience</option>
+                                                <option value="FastFoodSmallTicket">Fast Food Small Ticket</option>
+                                                <option value="Internet">Internet</option>
+                                                <option value="Lodging">Lodging</option>
+                                                <option value="MOTO">MOTO</option>
+                                                <option value="PetroleumPayAtPump">Petroleum Pay At Pump</option>
+                                                <option value="PetroleumPayClerk">Petroleum Pay Clerk</option>
+                                                <option value="PublicSector">Public Sector</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Retail Swiped % <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="RSwiped" id="RSwiped">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Retail Keyed % <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="RKeyed" id="RKeyed">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Internet % <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="internet" id="internet">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Mail/Telephone Orders % <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="MTOrders" id="MTOrders">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Average sales amount per customer <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="avgTicket" id="avgTicket">
+                                            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Merchant Application Username</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Highest estimated sales amount per customer </label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="highTicket" id="highTicket">
+                                            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Merchant Application Password</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="col-sm-6">
+                                        <label for="SRep">Estimated monthly credit and debit card sales <span style="color:red;">*</span></label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="MVolume" id="MVolume" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Merchant Application Username</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="MerchantApp_ID" id="appIdStep4" />
+                            </form>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-info btn-outline" id="b4Back" onclick="LoadStep2();"><< Back</button>
+                                        <button class="btn btn-info btn-outline" id="b4Next">Next >></button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget no-border" id="step5" style="display:none">
+
+                            <form action="/Application/AjaxAddAppStep5" method="post" id="formStep5">
+                                <div class="row" style="margin-top:20px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Bank Name <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="BName" id="BName">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Bank City <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="BCity" id="BCity">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Bank State <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="BState" id="BState">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Bank Zip <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="BZip" id="BZip" onkeypress="return isNumberKey(event)" maxlength="7">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Bank Routing Number <span style="color:red;">*</span></label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="BRoutNumber" id="BRoutNumber" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_MerAppUsername" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Merchant Application Username</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Bank Account Number </label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="BacNumber" id="BacNumber" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_MerAppPassword" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Merchant Application Password</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="MerchantApp_ID" id="appIdStep5" />
+                            </form>
+
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-info btn-outline" id="b5Back" onclick="LoadStep3();"><< Back</button>
+                                        <button class="btn btn-info btn-outline" id="b5Next">Next >></button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget no-border" id="step6" style="display:none">
+                            <form action="/Application/AjaxAddAppStep6" method="post" id="formStep6">
+
+                                <div class="row" style="margin-top:20px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Equipment <span style="color:red;">*</span></label>
+                                            <select class="form-control" name="Equipment" id="Equipment">
+                                                <option value="0">Select Equipment</option>
+                                                <option value="Free Terminal">Free Terminal</option>
+                                                <option value="Paid Terminal">Paid Terminal</option>
+                                                <option value="Wireless Terminal">Wireless Terminal</option>
+                                                <option value="EPN Mobile">EPN Mobile</option>
+                                                <option value="Smart Swipe">Smart Swipe</option>
+                                                <option value="Smart Swipe POS">Smart Swipe POS</option>
+                                                <option value="Virtual Terminal/Gateway">Virtual Terminal/Gateway</option>
+                                                <option value="Reprogram">Reprogram</option>
+                                                <option value="POS Reprogram">POS Reprogram</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Debit Qual</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="DebitQual" id="DebitQual" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Debit MID Qual</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="DebitMIDQual" id="DebitMIDQual" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Debit Non Qual</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="DebitNonQual" id="DebitNonQual" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Credit Qual</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="CreditQual" id="CreditQual" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Credit MID Qual</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="CreditMIDQual" id="CreditMIDQual" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Credit Non Qual</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="CreditNonQual" id="CreditNonQual" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Debit Qual Per Item</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="DebitQualPerItem" id="DebitQualPerItem" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Debit MID Qual Per Item</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="DebitMIDQualPerItem" id="DebitMIDQualPerItem" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Debit Non Qual Per Item</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="DebitNonQualPerItem" id="DebitNonQualPerItem" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Credit Qual Per Item</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="CreditQualPerItem" id="CreditQualPerItem" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Credit MID Qual Per Item</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="CreditMIDQualPerItem" id="CreditMIDQualPerItem" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Credit Non Qual Per Item</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="CreditNonQualPerItem" id="CreditNonQualPerItem" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Debit Transaction Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="DebitTransFee" id="DebitTransFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Return transaction Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="ReturnTransFee" id="ReturnTransFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">EBT Transaction Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="EBTTransFee" id="EBTTransFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Electronic AVS Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="ElectroAVSFee" id="ElectroAVSFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">AMEX Trans Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="AMEXTransFee" id="AMEXTransFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Statement</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="StatementFee" id="StatementFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Monthly Minimum</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="MontMini" id="MontMini" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Chargeback Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="ChargeBackFee" id="ChargeBackFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Batch Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="BatchFee" id="BatchFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Gateway Access Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="GatewayAccessFee" id="GatewayAccessFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Gateway Per Auth Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="GatewayPerAuthFee" id="GatewayPerAuthFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Gateway Setup Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="GatewaySetUpFee" id="GatewaySetUpFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Wireless Access</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="WirelessAccessFee" id="WirelessAccessFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Wireless Per Auth Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="WirelessPerAuthFee" id="WirelessPerAuthFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Wireless Setup Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="WirelessSetupFee" id="WirelessSetupFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label for="SRep">Retrieval Fee</label>
+                                            <input placeholder="" class="form-control form-cutom" type="text" name="RetrievalFee" id="RetrievalFee" onkeypress="return isNumberKey(event)">
+                                            <div id="error_Div_ContName" style="display:none;color:red;">
+                                                <p style="color:red;">Please Enter Contact Name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="MerchantApp_ID" id="appIdStep6" />
+                            </form>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-info btn-outline" id="b6Back" onclick="LoadStep4();"><< Back</button>
+                                        <button class="btn btn-info btn-outline" id="b6Next">Next >></button>
+                                    </div>
+                                    <div class="col-sm-4">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget no-border" id="step7" style="display:none;">
+                            <div class="row">
+                                <div class="col-sm-12 text-center">
+                                    <h3>
+                                        Application Submition
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-sm-12 text-center">
+                                    <div>
+                                        <input id="agreeCheck" type="checkbox" />
+                                        <label for="agreeCheck">I have read and agree to the</label><label><a href="~/Template/ms-program-guide.pdf" target="_blank">Terms and Conditions</a></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+
+                                <div class="col-sm-12 text-center" style="margin-top:20px;">
+                                    <div class="col-sm-3">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-info btn-outline" id="b7Back" onclick="LoadStep5();"><< Back</button>
+                                        <button class="btn btn-info btn-outline" onclick="SubmitApp();">Submit Application</button>
+                                        <input type="hidden" name="MerchantApp_ID" id="appIdStep7" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div id="InApp" role="tabpanel" class="tab-pane">
+                        <div class="widget no-border" style="margin-left:20px;">
+
+                        </div>
+                    </div>
+
+                    <div id="IR" role="tabpanel" class="tab-pane">
+                        <div class="widget no-border" style="margin-left:20px;">
+
+                        </div>
+                    </div>
+
+                    <div id="SApp" role="tabpanel" class="tab-pane">
+                        <div class="widget no-border" style="margin-left:20px;">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="stg" value="" />
+<input type="hidden" id="AppID" value="" />
+
+<div tabindex="-1" role="dialog" aria-labelledby="myAnimationModalLabel" class="modal animated fadeInLeft bs-example-modal-animation" id="resume_Modal">
+    <div role="document" class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                <h4 id="myAnimationModalLabel" class="modal-title">Resume Application</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2"></div>
+                        <div class="form-group col-sm-8">
+                            <label for="">Registered Email</label>
+                            <input class="form-control form-cutom" type="text" id="username">
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2"></div>
+                        <div class="form-group col-sm-8">
+                            <label for="">Password</label>
+                            <input class="form-control form-cutom" type="password" id="pass">
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-sm-2"></div>
+                        <div class="form-group col-sm-8 text-center">
+                            <span style="color:red; font-size:18px;" id="er_span"></span>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-raised btn-default" id="cancel" onclick="clearModal();">Cancel</button>
+                <button type="button" class="btn btn-raised btn-danger" id="save" onclick="ResumeApp(); ">Resume Application</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- /.container -->
+
+<script>
+
+    //var stage;
+    $(document).ready(function () {
+        $("#stg").val('0');
+        if ($("#stg").val() == "0") {
+            $("#step1").show();
+            $("#b1").addClass('btn-success');
+        }
+
+        if ($("#stg").val() == "1") {
+            LoadStep1(data)
+        }
+
+        if ($("#stg").val() == "2") {
+            LoadStep2(data)
+        }
+
+        if ($("#stg").val() == "3") {
+            LoadStep3(data)
+        }
+
+        if ($("#stg").val() == "4") {
+            LoadStep4(data)
+        }
+
+        if ($("#stg").val() == "5") {
+            LoadStep5(data)
+        }
+
+
+    });
+
+    function GetStage() {
+       // var stage;
+        $.ajax({
+            url: '/Application/GetCurrentStage',
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            type: "POST",
+            data: JSON.stringify({}),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    //stage = data;
+                    $("#stg").val(data);
+                    // alert($("#stg").val());
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+        //return stage;
+    }
+
+    //$(document).ready(function () {
+    //    $("#b1").click(function () {
+    //            $("#b1").addClass('btn-success');
+    //            $("#b2").removeClass('btn-success');
+    //            $("#b3").removeClass('btn-success');
+    //            $("#b4").removeClass('btn-success');
+    //            $("#b5").removeClass('btn-success');
+    //            $("#b6").removeClass('btn-success');
+    //            $("#step1").show();
+    //            $("#step2").hide();
+    //            $("#step3").hide();
+    //            $("#step4").hide();
+    //            $("#step5").hide();
+    //            $("#step6").hide();
+
+    //    });
+
+    //    $("#b2").click(function () {
+
+    //        setTimeout(function () {
+    //            GetStage();
+    //        }, 1000);
+    //            alert("b1");
+    //        alert($("#stg").val());
+    //        if (parseInt($("#stg").val()) >= 1) {
+
+    //            $("#b1").removeClass('btn-success');
+    //            $("#b2").addClass('btn-success');
+    //            $("#b3").removeClass('btn-success');
+    //            $("#b4").removeClass('btn-success');
+    //            $("#b5").removeClass('btn-success');
+    //            $("#b6").removeClass('btn-success');
+    //            $("#step1").hide();
+    //            $("#step2").show();
+    //            $("#step3").hide();
+    //            $("#step4").hide();
+    //            $("#step5").hide();
+    //            $("#step6").hide();
+    //            LoadStep1();
+    //        }
+    //    });
+
+    //    $("#b3").click(function () {
+    //        GetStage();
+    //        if ($("#stg").val() >= '2') {
+    //            $("#b1").removeClass('btn-success');
+    //            $("#b2").removeClass('btn-success');
+    //            $("#b3").addClass('btn-success');
+    //            $("#b4").removeClass('btn-success');
+    //            $("#b5").removeClass('btn-success');
+    //            $("#b6").removeClass('btn-success');
+    //            $("#step1").hide();
+    //            $("#step2").hide();
+    //            $("#step3").show();
+    //            $("#step4").hide();
+    //            $("#step5").hide();
+    //            $("#step6").hide();
+    //            LoadStep2();
+    //        }
+    //    });
+
+    //    $("#b4").click(function () {
+    //        GetStage();
+    //        if ($("#stg").val() >= '3') {
+    //            $("#b1").removeClass('btn-success');
+    //            $("#b2").removeClass('btn-success');
+    //            $("#b3").removeClass('btn-success');
+    //            $("#b4").addClass('btn-success');
+    //            $("#b5").removeClass('btn-success');
+    //            $("#b6").removeClass('btn-success');
+    //            $("#step1").hide();
+    //            $("#step2").hide();
+    //            $("#step3").hide();
+    //            $("#step4").show();
+    //            $("#step5").hide();
+    //            $("#step6").hide();
+    //            LoadStep3()
+    //        }
+    //    });
+
+    //    $("#b5").click(function () {
+    //        GetStage();
+    //        if ($("#stg").val() >= '4') {
+    //            $("#b1").removeClass('btn-success');
+    //            $("#b2").removeClass('btn-success');
+    //            $("#b3").removeClass('btn-success');
+    //            $("#b4").removeClass('btn-success');
+    //            $("#b5").addClass('btn-success');
+    //            $("#b6").removeClass('btn-success');
+    //            $("#step1").hide();
+    //            $("#step2").hide();
+    //            $("#step3").hide();
+    //            $("#step4").hide();
+    //            $("#step5").show();
+    //            $("#step6").hide();
+    //            LoadStep4();
+    //        }
+    //    });
+
+    //    $("#b6").click(function () {
+    //        GetStage();
+    //        if ($("#stg").val() >= '5') {
+    //            $("#b1").removeClass('btn-success');
+    //            $("#b2").removeClass('btn-success');
+    //            $("#b3").removeClass('btn-success');
+    //            $("#b4").removeClass('btn-success');
+    //            $("#b5").removeClass('btn-success');
+    //            $("#b6").addClass('btn-success');
+    //            $("#step1").hide();
+    //            $("#step2").hide();
+    //            $("#step3").hide();
+    //            $("#step4").hide();
+    //            $("#step5").hide();
+    //            $("#step6").show();
+    //            LoadStep5();
+    //        }
+    //    });
+    //});
+</script>
+
+<script>
+    function startApp(){
+        $("#step1").hide();
+        $("#b1").hide();
+    }
+</script>
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+        $("#Country").val($("#cnt").val());
+        $("#Currency").val($("#cur").val());
+    });
+</script>
+
+
+
+<script>
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function zipCheck(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+</script>
+
+
+<script>
+
+    function checkSameAsDBA() {
+        if ($("#sDBA").is(':checked')) {
+            $("#DBA").val($("#LBN").val());
+        }
+    }
+
+    function checkMailingAddress() {
+        if ($("#sameAsLoc").is(':checked')) {
+            $("#MAddress1").val($("#LAddress1").val());
+            $("#MAddress2").val($("#LAddress2").val());
+            $("#mcity").val($("#city").val());
+            $("#mstate").val($("#state").val());
+            $("#mzip").val($("#zip").val());
+        }
+    }
+
+    function checkResidenceAddress() {
+        if ($("#OwnersameAsLoc").is(':checked')) {
+            $("#RAddress1").val($("#LAddress1").val());
+            $("#RAddress2").val($("#LAddress2").val());
+            $("#rcity").val($("#city").val());
+            $("#rstate").val($("#state").val());
+            $("#rzip").val($("#zip").val());
+        }
+    }
+</script>
+
+
+<script>
+    function ValidateStep1() {
+        var emailRegex = /^[A-Za-z0-9._]*\@@[A-Za-z]*\.[A-Za-z]{2,5}$/;
+        if ($("#MerAppUserName").val().trim() == "") {
+            $("#MerAppUserName").addClass('addBorder');
+            return false;
+        }
+        if (!emailRegex.test($("#MerAppUserName").val().trim())) {
+            $("#MerAppUserName").addClass('addBorder');
+            return false;
+        }
+        else if ($("#MerAppPassword").val().trim() == "") {
+            $("#MerAppPassword").addClass('addBorder');
+            $("#MerAppUsername").removeClass('addBorder');
+            return false;
+        }
+        else {
+            $("#MerAppPassword").removeClass('addBorder');
+            $("#MerAppUsername").removeClass('addBorder');
+            return true;;
+        }
+    }
+
+    $("#b1Next").click(function () {
+
+        if (ValidateStep1()) {
+            SubmitStep1Form();
+        }
+    });
+
+    function SubmitStep1Form() {
+        var formPayment = $('#formStep1');
+        $.ajax({
+            url: formPayment.attr('action'),
+            type: "POST",
+            data: formPayment.serialize(),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    $("#AppID").val(data);
+                    $("#appIdStep2").val(data);
+                    $("#b1").removeClass('btn-success');
+                    $("#b1").hide();
+                    $("#b2").addClass('btn-success');
+                    $("#b3").removeClass('btn-success');
+                    $("#b4").removeClass('btn-success');
+                    $("#b5").removeClass('btn-success');
+                    $("#b6").removeClass('btn-success');
+                    $("#step1").hide();
+                    $("#step2").show();
+                    $("#step3").hide();
+                    $("#step4").hide();
+                    $("#step5").hide();
+                    $("#step6").hide();
+                }
+                else {
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+
+    }
+</script>
+
+<script>
+
+
+    function ValidateStep2() {
+        if ($("#LBN").val().trim() == "") {
+            $("#LBN").addClass('addBorder');
+            return false;
+        }
+        else if ($("#DBA").val().trim() == "") {
+            $("#DBA").addClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#bDesc").val().trim() == "") {
+            $("#bDesc").addClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#OwnershipType").val().trim() == "") {
+            $("#OwnershipType").addClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#ftID").val().trim() == "") {
+            $("#ftID").addClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#ftID").val().trim().length <9) {
+            $("#ftID").addClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#LAddress1").val().trim() == "") {
+            $("#LAddress1").addClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#city").val().trim() == "") {
+            $("#city").addClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#state").val().trim() == "") {
+            $("#state").addClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#zip").val().trim() == "") {
+            $("#zip").addClass('addBorder');
+            $("#state").removeClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#LPhoneNo").val().trim() == "") {
+            $("#LPhoneNo").addClass('addBorder');
+            $("#zip").addClass('addBorder');
+            $("#state").removeClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#MAddress1").val().trim() == "") {
+            $("#MAddress1").addClass('addBorder');
+            $("#LPhoneNo").removeClass('addBorder');
+            $("#zip").addClass('addBorder');
+            $("#state").removeClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#mcity").val().trim() == "") {
+            $("#mcity").addClass('addBorder');
+            $("#MAddress1").removeClass('addBorder');
+            $("#LPhoneNo").removeClass('addBorder');
+            $("#zip").addClass('addBorder');
+            $("#state").removeClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#mstate").val().trim() == "") {
+            $("#mstate").addClass('addBorder');
+            $("#mcity").removeClass('addBorder');
+            $("#MAddress1").removeClass('addBorder');
+            $("#LPhoneNo").removeClass('addBorder');
+            $("#zip").addClass('addBorder');
+            $("#state").removeClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#mzip").val().trim() == "") {
+            $("#mzip").addClass('addBorder');
+            $("#mstate").removeClass('addBorder');
+            $("#mcity").removeClass('addBorder');
+            $("#MAddress1").removeClass('addBorder');
+            $("#LPhoneNo").removeClass('addBorder');
+            $("#zip").addClass('addBorder');
+            $("#state").removeClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#yr").val().trim() == "") {
+            $("#yr").addClass('addBorder');
+            $("#mzip").removeClass('addBorder');
+            $("#mstate").removeClass('addBorder');
+            $("#mcity").removeClass('addBorder');
+            $("#MAddress1").removeClass('addBorder');
+            $("#LPhoneNo").removeClass('addBorder');
+            $("#zip").addClass('addBorder');
+            $("#state").removeClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#mt").val().trim() == "") {
+            $("#mt").addClass('addBorder');
+            $("#yr").removeClass('addBorder');
+            $("#mzip").removeClass('addBorder');
+            $("#mstate").removeClass('addBorder');
+            $("#mcity").removeClass('addBorder');
+            $("#MAddress1").removeClass('addBorder');
+            $("#LPhoneNo").removeClass('addBorder');
+            $("#zip").addClass('addBorder');
+            $("#state").removeClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return false;
+        }
+        else {
+            $("#mt").removeClass('addBorder');
+            $("#yr").removeClass('addBorder');
+            $("#mzip").removeClass('addBorder');
+            $("#mstate").removeClass('addBorder');
+            $("#mcity").removeClass('addBorder');
+            $("#MAddress1").removeClass('addBorder');
+            $("#LPhoneNo").removeClass('addBorder');
+            $("#zip").addClass('addBorder');
+            $("#state").removeClass('addBorder');
+            $("#city").removeClass('addBorder');
+            $("#LAddress1").removeClass('addBorder');
+            $("#ftID").removeClass('addBorder');
+            $("#OwnershipType").removeClass('addBorder');
+            $("#bDesc").removeClass('addBorder');
+            $("#DBA").removeClass('addBorder');
+            $("#LBN").removeClass('addBorder');
+            return true;
+        }
+
+    }
+
+    $("#b2Next").click(function () {
+        if (ValidateStep2()) {
+            SubmitStep2Form();
+        }
+    });
+
+
+    function SubmitStep2Form() {
+        var formPayment = $('#formStep2');
+        $.ajax({
+            url: formPayment.attr('action'),
+            type: "POST",
+            data: formPayment.serialize(),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    $("#appIdStep3").val(data);
+                    $("#b1").removeClass('btn-success');
+                    $("#b2").removeClass('btn-success');
+                    $("#b3").addClass('btn-success');
+                    $("#b4").removeClass('btn-success');
+                    $("#b5").removeClass('btn-success');
+                    $("#b6").removeClass('btn-success');
+                    $("#step1").hide();
+                    $("#step2").hide();
+                    $("#step3").show();
+                    $("#step4").hide();
+                    $("#step5").hide();
+                    $("#step6").hide();
+                }
+                else {
+
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+
+    }
+</script>
+
+<script>
+    function ValidateStep3() {
+
+        if ($("#FName").val().trim() == "") {
+            alert();
+            $("#FName").addClass('addBorder');
+            return false;
+        }
+        else if ($("#LName").val().trim() == "") {
+            $("#LName").addClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#DOB").val().trim() == "") {
+            $("#DOB").addClass('addBorder');
+            $("#LName").removeClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#SocSecurity").val().trim() == "") {
+            $("#SocSecurity").addClass('addBorder');
+            $("#DOB").removeClass('addBorder');
+            $("#LName").removeClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#DLicense").val().trim() == "") {
+            $("#DLicense").addClass('addBorder');
+            $("#SocSecurity").removeClass('addBorder');
+            $("#DOB").removeClass('addBorder');
+            $("#LName").removeClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#DLicenseState").val().trim() =="") {
+            $("#DLicenseState").addClass('addBorder');
+            $("#DLicense").removeClass('addBorder');
+            $("#SocSecurity").removeClass('addBorder');
+            $("#DOB").removeClass('addBorder');
+            $("#LName").removeClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#RAddress1").val().trim() == "") {
+            $("#RAddress1").addClass('addBorder');
+            $("#DLicenseState").removeClass('addBorder');
+            $("#DLicense").removeClass('addBorder');
+            $("#SocSecurity").removeClass('addBorder');
+            $("#DOB").removeClass('addBorder');
+            $("#LName").removeClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#rcity").val().trim() == "") {
+            $("#rcity").addClass('addBorder');
+            $("#RAddress1").removeClass('addBorder');
+            $("#DLicenseState").removeClass('addBorder');
+            $("#DLicense").removeClass('addBorder');
+            $("#SocSecurity").removeClass('addBorder');
+            $("#DOB").removeClass('addBorder');
+            $("#LName").removeClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#rstate").val().trim() == "") {
+            $("#rstate").addClass('addBorder');
+            $("#rcity").removeClass('addBorder');
+            $("#RAddress1").removeClass('addBorder');
+            $("#DLicenseState").removeClass('addBorder');
+            $("#DLicense").removeClass('addBorder');
+            $("#SocSecurity").removeClass('addBorder');
+            $("#DOB").removeClass('addBorder');
+            $("#LName").removeClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#rzip").val().trim() == "") {
+            $("#rzip").addClass('addBorder');
+            $("#rstate").removeClass('addBorder');
+            $("#rcity").removeClass('addBorder');
+            $("#RAddress1").removeClass('addBorder');
+            $("#DLicenseState").removeClass('addBorder');
+            $("#DLicense").removeClass('addBorder');
+            $("#SocSecurity").removeClass('addBorder');
+            $("#DOB").removeClass('addBorder');
+            $("#LName").removeClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return false;
+        }
+        else {
+            $("#rzip").removeClass('addBorder');
+            $("#rstate").removeClass('addBorder');
+            $("#rcity").removeClass('addBorder');
+            $("#RAddress1").removeClass('addBorder');
+            $("#DLicenseState").removeClass('addBorder');
+            $("#DLicense").removeClass('addBorder');
+            $("#SocSecurity").removeClass('addBorder');
+            $("#DOB").removeClass('addBorder');
+            $("#LName").removeClass('addBorder');
+            $("#FName").removeClass('addBorder');
+            return true;
+        }
+
+    }
+
+    $("#b3Next").click(function () {
+        if (ValidateStep3()) {
+            SubmitStep3Form();
+        }
+    });
+
+    function SubmitStep3Form() {
+        var formPayment = $('#formStep3');
+        $.ajax({
+            url: formPayment.attr('action'),
+            type: "POST",
+            data: formPayment.serialize(),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    $("#appIdStep4").val(data);
+                    $("#b1").removeClass('btn-success');
+                    $("#b2").removeClass('btn-success');
+                    $("#b3").removeClass('btn-success');
+                    $("#b4").addClass('btn-success');
+                    $("#b5").removeClass('btn-success');
+                    $("#b6").removeClass('btn-success');
+                    $("#step1").hide();
+                    $("#step2").hide();
+                    $("#step3").hide();
+                    $("#step4").show();
+                    $("#step5").hide();
+                    $("#step6").hide();
+                }
+                else {
+
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+
+    }
+</script>
+
+<script>
+    function ValidateStep4() {
+
+        if ($("#MerchantType").val().trim() == "") {
+            alert();
+            $("#MerchantType").addClass('addBorder');
+            return false;
+        }
+        else if ($("#RSwiped").val().trim() == "") {
+            $("#RSwiped").addClass('addBorder');
+            $("#MerchantType").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#RKeyed").val().trim() == "") {
+            $("#RKeyed").addClass('addBorder');
+            $("#RSwiped").removeClass('addBorder');
+            $("#MerchantType").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#internet").val().trim() == "") {
+            $("#internet").addClass('addBorder');
+            $("#RKeyed").removeClass('addBorder');
+            $("#RSwiped").removeClass('addBorder');
+            $("#MerchantType").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#MTOrders").val().trim() == "") {
+            $("#MTOrders").addClass('addBorder');
+            $("#internet").removeClass('addBorder');
+            $("#RKeyed").removeClass('addBorder');
+            $("#RSwiped").removeClass('addBorder');
+            $("#MerchantType").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#avgTicket").val().trim() == "") {
+            $("#avgTicket").addClass('addBorder');
+            $("#MTOrders").removeClass('addBorder');
+            $("#internet").removeClass('addBorder');
+            $("#RKeyed").removeClass('addBorder');
+            $("#RSwiped").removeClass('addBorder');
+            $("#MerchantType").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#highTicket").val().trim() == "") {
+            $("#highTicket").addClass('addBorder');
+            $("#avgTicket").removeClass('addBorder');
+            $("#MTOrders").removeClass('addBorder');
+            $("#internet").removeClass('addBorder');
+            $("#RKeyed").removeClass('addBorder');
+            $("#RSwiped").removeClass('addBorder');
+            $("#MerchantType").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#MVolume").val().trim() == "") {
+            $("#MVolume").addClass('addBorder');
+            $("#highTicket").removeClass('addBorder');
+            $("#avgTicket").removeClass('addBorder');
+            $("#MTOrders").removeClass('addBorder');
+            $("#internet").removeClass('addBorder');
+            $("#RKeyed").removeClass('addBorder');
+            $("#RSwiped").removeClass('addBorder');
+            $("#MerchantType").removeClass('addBorder');
+            return false;
+        }
+        else {
+            $("#MVolume").removeClass('addBorder');
+            $("#highTicket").removeClass('addBorder');
+            $("#avgTicket").removeClass('addBorder');
+            $("#MTOrders").removeClass('addBorder');
+            $("#internet").removeClass('addBorder');
+            $("#RKeyed").removeClass('addBorder');
+            $("#RSwiped").removeClass('addBorder');
+            $("#MerchantType").removeClass('addBorder');
+            return true;
+        }
+
+    }
+
+    $("#b4Next").click(function () {
+        if (ValidateStep4()) {
+            SubmitStep4Form();
+        }
+    });
+
+    function SubmitStep4Form() {
+        var formPayment = $('#formStep4');
+        $.ajax({
+            url: formPayment.attr('action'),
+            type: "POST",
+            data: formPayment.serialize(),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    $("#appIdStep5").val(data);
+                    $("#b1").removeClass('btn-success');
+                    $("#b2").removeClass('btn-success');
+                    $("#b3").removeClass('btn-success');
+                    $("#b4").removeClass('btn-success');
+                    $("#b5").addClass('btn-success');
+                    $("#b6").removeClass('btn-success');
+                    $("#step1").hide();
+                    $("#step2").hide();
+                    $("#step3").hide();
+                    $("#step4").hide();
+                    $("#step5").show();
+                    $("#step6").hide();
+                }
+                else {
+
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+
+    }
+</script>
+
+<script>
+    function ValidateStep5() {
+
+        if ($("#BName").val().trim() == "") {
+            $("#BName").addClass('addBorder');
+            return false;
+        }
+        else if ($("#BCity").val().trim() == "") {
+            $("#BCity").addClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#BState").val().trim() == "") {
+            $("#BState").addClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#BZip").val().trim() == "") {
+            $("#BZip").addClass('addBorder');
+            $("#BState").removeClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#BRoutNumber").val().trim() == "") {
+            $("#BRoutNumber").addClass('addBorder');
+            $("#BZip").removeClass('addBorder');
+            $("#BState").removeClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#BacNumber").val().trim() == "") {
+            $("#BacNumber").addClass('addBorder');
+            $("#BRoutNumber").removeClass('addBorder');
+            $("#BZip").removeClass('addBorder');
+            $("#BState").removeClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else {
+            $("#BacNumber").removeClass('addBorder');
+            $("#BRoutNumber").removeClass('addBorder');
+            $("#BZip").removeClass('addBorder');
+            $("#BState").removeClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return true;
+        }
+
+    }
+
+    $("#b5Next").click(function () {
+        if (ValidateStep5()) {
+            SubmitStep5Form();
+        }
+    });
+
+    function SubmitStep5Form() {
+        var formPayment = $('#formStep5');
+        $.ajax({
+            url: formPayment.attr('action'),
+            type: "POST",
+            data: formPayment.serialize(),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    $("#appIdStep6").val(data);
+                    $("#b1").removeClass('btn-success');
+                    $("#b2").removeClass('btn-success');
+                    $("#b3").removeClass('btn-success');
+                    $("#b4").removeClass('btn-success');
+                    $("#b5").removeClass('btn-success');
+                    $("#b6").addClass('btn-success');
+                    $("#step1").hide();
+                    $("#step2").hide();
+                    $("#step3").hide();
+                    $("#step4").hide();
+                    $("#step5").hide();
+                    $("#step6").show();
+                }
+                else {
+
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+
+    }
+</script>
+
+<script>
+    function ValidateStep6() {
+
+        if ($("#BName").val().trim() == "") {
+            $("#BName").addClass('addBorder');
+            return false;
+        }
+        else if ($("#BCity").val().trim() == "") {
+            $("#BCity").addClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#BState").val().trim() == "") {
+            $("#BState").addClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#BZip").val().trim() == "") {
+            $("#BZip").addClass('addBorder');
+            $("#BState").removeClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#BRouteNumber").val().trim() == "") {
+            $("#BRouteNumber").addClass('addBorder');
+            $("#BZip").removeClass('addBorder');
+            $("#BState").removeClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else if ($("#BacNumber").val().trim() == "") {
+            $("#BacNumber").addClass('addBorder');
+            $("#BRouteNumber").removeClass('addBorder');
+            $("#BZip").removeClass('addBorder');
+            $("#BState").removeClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return false;
+        }
+        else {
+            $("#BacNumber").removeClass('addBorder');
+            $("#BRouteNumber").removeClass('addBorder');
+            $("#BZip").removeClass('addBorder');
+            $("#BState").removeClass('addBorder');
+            $("#BCity").removeClass('addBorder');
+            $("#BName").removeClass('addBorder');
+            return true;
+        }
+
+    }
+
+    $("#b6Next").click(function () {
+       // if (ValidateStep6()) {
+            SubmitStep6Form();
+       // }
+    });
+
+    function SubmitStep6Form() {
+        var formPayment = $('#formStep6');
+        $.ajax({
+            url: formPayment.attr('action'),
+            type: "POST",
+            data: formPayment.serialize(),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    $("#appIdStep7").val(data);
+                    $("#b1").removeClass('btn-success');
+                    $("#b2").removeClass('btn-success');
+                    $("#b3").removeClass('btn-success');
+                    $("#b4").removeClass('btn-success');
+                    $("#b5").removeClass('btn-success');
+                    $("#b6").removeClass('btn-success');
+                    $("#b7").addClass('btn-success');
+                    $("#step1").hide();
+                    $("#step2").hide();
+                    $("#step3").hide();
+                    $("#step4").hide();
+                    $("#step5").hide();
+                    $("#step6").hide();
+                    $("#step7").show();
+                }
+                else {
+
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+
+    }
+</script>
+
+
+<script>
+
+
+
+    function clearModal() {
+        $("#username").val('');
+        $("#pass").val('');
+        $("#er_span").html('');
+    }
+
+    function ResumeApp() {
+            var emailRegex = /^[A-Za-z0-9._]*\@@[A-Za-z]*\.[A-Za-z]{2,5}$/;
+            if ($("#username").val().trim() == "") {
+                $("#username").addClass('addBorder');
+            }
+            else if (!emailRegex.test($("#username").val().trim())) {
+                $("#username").addClass('addBorder');
+            }
+            else if ($("#pass").val().trim() == "") {
+                $("#pass").addClass('addBorder');
+                $("#username").removeClass('addBorder');
+            }
+            else {
+                $("#pass").removeClass('addBorder');
+                $("#username").removeClass('addBorder');
+                $.ajax({
+                    url: '/Application/ResumeApplication',
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    type: "POST",
+                    data: JSON.stringify({ AppEmail : $("#username").val(), AppPassword : $("#pass").val() }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        if (data != '') {
+                            $("#resume_Modal").modal('hide');
+                            $("#AppID").val(data.MerchantApp_ID);
+                            if (data.Stage == "1") {
+                                $("#appIdStep2").val(data.MerchantApp_ID);
+                                Step1(data)
+                            }
+
+                            if (data.Stage == "2") {
+                                $("#appIdStep3").val(data.MerchantApp_ID);
+                                Step2(data)
+                            }
+
+                            if (data.Stage == "3") {
+                                $("#appIdStep4").val(data.MerchantApp_ID);
+                                Step3(data)
+                            }
+
+                            if (data.Stage == "4") {
+                                $("#appIdStep5").val(data.MerchantApp_ID);
+                                Step4(data)
+                            }
+
+                            if (data.Stage == "5") {
+                                $("#appIdStep6").val(data.MerchantApp_ID);
+                                Step5(data)
+                            }
+                        }
+                        else {
+                            $("#er_span").html('No Record Found');
+                        }
+                    },
+                    error: function (xhr) {
+                        $('#errorMessage').html("No connection");
+                    }
+                });
+            }
+        }
+
+
+
+    function LoadStep1() {
+        $.ajax({
+            url: '/Application/LoadStep1',
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ ApplicationId: $("#AppID").val() }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                   // if (data.Stage == "1") {
+                        Step1(data)
+                   // }
+                }
+                else {
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+
+    function LoadStep2() {
+        $.ajax({
+            url: '/Application/LoadStep2',
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ ApplicationId: $("#AppID").val() }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                   // if (data.Stage == "2") {
+                        Step2(data)
+                  //  }
+                }
+                else {
+
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+
+    function LoadStep3() {
+        $.ajax({
+            url: '/Application/LoadStep3',
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ ApplicationId: $("#AppID").val() }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    //if (data.Stage == "3") {
+                        Step3(data)
+                   // }
+                }
+                else {
+
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+
+    function LoadStep4() {
+        $.ajax({
+            url: '/Application/LoadStep4',
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ ApplicationId: $("#AppID").val() }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    //if (data.Stage == "4") {
+                        Step4(data)
+                   // }
+                }
+                else {
+
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+
+    function LoadStep5() {
+        $.ajax({
+            url: '/Application/LoadStep5',
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ ApplicationId: $("#AppID").val() }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                   // if (data.Stage == "5") {
+                        Step5(data)
+                  //  }
+                }
+                else {
+
+                }
+            },
+            error: function (xhr) {
+                $('#errorMessage').html("No connection");
+            }
+        });
+    }
+
+    function Step1(AppData) {
+        startApp();
+
+        $("#b2").addClass('btn-success');
+        $("#b3").removeClass('btn-success');
+        $("#b4").removeClass('btn-success');
+        $("#b5").removeClass('btn-success');
+        $("#b6").removeClass('btn-success');
+        $("#b7").removeClass('btn-success');
+        $("#step2").show();
+        $("#step3").hide();
+        $("#step4").hide();
+        $("#step5").hide();
+        $("#step6").hide();
+        $("#step7").hide();
+
+        $("#appIdStep2").val(AppData.MerchantApp_ID);
+        $("#LBN").val(AppData.LBN);
+        $("#DBA").val(AppData.DBA)
+        $("#bDesc").val(AppData.bDesc)
+        $("#OwnershipTyp").val(AppData.OwnershipTyp)
+        $("#yr").val(AppData.yr)
+        $("#mt").val(AppData.mt)
+        $("#ftID").val(AppData.ftID)
+        $("#website").val(AppData.website)
+        $("#LAddress1").val(AppData.LAddress1)
+        $("#LAddress2").val(AppData.LAddress2)
+        $("#city").val(AppData.city)
+        $("#state").val(AppData.state)
+        $("#zip").val(AppData.zip)
+        $("#LPhoneNo").val(AppData.LPhoneNo)
+        $("#LFaxNo").val(AppData.LFaxNo)
+        $("#bEmail").val(AppData.bEmail)
+        $("#MAddress1").val(AppData.MAddress1)
+        $("#MAddress2").val(AppData.MAddress2)
+        $("#mcity").val(AppData.mcity)
+        $("#mstate").val(AppData.mstate)
+        $("#mzip").val(AppData.mzip)
+    }
+
+    function Step2(AppData) {
+        startApp();
+
+        $("#b2").removeClass('btn-success');
+        $("#b3").addClass('btn-success');
+        $("#b4").removeClass('btn-success');
+        $("#b5").removeClass('btn-success');
+        $("#b6").removeClass('btn-success');
+        $("#b7").removeClass('btn-success');
+        $("#step2").hide();
+        $("#step3").show();
+        $("#step4").hide();
+        $("#step5").hide();
+        $("#step6").hide();
+        $("#step7").hide();
+
+        $("#appIdStep3").val(AppData.MerchantApp_ID);
+        $("#FName").val(AppData.FName);
+        $("#LName").val(AppData.LName)
+        $("#DOB").val(AppData.DOB)
+        $("#SocSecurity").val(AppData.SocSecurity)
+        $("#DLicense").val(AppData.DLicense)
+        $("#DLicenseState").val(AppData.DLicenseState)
+        $("#RAddress1").val(AppData.RAddress1)
+        $("#RAddress2").val(AppData.RAddress2)
+        $("#rcity").val(AppData.rcity)
+        $("#rstate").val(AppData.rstate)
+        $("#rzip").val(AppData.rzip)
+    }
+
+    function Step3(AppData) {
+        startApp();
+
+        $("#b2").removeClass('btn-success');
+        $("#b3").removeClass('btn-success');
+        $("#b4").addClass('btn-success');
+        $("#b5").removeClass('btn-success');
+        $("#b6").removeClass('btn-success');
+        $("#b7").removeClass('btn-success');
+        $("#step2").hide();
+        $("#step3").hide();
+        $("#step4").show();
+        $("#step5").hide();
+        $("#step6").hide();
+        $("#step7").hide();
+
+        $("#appIdStep4").val(AppData.MerchantApp_ID);
+        $("#MerchantType").val(AppData.MerchantType);
+        $("#RSwiped").val(AppData.RSwiped);
+        $("#RKeyed").val(AppData.RKeyed);
+        $("#MTOrders").val(AppData.MTOrders);
+        $("#internet").val(AppData.internet);
+        $("#avgTicket").val(AppData.avgTicket);
+        $("#highTicket").val(AppData.highTicket);
+        $("#MVolume").val(AppData.MVolume);
+    }
+
+    function Step4(AppData) {
+        startApp();
+
+        $("#b2").removeClass('btn-success');
+        $("#b3").removeClass('btn-success');
+        $("#b4").removeClass('btn-success');
+        $("#b5").addClass('btn-success');
+        $("#b6").removeClass('btn-success');
+        $("#b7").removeClass('btn-success');
+        $("#step2").hide();
+        $("#step3").hide();
+        $("#step4").hide();
+        $("#step5").show();
+        $("#step6").hide();
+        $("#step7").hide();
+
+        $("#appIdStep4").val(AppData.MerchantApp_ID);
+        $("#BName").val(AppData.BName);
+        $("#BCity").val(AppData.BCity);
+        $("#BState").val(AppData.BState);
+        $("#BZip").val(AppData.BZip);
+        $("#BRoutNumber").val(AppData.BRoutNumber);
+        $("#BacNumber").val(AppData.BacNumber);
+    }
+
+    function Step5(AppData) {
+        startApp();
+
+        $("#b2").removeClass('btn-success');
+        $("#b3").removeClass('btn-success');
+        $("#b4").removeClass('btn-success');
+        $("#b5").removeClass('btn-success');
+        $("#b6").addClass('btn-success');
+        $("#b7").removeClass('btn-success');
+        $("#step2").hide();
+        $("#step3").hide();
+        $("#step4").hide();
+        $("#step5").hide();
+        $("#step6").show();
+        $("#step7").hide();
+
+
+        $("#Equipment").val(AppData.Equipment);
+        $("#DebitQual").val(AppData.DebitQual);
+        $("#DebitMIDQual").val(AppData.DebitMIDQual);
+        $("#DebitNonQual").val(AppData.DebitNonQual);
+        $("#CreditQual").val(AppData.CreditQual);
+        $("#CreditMIDQual").val(AppData.CreditMIDQual);
+        $("#CreditNonQual").val(AppData.CreditNonQual);
+        $("#DebitQualPerItem").val(AppData.DebitQualPerItem);
+        $("#DebitMIDQualPerItem").val(AppData.DebitMIDQualPerItem);
+        $("#DebitNonQualPerItem").val(AppData.DebitNonQualPerItem);
+        $("#CreditQualPerItem").val(AppData.QualPerItem);
+        $("#CreditMIDQualPerItem").val(AppData.CreditMIDQualPerItem);
+        $("#CreditNonQualPerItem").val(AppData.CreditNonQualPerItem);
+
+        $("#DebitTransFee").val(AppData.DebitTransFee);
+        $("#ReturnsTransFee").val(AppData.ReturnsTransFee);
+        $("#EBTTransFee").val(AppData.EBTTransFee);
+        $("#ElectroAVSFee").val(AppData.ElectroAVSFee);
+        $("#AMEXTransFee").val(AppData.AMEXTransFee);
+        $("#StatementFee").val(AppData.StatementFee);
+        $("#MontMini").val(AppData.MontMini);
+        $("#ChargeBackFee").val(AppData.ChargeBackFee);
+        $("#BatchFee").val(AppData.BatchFee);
+        $("#GatewayAccessFee").val(AppData.GatewayAccessFee);
+        $("#GatewayPerAuthFee").val(AppData.GatewayPerAuthFee);
+        $("#GatewaySetUpFee").val(AppData.GatewaySetUpFee);
+        $("#WirelessAccessFee").val(AppData.WirelessAccessFee);
+        $("#WirelessPerAuthFee").val(AppData.WirelessPerAuthFee);
+        $("#WirelessSetupFee").val(AppData.WirelessSetupFee);
+        $("#RetrievalFee").val(AppData.RetrievalFee);
+
+    }
+</script>
+
+<script>
+    function SubmitApp() {
+            $.ajax({
+                url: '/Application/SubmitApplication',
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ ApplicationId: $("#AppID").val() }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if (data != '') {
+                        Location.reload();
+                    }
+                    else {
+                        location.reload();
+                    }
+                },
+                error: function (xhr) {
+                    $('#errorMessage').html("No connection");
+                }
+            });
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

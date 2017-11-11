@@ -59,6 +59,7 @@
                             <li role="presentation"><a href="#owner" aria-controls="owner" role="tab" data-toggle="tab">Owner</a></li>
                             <li role="presentation"><a href="#F_Pro" aria-controls="F_Pro" role="tab" data-toggle="tab">Financial Profile</a></li>
                             <li role="presentation"><a href="#pricing" aria-controls="pricing" role="tab" data-toggle="tab">Pricing</a></li>
+                            <li role="presentation"><a href="#equip" aria-controls="equip" role="tab" data-toggle="tab">Equipment</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="bInfo" role="tabpanel" class="tab-pane active">
@@ -588,87 +589,78 @@
 
                             <div id="pricing" role="tabpanel" class="tab-pane">
 
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button type="button" class="btn btn-outline btn-primary" title="">3-Tiered</button>
-                                        <button type="button" class="btn btn-outline btn-warning" title="">6-Tiered</button>
-                                        <button type="button" class="btn btn-outline btn-success" title="">Interchange</button>
-                                        <button type="button" class="btn btn-outline btn-danger" title="">ERR</button>
-                                        <button type="button" class="btn btn-outline btn-info" title="">Mobile-Tiered</button>
-                                    </div>
-                                </div>
+                                @*<div class="form-group">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-outline btn-primary" title="">3-Tiered</button>
+                    <button type="button" class="btn btn-outline btn-warning" title="">6-Tiered</button>
+                    <button type="button" class="btn btn-outline btn-success" title="">Interchange</button>
+                    <button type="button" class="btn btn-outline btn-danger" title="">ERR</button>
+                    <button type="button" class="btn btn-outline btn-info" title="">Mobile-Tiered</button>
+                </div>
+            </div>*@
 
                                 <div class="form-group">
+                                                                        
                                     <div class="col-sm-6">
-                                        <select class="form-control" name="Equipment" id="Equipment">
-                                            <option value="0">Select Equipment</option>
-                                            <option value="Free Terminal">Free Terminal</option>
-                                            <option value="Paid Terminal">Paid Terminal</option>
-                                            <option value="Wireless Terminal">Wireless Terminal</option>
-                                            <option value="EPN Mobile">EPN Mobile</option>
-                                            <option value="Smart Swipe">Smart Swipe</option>
-                                            <option value="Smart Swipe POS">Smart Swipe POS</option>
-                                            <option value="Virtual Terminal/Gateway">Virtual Terminal/Gateway</option>
-                                            <option value="Reprogram">Reprogram</option>
-                                            <option value="POS Reprogram">POS Reprogram</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <select class="form-control" name="pTemplate" id="pTemplate" onchange="setPricingData();">
+                                        <select class="form-control" name="RatesType" id="RatesType" onchange="setPricingData();">
                                             <option value="0">Select Pricing Template</option>
-                                            <option value="3-Tiered">3-Tiered</option>
-                                            <option value="6-Tiered">6-Tiered</option>
+                                            <option value="Tiered-Keyed">Tiered-Keyed</option>
+                                            <option value="Tiered-Swiped">Tiered-Swiped</option>
                                             <option value="ERR">ERR</option>
-                                            <option value="Interchange">Interchange</option>  
+                                            <option value="Interchange">Interchange</option>
                                             <option value="Tired-Pricing">Tired-Pricing</option>
-                                            <option value="Mobile-Tiered">Mobile-Tiered</option>                                            
+                                            <option value="SS-Tiered-Keyed">Mobile-Tiered</option>
+                                            <option value="SS-Tiered-Swiped">SS-Tiered-Swiped</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="dQual">
                                         <label for="DebitQual">Debit Qual</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="DebitQual" id="DebitQual" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="cQual">
+                                        <label for="CreditQual">Credit Qual</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="CreditQual" id="CreditQual" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="dMQual">
                                         <label for="DebitMIDQual">Debit MID Qual</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="DebitMIDQual" id="DebitMIDQual" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
+                                    <div class="col-sm-6" id="cMQual">
+                                        <label for="CreditMIDQual">Credit MID Qual</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="CreditMIDQual" id="CreditMIDQual" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+
+
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="dNQual">
                                         <label for="DebitNonQual">Debit Non Qual</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="DebitNonQual" id="DebitNonQual" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <label for="CreditQual">Credit Qual</label>
-                                        <input placeholder="" class="form-control form-cutom" type="text" name="CreditQual" id="CreditQual" onkeypress="return isNumberKey(event)">
-                                        <div id="error_Div_ContName" style="display:none;color:red;">
-                                            <p style="color:red;">Please Enter Contact Name</p>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <div class="col-sm-6">
-                                        <label for="CreditMIDQua">Credit MID Qual</label>
-                                        <input placeholder="" class="form-control form-cutom" type="text" name="CreditMIDQual" id="CreditMIDQual" onkeypress="return isNumberKey(event)">
-                                        <div id="error_Div_ContName" style="display:none;color:red;">
-                                            <p style="color:red;">Please Enter Contact Name</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="cNQual">
                                         <label for="CreditNonQual">Credit Non Qual</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="CreditNonQual" id="CreditNonQual" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
@@ -678,48 +670,53 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="dQPItem">
                                         <label for="DebitQualPerItem">Debit Qual Per Item</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="DebitQualPerItem" id="DebitQualPerItem" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <label for="DebitMIDQualPerItem">Debit MID Qual Per Item</label>
-                                        <input placeholder="" class="form-control form-cutom" type="text" name="DebitMIDQualPerItem" id="DebitMIDQualPerItem" onkeypress="return isNumberKey(event)">
-                                        <div id="error_Div_ContName" style="display:none;color:red;">
-                                            <p style="color:red;">Please Enter Contact Name</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-6">
-                                        <label for="DebitNonQualPerItem">Debit Non Qual Per Item</label>
-                                        <input placeholder="" class="form-control form-cutom" type="text" name="DebitNonQualPerItem" id="DebitNonQualPerItem" onkeypress="return isNumberKey(event)">
-                                        <div id="error_Div_ContName" style="display:none;color:red;">
-                                            <p style="color:red;">Please Enter Contact Name</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="cQPItem">
                                         <label for="CreditQualPerItem">Credit Qual Per Item</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="CreditQualPerItem" id="CreditQualPerItem" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
+
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="dMQPItem">
+                                        <label for="DebitMIDQualPerItem">Debit MID Qual Per Item</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="DebitMIDQualPerItem" id="DebitMIDQualPerItem" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6" id="cMQPItem">
                                         <label for="CreditMIDQualPerItem">Credit MID Qual Per Item</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="CreditMIDQualPerItem" id="CreditMIDQualPerItem" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="dNQPItem">
+                                        <label for="DebitNonQualPerItem">Debit Non Qual Per Item</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="DebitNonQualPerItem" id="DebitNonQualPerItem" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6" id="cNQPItem">
                                         <label for="CreditNonQualPerItem">Credit Non Qual Per Item</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="CreditNonQualPerItem" id="CreditNonQualPerItem" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
@@ -729,16 +726,18 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-6">
-                                        <label for="DebitTransFee">Debit Transaction Fee</label>
-                                        <input placeholder="" class="form-control form-cutom" type="text" name="DebitTransFee" id="DebitTransFee" onkeypress="return isNumberKey(event)">
+
+                                    <div class="col-sm-6" id="dDisRate">
+                                        <label for="DebitDiscountRate">Debit Discount Rate</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="DebitDiscountRate" id="DebitDiscountRate" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <label for="ReturnTransFee">Return transaction Fee</label>
-                                        <input placeholder="" class="form-control form-cutom" type="text" name="ReturnTransFee" id="ReturnTransFee" onkeypress="return isNumberKey(event)">
+
+                                    <div class="col-sm-6" id="cDisRate">
+                                        <label for="CreditDiscountRate">Credit Discount Rate</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="CreditDiscountRate" id="CreditDiscountRate" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
@@ -746,14 +745,50 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-6">
+
+                                    <div class="col-sm-6" id="errSurCharge">
+                                        <label for="ERRSurcharge">ERR Surcharge</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="ERRSurcharge" id="ERRSurcharge" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6" id="iRate">
+                                        <label for="InterchangeRate">Interchange Rate</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="InterchangeRate" id="InterchangeRate" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="dTransFee">
+                                        <label for="DebitTransFee">Debit Transaction Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="DebitTransFee" id="DebitTransFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="ebtTransFee">
                                         <label for="EBTTransFee">EBT Transaction Fee</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="EBTTransFee" id="EBTTransFee" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="rTransFee">
+                                        <label for="ReturnTransFee">Return transaction Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="ReturnTransFee" id="ReturnTransFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="avsFee">
                                         <label for="ElectroAVSFee">Electronic AVS Fee</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="ElectroAVSFee" id="ElectroAVSFee" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
@@ -763,9 +798,17 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="mxTransFee">
                                         <label for="AMEXTransFee">AMEX Trans Fee</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="AMEXTransFee" id="AMEXTransFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6" id="dRate">
+                                        <label for="DiscountRate">Discount Rate</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="DiscountRate" id="DiscountRate" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
@@ -773,14 +816,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-6">
-                                        <label for="StatementFee">Statement</label>
+                                    <div class="col-sm-6" id="statmentFee">
+                                        <label for="StatementFee">Statement Fee</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="StatementFee" id="StatementFee" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="monthMini">
                                         <label for="MontMini">Monthly Minimum</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="MontMini" id="MontMini" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
@@ -790,14 +833,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="chargebackFee">
                                         <label for="ChargeBackFee">Chargeback Fee</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="ChargeBackFee" id="ChargeBackFee" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" id="batchFee">
                                         <label for="BatchFee">Batch Fee</label>
                                         <input placeholder="" class="form-control form-cutom" type="text" name="BatchFee" id="BatchFee" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
@@ -807,16 +850,343 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <div class="col-sm-6" id="reserveAccountFee">
+                                        <label for="ReserveAccountFee">Reserve Account Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="ReserveAccountFee" id="ReserveAccountFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="fdrDeskFee">
+                                        <label for="FDRHelpdeskFee">FDR Helpdesk Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="FDRHelpdeskFee" id="FDRHelpdeskFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="fdrAsstFee">
+                                        <label for="FDRAsstServiceFee">FDR Asst. Service Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="FDRAsstServiceFee" id="FDRAsstServiceFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="achFee">
+                                        <label for="ACHChangeFee">ACH Change Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="ACHChangeFee" id="ACHChangeFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="retrievalFee">
+                                        <label for="RetrivalRequestFee">Retrival Request Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="RetrivalRequestFee" id="RetrivalRequestFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="voiceAuthFee">
+                                        <label for="VoiceAuthFee">Voice Auth Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="VoiceAuthFee" id="VoiceAuthFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="annualFee">
+                                        <label for="AnnualFee">Annual Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="AnnualFee" id="AnnualFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="pciFee">
+                                        <label for="PCINonActionFee">PCI Non-Action Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="PCINonActionFee" id="PCINonActionFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="regulatoryFee">
+                                        <label for="RegulatoryFee">Regulatory Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="RegulatoryFee" id="RegulatoryFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="regulatoryNonCompFee">
+                                        <label for="RegulatoryNonComplienceFee">Regulatory Non-Complience Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="RegulatoryNonComplienceFee" id="RegulatoryNonComplienceFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="etb1Fee">
+                                        <label for="EarlyTerminationBefore1Year">Early Termination Before 1 Year</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="EarlyTerminationBefore1Year" id="EarlyTerminationBefore1Year" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="eta1Fee">
+                                        <label for="EarlyTerminationAfter1Year">Early Termination After 1 Year</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="EarlyTerminationAfter1Year" id="EarlyTerminationAfter1Year" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="etb2Fee">
+                                        <label for="EarlyTerminationBefore2Year">Early Termination Before 2 Year</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="EarlyTerminationBefore2Year" id="EarlyTerminationBefore2Year" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="interClearFee">
+                                        <label for="InterchangeClearFee">Interchange Clear Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="InterchangeClearFee" id="InterchangeClearFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="wsFee">
+                                        <label for="WirelessSetupFee">Wireless Setup Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="WirelessSetupFee" id="WirelessSetupFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="wmFee">
+                                        <label for="WirelessMonthlyFee">Wireless Monthly Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="WirelessMonthlyFee" id="WirelessMonthlyFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="wAFee">
+                                        <label for="WirelessAuthFee">Wireless Auth Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="WirelessAuthFee" id="WirelessAuthFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="gsFee">
+                                        <label for="GatewaySetupFee">Gateway Setup Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="GatewaySetupFee" id="GatewaySetupFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-6" id="gmFee">
+                                        <label for="GatewayMonthlyFee">Gateway Monthly Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="GatewayMonthlyFee" id="GatewayMonthlyFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" id="gaFee">
+                                        <label for="GatewayAuthFee">Gateway Auth Fee</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="GatewayAuthFee" id="GatewayAuthFee" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+
+                            <div id="equip" role="tabpanel" class="tab-pane">
+                                <div class="form-group">
                                     <div class="col-sm-6">
-                                        <label for="GatewayFee">Gateway Fee</label>
-                                        <input placeholder="" class="form-control form-cutom" type="text" name="GatewayFee" id="GatewayFee" onkeypress="return isNumberKey(event)">
+                                        <label for="EquipmentNo">More than one Equipment</label>
+                                        <select class="form-control" name="EquipmentNo" id="EquipmentNo">
+                                            <option value="0"></option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+
+                                        </select>
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="EquipmentType1">Equipment Type #1</label>
+                                        <select class="form-control" name="EquipmentType1" id="EquipmentType1">
+                                            <option value="0">None</option>
+                                            <option value="FreeTerminal">Free Terminal</option>
+                                            <option value="Wireless">Wireless</option>
+                                            <option value="ReProgram">ReProgram</option>
+                                            <option value="Gateway">Gateway</option>
+                                            <option value="Mobile">Mobile</option>
+
+                                        </select>
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label for="EPNReaders"># EPN Readers</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="EPNReaders" id="EPNReaders">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <label for="WirelessFee">Wireless Fee</label>
-                                        <input placeholder="" class="form-control form-cutom" type="text" name="WirelessFee" id="WirelessFee" onkeypress="return isNumberKey(event)">
+                                        <label for="Terminals"># Terminals</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="Terminals" id="Terminals">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label for="TerminalType">Terminal Type</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="TerminalType" id="TerminalType">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="FreeTerminal">Free Terminal</label>
+                                        <select class="form-control" name="FreeTerminal" id="FreeTerminal">
+                                            <option value="0"></option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+
+                                        </select>
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label for="SoftwareName">Software Name</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="SoftwareName" id="SoftwareName">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="GatewayName">Gateway Name</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="GatewayName" id="GatewayName">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label for="EquipmentSerial">Equipment Serial #:</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="EquipmentSerial" id="EquipmentSerial" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="Pinpad">Pinpad</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="Pinpad" id="Pinpad" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label for="PinPadPurchasePrice">Pin Pad Purchase Price $</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="PinPadPurchasePrice" id="PinPadPurchasePrice">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="PinpadSerial">Pin Pad Serial #</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="PinpadSerial" id="PinpadSerial">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label for="ShippingMethod">Shipping Method</label>
+                                        <select class="form-control" name="ShippingMethod" id="ShippingMethod">
+                                            <option value="0">None</option>
+                                            <option value="Overnight">Overnight</option>
+                                            <option value="OvernightSat">Overnight Sat</option>
+                                            <option value="2ndDay">2nd Day</option>
+                                            <option value="Ground">Ground</option>
+
+
+                                        </select>
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="Shipped">Shipped</label>
+                                        <select class="form-control" name="Shipped" id="Shipped">
+                                            <option value="0"></option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+
+                                        </select>
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-6">
+                                        <label for="TrackingNumber">Tracking Number</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="TrackingNumber" id="TrackingNumber" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="EquipmentType2">Equipment Type #2</label>
+                                        <select class="form-control" name="EquipmentType2" id="EquipmentType2">
+                                            <option value="0">None</option>
+                                            <option value="Terminal">Terminal</option>
+                                            <option value="Wireless">Wireless</option>
+                                            <option value="Reprogram">Reprogram</option>
+                                            <option value="Gateway">Gateway</option>
+                                            <option value="Mobile">Mobile</option>
+
+
+                                        </select>
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
@@ -825,8 +1195,15 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-6">
-                                        <label for="RetrievalFee">Retrieval Fee</label>
-                                        <input placeholder="" class="form-control form-cutom" type="text" name="RetrievalFee" id="RetrievalFee" onkeypress="return isNumberKey(event)">
+                                        <label for="PurchasePrice">Purchase Price $</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="PurchasePrice" id="PurchasePrice" onkeypress="return isNumberKey(event)">
+                                        <div id="error_Div_ContName" style="display:none;color:red;">
+                                            <p style="color:red;">Please Enter Contact Name</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label for="ApplicableTaxes">Applicable Taxes $</label>
+                                        <input placeholder="" class="form-control form-cutom" type="text" name="ApplicableTaxes" id="ApplicableTaxes" onkeypress="return isNumberKey(event)">
                                         <div id="error_Div_ContName" style="display:none;color:red;">
                                             <p style="color:red;">Please Enter Contact Name</p>
                                         </div>
@@ -1235,9 +1612,9 @@
     }*@
 
     function setPricingData() {
-        alert($('#pTemplate').val());
+
         var dataRow = {
-            'PType': $('#pTemplate').val()
+            'PType': $('#RatesType').val()
         }
         $.ajax({
             type: 'POST',
@@ -1245,9 +1622,162 @@
             //data: JSON.stringify({ PricingType: $('#pTemplate').val() }),
             data: dataRow,
             success: function (response) {
-                if (response == 'True') {
-                    $("#TaskModal").modal('hide');
-                    $("#eForm")[0].reset();
+                if (response != '') {
+                    if ($('#RatesType').val() == 'Interchange') {
+
+                        $('#DebitQual').hide();
+                        $('#DebitMIDQual').hide();
+                        $('#DebitNonQual').hide();
+                        $('#CreditQual').hide();
+                        $('#CreditMIDQual').hide();
+                        $('#CreditNonQual').hide();
+                        $('#DebitQualPerItem').hide();
+                        $('#DebitMIDQualPerItem').hide();
+                        $('#DebitNonQualPerItem').hide();
+                        $('#CreditQualPerItem').hide();
+                        $('#CreditMIDQualPerItem').hide();
+                        $('#CreditNonQualPerItem').hide();
+                        $('#DebitTransFee').hide();
+                        $('#EBTTransFee').hide();
+                        $('#DebitDiscountRate').hide();
+                        $('#CreditDiscountRate').hide();
+                        $('#ERRSurcharge').hide();
+                        $('#DiscountRate').hide();
+
+                        $('label[for="DebitDiscountRate"]').hide();
+                        $('label[for="CreditDiscountRate"]').hide();
+                        $('label[for="ERRSurcharge"]').hide();
+                        $('label[for="DiscountRate"]').hide();
+                        $('label[for="DebitQual"]').hide();
+                        $('label[for="DebitMIDQual"]').hide();
+                        $('label[for="DebitNonQual"]').hide();
+                        $('label[for="CreditQual"]').hide();
+                        $('label[for="CreditMIDQual"]').hide();
+                        $('label[for="CreditNonQual"]').hide();
+                        $('label[for="DebitQualPerItem"]').hide();
+                        $('label[for="DebitMIDQualPerItem"]').hide();
+                        $('label[for="DebitNonQualPerItem"]').hide();
+                        $('label[for="CreditQualPerItem"]').hide();
+                        $('label[for="CreditMIDQualPerItem"]').hide();
+                        $('label[for="CreditNonQualPerItem"]').hide();
+                        $('label[for="DebitTransFee"]').hide();
+                        $('label[for="EBTTransFee"]').hide();
+
+                        $('label[for="InterchangeRate"]').show();
+                        $('#InterchangeRate').show();
+
+                        $('#AMEXTransFee').val(response.AMEX_Trans_Fee);
+                        $('#InterchangeRate').val(response.Interchange_Rate);
+
+                        $('#ReturnTransFee').val(response.Return_Transaction_Fee);
+                        $('#ElectroAVSFee').val(response.Electronic_AVS_Fee);
+                        $('#StatementFee').val(response.Statement_Fee);
+                        $('#MontMini').val(response.MonthlyMinimum);
+                        $('#ChargeBackFee').val(response.ChargeBack_Fee);
+                        $('#BatchFee').val(response.Batch_Fee);
+                        $('#ReserveAccountFee').val(response.ReserveAccount_Fee);
+                        $('#FDRHelpdeskFee').val(response.FDR_HelpDesk_Fee);
+                        $('#FDRAsstServiceFee').val(response.FDR_Asst_Service_Fee);
+                        $('#ACHChangeFee').val(response.ACH_Change_Fee);
+                        $('#RetrivalRequestFee').val(response.RetrivalRequest_Fee);
+                        $('#VoiceAuthFee').val(response.Voice_Auth_Fee);
+                        $('#AnnualFee').val(response.Annual_Fee);
+                        $('#PCINonActionFee').val(response.PCI_NonAction_Fee);
+                        $('#RegulatoryFee').val(response.Regulatory_Fee);
+                        $('#RegulatoryNonComplienceFee').val(response.Regulatory_NonComplience_Fee);
+                        $('#EarlyTerminationBefore1Year').val(response.Early_Termination_Bef1);
+                        $('#EarlyTerminationAfter1Year').val(response.Early_Termination_Aft1);
+                        $('#EarlyTerminationBefore2Year').val(response.Early_Termination_Bef2);
+                        $('#InterchangeClearFee').val(response.InterchangeClear_Fee);
+                        $('#WirelessSetupFee').val(response.WirelessSetup_Fee);
+                        $('#WirelessMonthlyFee').val(response.WirelessMonthly_Fee);
+                        $('#WirelessAuthFee').val(response.WirelessAuth_Fee);
+                        $('#GatewaySetupFee').val(response.GatewaySetup_Fee);
+                        $('#GatewayMonthlyFee').val(response.GatewayMonthly_Fee);
+                        $('#GatewayAuthFee').val(response.GatewayAuth_Fee);
+                    }
+                    else if ($('#RatesType').val() == 'ERR') {
+
+                        $('#DebitQual').hide();
+                        $('#DebitMIDQual').hide();
+                        $('#DebitNonQual').hide();
+                        $('#CreditQual').hide();
+                        $('#CreditMIDQual').hide();
+                        $('#CreditNonQual').hide();
+                        $('#DebitQualPerItem').hide();
+                        $('#DebitMIDQualPerItem').hide();
+                        $('#DebitNonQualPerItem').hide();
+                        $('#CreditQualPerItem').hide();
+                        $('#CreditMIDQualPerItem').hide();
+                        $('#CreditNonQualPerItem').hide();
+                        $('#DebitTransFee').hide();
+                        $('#EBTTransFee').hide();
+                        $('#InterchangeRate').hide();
+
+
+
+                        $('label[for="DebitQual"]').hide();
+                        $('label[for="DebitMIDQual"]').hide();
+                        $('label[for="DebitNonQual"]').hide();
+                        $('label[for="CreditQual"]').hide();
+                        $('label[for="CreditMIDQual"]').hide();
+                        $('label[for="CreditNonQual"]').hide();
+                        $('label[for="DebitQualPerItem"]').hide();
+                        $('label[for="DebitMIDQualPerItem"]').hide();
+                        $('label[for="DebitNonQualPerItem"]').hide();
+                        $('label[for="CreditQualPerItem"]').hide();
+                        $('label[for="CreditMIDQualPerItem"]').hide();
+                        $('label[for="CreditNonQualPerItem"]').hide();
+                        $('label[for="DebitTransFee"]').hide();
+                        $('label[for="EBTTransFee"]').hide();
+                        $('label[for="InterchangeRate"]').hide();
+
+
+                        $('label[for="DebitDiscountRate"]').show();
+                        $('label[for="CreditDiscountRate"]').show();
+                        $('label[for="ERRSurcharge"]').show();
+
+                        $('#DebitDiscountRate').show();
+                        $('#CreditDiscountRate').show();
+                        $('#ERRSurcharge').show();
+
+                        $('#AMEXTransFee').val(response.AMEX_Trans_Fee);
+
+                        $('#DebitDiscountRate').val(response.Debit_Discount_Rate);
+                        $('#CreditDiscountRate').val(response.Credit_Disocunt_Rate);
+                        $('#ERRSurcharge').val(response.ERR_Surcharge);
+                        $('#DiscountRate').val(response.Discount_Rate);
+
+                        $('#ReturnTransFee').val(response.Return_Transaction_Fee);
+                        $('#ElectroAVSFee').val(response.Electronic_AVS_Fee);
+                        $('#StatementFee').val(response.Statement_Fee);
+                        $('#MontMini').val(response.MonthlyMinimum);
+                        $('#ChargeBackFee').val(response.ChargeBack_Fee);
+                        $('#BatchFee').val(response.Batch_Fee);
+                        $('#ReserveAccountFee').val(response.ReserveAccount_Fee);
+                        $('#FDRHelpdeskFee').val(response.FDR_HelpDesk_Fee);
+                        $('#FDRAsstServiceFee').val(response.FDR_Asst_Service_Fee);
+                        $('#ACHChangeFee').val(response.ACH_Change_Fee);
+                        $('#RetrivalRequestFee').val(response.RetrivalRequest_Fee);
+                        $('#VoiceAuthFee').val(response.Voice_Auth_Fee);
+                        $('#AnnualFee').val(response.Annual_Fee);
+                        $('#PCINonActionFee').val(response.PCI_NonAction_Fee);
+                        $('#RegulatoryFee').val(response.Regulatory_Fee);
+                        $('#RegulatoryNonComplienceFee').val(response.Regulatory_NonComplience_Fee);
+                        $('#EarlyTerminationBefore1Year').val(response.Early_Termination_Bef1);
+                        $('#EarlyTerminationAfter1Year').val(response.Early_Termination_Aft1);
+                        $('#EarlyTerminationBefore2Year').val(response.Early_Termination_Bef2);
+                        $('#InterchangeClearFee').val(response.InterchangeClear_Fee);
+                        $('#WirelessSetupFee').val(response.WirelessSetup_Fee);
+                        $('#WirelessMonthlyFee').val(response.WirelessMonthly_Fee);
+                        $('#WirelessAuthFee').val(response.WirelessAuth_Fee);
+                        $('#GatewaySetupFee').val(response.GatewaySetup_Fee);
+                        $('#GatewayMonthlyFee').val(response.GatewayMonthly_Fee);
+                        $('#GatewayAuthFee').val(response.GatewayAuth_Fee);
+
+                    }
+
+
                     $(".se-pre-con").hide();
                 }
                 else {

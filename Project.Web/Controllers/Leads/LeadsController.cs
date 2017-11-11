@@ -321,7 +321,7 @@ namespace Project.Web.Controllers.Leads
                     objLeadModel.BRoutNumber =Response.ResponseData.Tables[0].Rows[0][52].ToString();
                     objLeadModel.BacNumber =Response.ResponseData.Tables[0].Rows[0][53].ToString();
 
-                        objLeadModel.Equipment = Response.ResponseData.Tables[0].Rows[0][54].ToString();
+                       
 	                    objLeadModel.DebitQual = Response.ResponseData.Tables[0].Rows[0][55].ToString();
                         objLeadModel.DebitMIDQual = Response.ResponseData.Tables[0].Rows[0][56].ToString();
                         objLeadModel.DebitNonQual = Response.ResponseData.Tables[0].Rows[0][57].ToString();
@@ -343,9 +343,9 @@ namespace Project.Web.Controllers.Leads
                         objLeadModel.MontMini = Response.ResponseData.Tables[0].Rows[0][73].ToString();
                         objLeadModel.ChargeBackFee = Response.ResponseData.Tables[0].Rows[0][74].ToString();
                         objLeadModel.BatchFee = Response.ResponseData.Tables[0].Rows[0][75].ToString();
-                        objLeadModel.GatewayFee = Response.ResponseData.Tables[0].Rows[0][76].ToString();
-                        objLeadModel.WirelessFee = Response.ResponseData.Tables[0].Rows[0][77].ToString();
-                        objLeadModel.RetrievalFee = Response.ResponseData.Tables[0].Rows[0][78].ToString();
+                        //objLeadModel.GatewayFee = Response.ResponseData.Tables[0].Rows[0][76].ToString();
+                        //objLeadModel.WirelessFee = Response.ResponseData.Tables[0].Rows[0][77].ToString();
+                        //objLeadModel.RetrievalFee = Response.ResponseData.Tables[0].Rows[0][78].ToString();
 
 
                         return View(objLeadModel);
@@ -761,7 +761,7 @@ namespace Project.Web.Controllers.Leads
                             objLeadModel.BRoutNumber = dr[48].ToString();
                             objLeadModel.BacNumber = dr[49].ToString();
 
-                            objLeadModel.Equipment = dr[50].ToString();
+                           
                             objLeadModel.DebitQual = dr[51].ToString();
                             objLeadModel.DebitMIDQual = dr[52].ToString();
                             objLeadModel.DebitNonQual = dr[53].ToString();
@@ -783,9 +783,9 @@ namespace Project.Web.Controllers.Leads
                             objLeadModel.MontMini = dr[69].ToString();
                             objLeadModel.ChargeBackFee = dr[70].ToString();
                             objLeadModel.BatchFee = dr[71].ToString();
-                            objLeadModel.GatewayFee = dr[72].ToString();
-                            objLeadModel.WirelessFee = dr[73].ToString();
-                            objLeadModel.RetrievalFee = dr[74].ToString();
+                           // objLeadModel.GatewayFee = dr[72].ToString();
+                           // objLeadModel.WirelessFee = dr[73].ToString();
+                           // objLeadModel.RetrievalFee = dr[74].ToString();
                            // objLeadModel.AssignToID = Convert.ToInt64(dr[75]);
                           //  objLeadModel.LeadSource = Convert.ToString(dr[80]);
                           //  objLeadModel.LeadStatus = Convert.ToString(dr[81]);
@@ -1024,7 +1024,7 @@ namespace Project.Web.Controllers.Leads
                     objLeadModel.BRoutNumber = Response.ResponseData.Tables[0].Rows[0][52].ToString();
                     objLeadModel.BacNumber = Response.ResponseData.Tables[0].Rows[0][53].ToString();
 
-                    objLeadModel.Equipment = Response.ResponseData.Tables[0].Rows[0][54].ToString();
+                    //objLeadModel.Equipment = Response.ResponseData.Tables[0].Rows[0][54].ToString();
                     objLeadModel.DebitQual = Response.ResponseData.Tables[0].Rows[0][55].ToString();
                     objLeadModel.DebitMIDQual = Response.ResponseData.Tables[0].Rows[0][56].ToString();
                     objLeadModel.DebitNonQual = Response.ResponseData.Tables[0].Rows[0][57].ToString();
@@ -1046,9 +1046,9 @@ namespace Project.Web.Controllers.Leads
                     objLeadModel.MontMini = Response.ResponseData.Tables[0].Rows[0][73].ToString();
                     objLeadModel.ChargeBackFee = Response.ResponseData.Tables[0].Rows[0][74].ToString();
                     objLeadModel.BatchFee = Response.ResponseData.Tables[0].Rows[0][75].ToString();
-                    objLeadModel.GatewayFee = Response.ResponseData.Tables[0].Rows[0][76].ToString();
-                    objLeadModel.WirelessFee = Response.ResponseData.Tables[0].Rows[0][77].ToString();
-                    objLeadModel.RetrievalFee = Response.ResponseData.Tables[0].Rows[0][78].ToString();
+                    //objLeadModel.GatewayFee = Response.ResponseData.Tables[0].Rows[0][76].ToString();
+                    //objLeadModel.WirelessFee = Response.ResponseData.Tables[0].Rows[0][77].ToString();
+                    //objLeadModel.RetrievalFee = Response.ResponseData.Tables[0].Rows[0][78].ToString();
 
                     objLeadModel.LeadStatus = Response.ResponseData.Tables[0].Rows[0][83].ToString();
                     objLeadModel.LeadGroup = Response.ResponseData.Tables[0].Rows[0][84].ToString();
@@ -1201,7 +1201,7 @@ namespace Project.Web.Controllers.Leads
                     objLeadModel.BRoutNumber = Response.ResponseData.Tables[0].Rows[0][52].ToString();
                     objLeadModel.BacNumber = Response.ResponseData.Tables[0].Rows[0][53].ToString();
 
-                    objLeadModel.Equipment = Response.ResponseData.Tables[0].Rows[0][54].ToString();
+                    //objLeadModel.Equipment = Response.ResponseData.Tables[0].Rows[0][54].ToString();
                     objLeadModel.DebitQual = Response.ResponseData.Tables[0].Rows[0][55].ToString();
                     objLeadModel.DebitMIDQual = Response.ResponseData.Tables[0].Rows[0][56].ToString();
                     objLeadModel.DebitNonQual = Response.ResponseData.Tables[0].Rows[0][57].ToString();
@@ -1223,9 +1223,9 @@ namespace Project.Web.Controllers.Leads
                     objLeadModel.MontMini = Response.ResponseData.Tables[0].Rows[0][73].ToString();
                     objLeadModel.ChargeBackFee = Response.ResponseData.Tables[0].Rows[0][74].ToString();
                     objLeadModel.BatchFee = Response.ResponseData.Tables[0].Rows[0][75].ToString();
-                    objLeadModel.GatewayFee = Response.ResponseData.Tables[0].Rows[0][76].ToString();
-                    objLeadModel.WirelessFee = Response.ResponseData.Tables[0].Rows[0][77].ToString();
-                    objLeadModel.RetrievalFee = Response.ResponseData.Tables[0].Rows[0][78].ToString();
+                    //objLeadModel.GatewayFee = Response.ResponseData.Tables[0].Rows[0][76].ToString();
+                    //objLeadModel.WirelessFee = Response.ResponseData.Tables[0].Rows[0][77].ToString();
+                    //objLeadModel.RetrievalFee = Response.ResponseData.Tables[0].Rows[0][78].ToString();
 
                     objLeadModel.LeadStatus = Response.ResponseData.Tables[0].Rows[0][83].ToString();
                     objLeadModel.LeadGroup = Response.ResponseData.Tables[0].Rows[0][84].ToString();
@@ -1330,15 +1330,26 @@ namespace Project.Web.Controllers.Leads
                 if(response.ErrorCode == 0)
                 {
                     objRates.Rate_ID_Auto_PK = Convert.ToInt64(response.ResponseData.Tables[0].Rows[0]["Rate_ID_Auto_PK"]);
-                    objRates.Rate_Type = response.ResponseData.Tables[0].Rows[0]["Rate_Type"].ToString();
+                    objRates.Rates_Type = response.ResponseData.Tables[0].Rows[0]["Rates_Type"].ToString();
                     objRates.Debit_Qual = response.ResponseData.Tables[0].Rows[0]["Debit_Qual"].ToString();
                     objRates.Debit_MID_Qual = response.ResponseData.Tables[0].Rows[0]["Debit_MID_Qual"].ToString();
+                    objRates.Debit_Qual_Per_Item = response.ResponseData.Tables[0].Rows[0]["Debit_Qual_Per_Item"].ToString();
+                    objRates.Debit_Non_Qual_Per_Item = response.ResponseData.Tables[0].Rows[0]["Debit_Non_Qual_Per_Item"].ToString();
                     objRates.Debit_MID_Qual_Per_Item = response.ResponseData.Tables[0].Rows[0]["Debit_MID_Qual_Per_Item"].ToString();
                     objRates.Debit_Non_Qual = response.ResponseData.Tables[0].Rows[0]["Debit_Non_Qual"].ToString();
                     objRates.Credit_Qual = response.ResponseData.Tables[0].Rows[0]["Credit_Qual"].ToString();
                     objRates.Credit_MID_Qual = response.ResponseData.Tables[0].Rows[0]["Credit_MID_Qual"].ToString();
+                    objRates.Credit_Qual_Per_Item = response.ResponseData.Tables[0].Rows[0]["Credit_Qual_Per_Item"].ToString();
+                    objRates.Credit_Non_Qual_Per_Item = response.ResponseData.Tables[0].Rows[0]["Credit_Non_Qual_Per_Item"].ToString();
                     objRates.Credit_MID_Qual_Per_Item = response.ResponseData.Tables[0].Rows[0]["Credit_MID_Qual_Per_Item"].ToString();
                     objRates.Credit_Non_Qual = response.ResponseData.Tables[0].Rows[0]["Credit_Non_Qual"].ToString();
+
+                    objRates.Credit_Disocunt_Rate = response.ResponseData.Tables[0].Rows[0]["Credit_Disocunt_Rate"].ToString();
+                    objRates.Debit_Discount_Rate = response.ResponseData.Tables[0].Rows[0]["Debit_Discount_Rate"].ToString();
+                    objRates.ERR_Surcharge = response.ResponseData.Tables[0].Rows[0]["ERR_Surcharge"].ToString();
+                    objRates.Interchange_Rate = response.ResponseData.Tables[0].Rows[0]["Interchange_Rate"].ToString();
+                    objRates.Discount_Rate = response.ResponseData.Tables[0].Rows[0]["Discount_Rate"].ToString();
+
                     objRates.Debit_Transaction_Fee = response.ResponseData.Tables[0].Rows[0]["Debit_Transaction_Fee"].ToString();
                     objRates.Return_Transaction_Fee = response.ResponseData.Tables[0].Rows[0]["Return_Transaction_Fee"].ToString();
                     objRates.EBT_Transaction_Fee = response.ResponseData.Tables[0].Rows[0]["EBT_Transaction_Fee"].ToString();
@@ -1370,7 +1381,7 @@ namespace Project.Web.Controllers.Leads
                     objRates.GatewayAuth_Fee = response.ResponseData.Tables[0].Rows[0]["GatewayAuth_Fee"].ToString();
 
 
-                  
+
 
                     return Json(objRates, JsonRequestBehavior.AllowGet);
                 }
@@ -1383,6 +1394,40 @@ namespace Project.Web.Controllers.Leads
             catch(Exception ex)
             {
                 BAL.Common.LogManager.LogError("GetPricingTemplateData Post", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult GetDispositionModalData(string LeadId)
+        {
+            objResponse Response = new objResponse();
+            session = new SessionHelper();
+            LeadModel objLeadModel = new LeadModel();
+            try
+            {
+                Response = objLeadManager.getDispositionModalData(Convert.ToInt64(LeadId));
+                if (Response.ErrorCode == 0)
+                {
+                    objLeadModel.LeadStatus = Response.ResponseData.Tables[0].Rows[0]["Status"].ToString();                   
+                    foreach (DataRow dr in Response.ResponseData.Tables[1].Rows)
+                    {
+                        Notes objNotes = new Notes();
+                        objNotes.Title = "By " + dr["CreatedBy"].ToString() + " on " + Convert.ToDateTime(dr["Date_Taken"]).ToString("MM/dd/yyyy hh:mm tt");
+                        objNotes.Description = dr["Note"].ToString();
+                        objLeadModel.Notes.Add(objNotes);
+                    }
+                    return Json(objLeadModel, JsonRequestBehavior.AllowGet);
+
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }

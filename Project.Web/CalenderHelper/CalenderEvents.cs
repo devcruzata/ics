@@ -137,6 +137,29 @@ namespace Project.Web.CalenderHelper
             return true;
         }
 
+        public static bool CreateNewEventFromLeadPage(string Title, string NewEventDate, string NewEventTime, string NewEventDuration, string RLead, string description)
+        {
+            LeadEventsManager objLeadEventManager = new LeadEventsManager();
+            SessionHelper session = new SessionHelper();
+            try
+            {
+                CalenderEventModel rec = new CalenderEventModel();
+                rec.Title = Title;
+                var sd = NewEventDate + " " + NewEventTime;
+                rec.DateTimeScheduled = DateTime.ParseExact(sd, "MM/dd/yy hh:mm", CultureInfo.InvariantCulture);
+                rec.AppointmentLength = Int32.Parse(NewEventDuration);
+                rec.RelatedLead = Convert.ToInt64(RLead);
+                //  ent.AppointmentDiary.Add(rec);
+                //  ent.SaveChanges();             
+                objLeadEventManager.AddNewLeadEvent(rec.Title, rec.DateTimeScheduled, rec.AppointmentLength, rec.RelatedLead, description, Convert.ToInt64(HttpContext.Current.Session["UserID"]));
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public static bool UpdateEvent(string EventId,string Title, string NewEventDate, string NewEventTime, string NewEventDuration, string Disposition, string description)
         {
             LeadEventsManager objLeadEventManager = new LeadEventsManager();

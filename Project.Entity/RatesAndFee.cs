@@ -10,11 +10,15 @@ namespace Project.Entity
     {
         public Int64 Rate_ID_Auto_PK { get; set; }
 
-        public string Rate_Type { get; set; }
+        public string Rates_Type { get; set; }
 
         public string Debit_Qual { get; set; }
 
         public string Debit_MID_Qual { get; set; }
+
+        public string Debit_Qual_Per_Item { get; set; }
+
+        public string Debit_Non_Qual_Per_Item { get; set; }
 
         public string Debit_MID_Qual_Per_Item { get; set; }
 
@@ -25,9 +29,24 @@ namespace Project.Entity
 
         public string Credit_MID_Qual { get; set; }
 
+        public string Credit_Qual_Per_Item { get; set; }
+
+        public string Credit_Non_Qual_Per_Item { get; set; }
+
         public string Credit_MID_Qual_Per_Item { get; set; }
 
         public string Credit_Non_Qual { get; set; }
+
+        public string Credit_Disocunt_Rate { get; set; }
+
+        public string Debit_Discount_Rate { get; set; }
+
+        public string ERR_Surcharge { get; set; }
+
+        public string Interchange_Rate { get; set; }
+
+        public string Discount_Rate { get; set; }
+
 
         public string Debit_Transaction_Fee { get; set; }
 

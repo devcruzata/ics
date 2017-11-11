@@ -25,7 +25,7 @@ namespace Project.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
-           
+           // HttpContext.Current.Session.Timeout = 120;
         }
     }
 }

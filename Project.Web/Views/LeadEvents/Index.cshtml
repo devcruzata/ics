@@ -46,7 +46,7 @@
                 end: '24:00',
             },
             slotDuration: '00:15:00',
-            events: '/LeadEvents/GetDiaryEvents/',            
+            events: '/LeadEvents/GetDiaryEvents/',
             eventClick: function (calEvent, jsEvent, view) {
                 if ($("#editPermission").val().trim() == 'on') {
                     ViewEvent(calEvent.id, calEvent.title, calEvent.start, calEvent.end, calEvent.color)
@@ -74,7 +74,7 @@
 
 
 
-            dayClick: function (date, allDay, jsEvent, view) {               
+            dayClick: function (date, allDay, jsEvent, view) {
                 $('#eventTitle').val("");
                 $('#eventDate').val(moment(date).format("MM/DD/YY"));
                 $('#eventTime').val(moment(date).format('HH:mm'));
@@ -108,7 +108,7 @@
 
     });
 
-    
+
 
     function cancel () {
         ClearPopupFormValues();
@@ -219,10 +219,13 @@
                 $("#bemail").html(data.Email);
                 $("#bphone").html(data.bPhone);
                 $("#src").html(data.LeadSource);
+                
                 $("#disp").val(data.LeadStatus);
                 $("#uDesc").val(data.LastNote);
                 $("#ustartDate").val(moment(sDate).format('MM/DD/YY'));
                 $("#ustartTime").val(moment(sDate).format('HH:mm'));
+
+               
                // $("#uendDate").val(data.LeadEventEndDate);
                 $("#ueventDuration").val(data.LeadEventDuration);
 
@@ -230,7 +233,14 @@
 
                 $("#uId").val(Event_ID);
                 $("#uTitle").val(title);
-
+                $('#notesdiv').html('');
+                $.each(data.Notes, function (i, foo) {
+                    //alert(this.Title);
+                    $('#notesdiv').append('<li class="media"><div class="media-left"><i class="ti-pencil-alt media-object mo-xs img-circle bg-warning text-center"></i></div>' +
+                    '<div class="media-body">' +
+                    '<h6 class="media-heading">' + this.Title + '</h6>' +
+                    '<p class="text-muted mb-0">' + this.Description + '</p>' + '</div>' + '</li>');
+                });
                 $("#Event").modal('show')
                 $(".se-pre-con").hide();
             },
@@ -255,7 +265,7 @@
             'Description': $('#uDesc').val()
         }
 
-       
+
 
         $.ajax({
             type: 'POST',
@@ -325,6 +335,35 @@
 
 
     });
+
+    function setTitleToDBA() {
+       
+        $(".se-pre-con").show();
+        $.ajax({
+            url: '/LeadEvents/GetDBAByLeadId',
+            dataType: "json",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ RelatedLead: $('#Rlead').val() }),
+            async: true,
+            processData: false,
+            cache: false,
+            success: function (data) {
+                if (data != '') {
+                    alert(data);
+                    $("#eventTitle").val(data);
+                    $(".se-pre-con").hide();
+                }
+                else {                   
+                    $(".se-pre-con").hide();
+                }
+            },
+            error: function (xhr) {              
+                $('#errorMessage').html("No connection");
+                $(".se-pre-con").hide();
+            }
+        });
+    }
 
     function transferEvent() {
 
@@ -513,7 +552,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label for="">Related Lead</label>
-                            <select id="Rlead" class="form-control "></select>
+                            <select id="Rlead" class="form-control " onchange="setTitleToDBA();"></select>
                             <div id="error_div_Rlead" style="display:none;">
                                 <p style="color:red;">Please choose a person</p>
                             </div>
@@ -660,6 +699,22 @@
                             <textarea id="uDesc" class="form-control" placeholder="Notes"></textarea>
                         </div>
                     </div>
+                    <div class="col-sm-12">
+                        <ul style="list-style-type:none; padding-left:0; max-height:220px; overflow-y:scroll;" id="notesdiv">
+                           
+                                    @*<li class="media">
+                                        <div class="media-left"><i class="ti-pencil-alt media-object mo-xs img-circle bg-warning text-center"></i></div>
+                                        <div class="media-body">
+                                            <h6 class="media-heading"></h6>
+                                            <p class="text-muted mb-0"></p>
+                                        </div>
+                                    </li>*@
+                                                                               
+                            
+                        </ul>
+                    </div>
+
+
                     <input id="ustart" type="hidden">
                     <input id="uend" type="hidden">
                     <input id="uId" type="hidden">

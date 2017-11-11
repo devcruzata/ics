@@ -5,6 +5,7 @@ using Project.Web.Common;
 using Project.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -66,6 +67,11 @@ namespace Project.Web.Controllers.LeadEvents
             return Project.Web.CalenderHelper.CalenderEvents.CreateNewEvent(Title, NewEventDate, NewEventTime, NewEventDuration,RelatedLead,Description);
         }
 
+        public bool SaveEventFromLead(string Title, string NewEventDate, string NewEventTime, string NewEventDuration, string RelatedLead, string Description)
+        {
+            return Project.Web.CalenderHelper.CalenderEvents.CreateNewEventFromLeadPage(Title, NewEventDate, NewEventTime, NewEventDuration, RelatedLead, Description);
+        }
+
         public JsonResult GetDiarySummary(double start, double end)
         {
             var fromDate = Project.Web.CalenderHelper.CalenderEvents.ConvertFromUnixTimestamp(start);
@@ -125,7 +131,14 @@ namespace Project.Web.Controllers.LeadEvents
             objModel.LeadSource = Response.ResponseData.Tables[0].Rows[0]["sourcename"].ToString();
             objModel.LeadStatus = Response.ResponseData.Tables[0].Rows[0]["Status"].ToString();
             objModel.LeadEventDuration = Response.ResponseData.Tables[0].Rows[0]["AppointmentLength"].ToString();
-            objModel.LastNote = Response.ResponseData.Tables[1].Rows[0]["Note"].ToString();
+            foreach(DataRow dr in Response.ResponseData.Tables[1].Rows)
+            {
+                Notes objNotes = new Notes();
+                objNotes.Title = "By " + dr["CreatedBy"].ToString() + " on " + Convert.ToDateTime(dr["Date_Taken"]).ToString("MM/dd/yyyy hh:mm tt");
+                objNotes.Description = dr["Note"].ToString();
+                objModel.Notes.Add(objNotes);
+            }
+           // objModel.LastNote = Response.ResponseData.Tables[1].Rows[0]["Note"].ToString();
             //string LeadEventStart = Convert.ToDateTime(Response.ResponseData.Tables[0].Rows[0]["DateTimeScheduled"]).ToString("s");
 
             // temp1 = LeadEventStart.Split(' ').ToList();
@@ -234,6 +247,31 @@ namespace Project.Web.Controllers.LeadEvents
             {
                 BAL.Common.LogManager.LogError("DeleteEvent conto Method", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
                 return Json("0", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public JsonResult GetDBAByLeadId(string RelatedLead)
+        {
+            objResponse Response = new objResponse();
+            try
+            {
+                Response = objLeadEventManager.GetDbaByLeadId(Convert.ToInt64(RelatedLead));
+
+                if(Response.ErrorCode == 0)
+                {
+                    return Json(Response.ErrorMessage, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch(Exception ex)
+            {
+                BAL.Common.LogManager.LogError("DeleteEvent conto Method", 1, Convert.ToString(ex.Source), Convert.ToString(ex.Message), Convert.ToString(ex.StackTrace));
+                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
 

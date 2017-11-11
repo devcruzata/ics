@@ -41,6 +41,15 @@ namespace Project.Web.Controllers.Application
             return View();
         }
 
+        public ActionResult Index()
+        {
+
+            Session["Stage"] = "0";
+            Session["App_ID"] = "";
+
+            return View();
+        }
+
         //[Authorize]
         [HttpPost]
         public ActionResult GetCurrentStage()

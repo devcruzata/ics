@@ -11644,13 +11644,16 @@
     <None Include="Properties\PublishProfiles\ics_02_feb.pubxml" />
     <None Include="Properties\PublishProfiles\ics_02_sept.pubxml" />
     <None Include="Properties\PublishProfiles\ics_03_feb.pubxml" />
+    <None Include="Properties\PublishProfiles\ics_03_nov.pubxml" />
     <None Include="Properties\PublishProfiles\ics_04-sept.pubxml" />
     <None Include="Properties\PublishProfiles\ics_04_feb.pubxml" />
+    <None Include="Properties\PublishProfiles\ics_04_nov.pubxml" />
     <None Include="Properties\PublishProfiles\ics_05_sept.pubxml" />
     <None Include="Properties\PublishProfiles\ics_07_Dec.pubxml" />
     <None Include="Properties\PublishProfiles\ics_07_oct.pubxml" />
     <None Include="Properties\PublishProfiles\ics_08.pubxml" />
     <None Include="Properties\PublishProfiles\ics_09_oct.pubxml" />
+    <None Include="Properties\PublishProfiles\ics_10_nov.pubxml" />
     <None Include="Properties\PublishProfiles\ics_10_oc.pubxml" />
     <None Include="Properties\PublishProfiles\ics_10_oct.pubxml" />
     <None Include="Properties\PublishProfiles\ics_12.pubxml" />
@@ -11776,6 +11779,7 @@
     <Content Include="Views\Doc\Index.cshtml" />
     <Content Include="Views\TempCalender\Index.cshtml" />
     <Content Include="Views\LeadEvents\Index.cshtml" />
+    <Content Include="Views\Application\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
